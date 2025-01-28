@@ -51,17 +51,13 @@ function App() {
         return () => observer.disconnect(); // Cleanup-Function and disconnects
     }, []);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <Navbar/>
-                <div ref={contentRef} className="content">
-                    <WebsiteContainer/>
-                </div>
+   return (
+       <div className="App">
+         <Navbar />
+           <WebsiteContainer />
 
-            </header>
-        </div>
-    );
+       </div>
+     );
 }
 
 export default App;
