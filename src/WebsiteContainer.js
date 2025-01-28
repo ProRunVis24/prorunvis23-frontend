@@ -5,7 +5,7 @@ import JsonManager from "./Editor/JsonManager";
 import ModularActions from "./ModularActions";
 import JsonViewer from "./WebsiteElements/JsonViewer";
 import TraceTree from "./WebsiteElements/TraceTree";
-import MethodView from "./WebsiteElements/MethodView";
+import MethodTreeView from "./WebsiteElements/MethodTreeView";
 import "./Css/App.css";
 
 function WebsiteContainer() {
@@ -126,26 +126,30 @@ function WebsiteContainer() {
             />
           )}
 
-          {/* Render MethodView if selected */}
-          {viewerMode === "METHOD" && jsonManager && (
-            <MethodView
-              jsonManager={jsonManager}
-              onSelectMethod={(nodeIndex) => {
-                if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
-                const methodNode = jsonManager.nodes[nodeIndex];
+        {/* Render MethodTreeView (new) if selected */}
+                 {viewerMode === "METHOD" && jsonManager && (
+                   <MethodTreeView
+                     jsonManager={jsonManager}
+                     onSelectMethod={(nodeIndex) => {
+                       if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
+                       const methodNode = jsonManager.nodes[nodeIndex];
 
-                // Switch to file
-                setActiveAndDisplayed(methodNode.link.file);
-                // Mark this function as active
-                setActiveFunctionIndex(nodeIndex);
-                console.log("User picked methodNode #", nodeIndex, methodNode);
-                // 1) Re-initialize iteration indices for that new method
-                  const initIters = jsonManager.initIterations(nodeIndex, []);
-                  setActiveIterationIndices(initIters);
-              }}
-              className="method-view-section"
-            />
-          )}
+                       // Switch to file
+                       if (methodNode.link && methodNode.link.file) {
+                         setActiveAndDisplayed(methodNode.link.file);
+                       }
+
+                       // Mark this function as active
+                       setActiveFunctionIndex(nodeIndex);
+                       console.log("User picked methodNode #", nodeIndex, methodNode);
+
+                       // Re-initialize iteration indices for that new method
+                       const initIters = jsonManager.initIterations(nodeIndex, []);
+                       setActiveIterationIndices(initIters);
+                     }}
+                     className="method-view-section"
+                   />
+                 )}
 
           {/* Render TraceTree if selected */}
           {viewerMode === "TRACE" && jsonManager && (
