@@ -10,18 +10,20 @@ import "../Css/App.css";
 import "../Css/App.css";
 
 function EditorManager({
-  displayedFile,
-  setActiveAndDisplayed,
-  isActiveDisplayed,
-  jsonManager,
-  activeFunctionIndex,
-  setActiveFunctionIndex,
-  traceNodeToHighlight,
-  setTraceNodeToHighlight,
-  onHoverTraceId,
+ displayedFile,
+   setActiveAndDisplayed,
+   isActiveDisplayed,
+   jsonManager,
+   activeFunctionIndex,
+   setActiveFunctionIndex,
+   traceNodeToHighlight,
+   setTraceNodeToHighlight,
+   onHoverTraceId,
+  activeIterationIndices,
+  setActiveIterationIndices,
 }) {
   // State for the indices of the loop iterations currently active.
-  const [activeIterationIndices, setActiveIterationIndices] = useState([]);
+
 
   // State for the indices of the Nodes (other functions and throws)
   // of the active function that can be used to jump to another node.
@@ -315,58 +317,37 @@ function EditorManager({
   }
 
   /** Handle clicks on loop lines to change iteration. */
- function handleIterationButton() {
-   editor.onMouseDown((e) => {
-     if (!e.target || !e.target.position) return;
+// In EditorManager, inside handleIterationButton:
+function handleIterationButton() {
+  editor.onMouseDown((e) => {
+    if (!e.target || !e.target.position) return;
 
-     const position = e.target.position;
+    const position = e.target.position;
 
-     // Iterate over all currently "active" iteration nodes:
-     activeIterationIndices.forEach((iterationIndex) => {
-       const iteration = jsonManager.nodes[iterationIndex];
+    activeIterationIndices.forEach((iterationIndex) => {
+      const iteration = jsonManager.nodes[iterationIndex];
+      if (iteration.link.range.containsPosition(position)) {
+        const baseId = JsonManager.getBaseTraceId(iteration.traceId);
+        let nextIteration = prompt("Please enter the iteration", iteration.iteration);
+        nextIteration = parseInt(nextIteration, 10);
+        for (let i = 0; i < jsonManager.nodes.length; i++) {
+          const node = jsonManager.nodes[i];
+          const candidateBaseId = JsonManager.getBaseTraceId(node.traceId);
+          if (
+            candidateBaseId === baseId &&
+            node.iteration === nextIteration &&
+            node.parentIndex === iteration.parentIndex
+          ) {
+            changeIteration(i);
+            break;
+          }
+        }
+      }
+    });
+  });
+}
 
-       // If we clicked on the line for this loop node:
-       if (iteration.link.range.containsPosition(position)) {
-         const id = iteration.traceId;
-         let nextIteration = prompt(
-           "Please enter the iteration",
-           iteration.iteration
-         );
-         nextIteration = parseInt(nextIteration, 10);
 
-         // If user gave invalid input (NaN, negative, or out of range),
-         // just keep the old iteration number:
-         if (
-           isNaN(nextIteration) ||
-           nextIteration < 0 ||
-           nextIteration > jsonManager.getLastIterationNumber(iterationIndex)
-         ) {
-           nextIteration = iteration.iteration;
-         }
-
-         // Find the TraceNode that matches (same traceId, same iteration, same parent):
-         for (let i = 0; i < jsonManager.nodes.length; i++) {
-           if (
-             jsonManager.nodes[i].traceId === id &&
-             jsonManager.nodes[i].iteration === nextIteration &&
-             jsonManager.nodes[i].parentIndex === iteration.parentIndex
-           ) {
-             // Found a valid node => call your simplified changeIteration:
-             // (Remember, in changeIteration, you do something like:
-             //   setActiveIterationIndices([ newIterationIndex ]);
-             // )
-             changeIteration(i);
-             break;
-           }
-         }
-       }
-     });
-   });
- }
-  /**
-   * Splits a monaco.Range into line-by-line sub-ranges,
-   * so you can highlight them individually.
-   */
   function splitRangeByLine(range) {
     if (!editor) return [range];
     // fallback if editor is null
@@ -658,6 +639,9 @@ EditorManager.propTypes = {
   onHoverTraceId: PropTypes.func,
   isActiveDisplayed: PropTypes.func,
   jsonManager: PropTypes.instanceOf(JsonManager),
+  activeIterationIndices: PropTypes.array.isRequired,  // new prop
+  setActiveIterationIndices: PropTypes.func.isRequired,  // new prop
+
 };
 
 export default EditorManager;

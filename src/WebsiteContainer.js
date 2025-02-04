@@ -9,25 +9,23 @@ import MethodTreeView from "./WebsiteElements/MethodTreeView";
 import "./Css/App.css";
 
 function WebsiteContainer() {
+  // Basic states for file management, JSON data and visualization
   const [displayedFile, setDisplayedFile] = useState(null);
   const [activeFile, setActiveFile] = useState(null);
-
   const [jsonManager, setJsonManager] = useState(null);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [visualizationJson, setVisualizationJson] = useState(null);
-
-  // Keep track of which function index is "active"
+  const [staticMethodsJson, setStaticMethodsJson] = useState(null);
   const [activeFunctionIndex, setActiveFunctionIndex] = useState(1);
-
-  // Toggle display among JSON, METHOD, or TRACE
   const [viewerMode, setViewerMode] = useState("JSON");
-
-  // For highlighting a selected node from the trace
   const [traceNodeToHighlight, setTraceNodeToHighlight] = useState(null);
-
-  // For highlighting a hovered node in the trace tree (the "reverse" approach)
   const [hoveredTraceId, setHoveredTraceId] = useState(null);
-   const [activeIterationIndices, setActiveIterationIndices] = useState([]);
+  const [activeIterationIndices, setActiveIterationIndices] = useState([]);
+
+  // Additional states for JBMC integration
+  const [jbmcJson, setJbmcJson] = useState(null);
+  const [instrumentId, setInstrumentId] = useState("");
+
   /** Sets both 'displayedFile' and 'activeFile' to the file that matches the given path. */
   function setActiveAndDisplayed(path) {
     uploadedFiles.forEach((uploadedFile) => {
@@ -45,31 +43,64 @@ function WebsiteContainer() {
 
   /** Checks if the file currently displayed is the same as the 'active' file. */
   function isActiveDisplayed() {
-    if (!activeFile || !displayedFile) return false;
-    return activeFile === displayedFile;
+    return activeFile && displayedFile ? activeFile === displayedFile : false;
   }
 
-  /** Receives the files from the folder upload (DirectoryBar), optionally uploads them to the server, and stores them. */
+  /**
+   * Receives the files from the folder upload (DirectoryBar), optionally uploads them
+   * to the server, and stores them.
+   */
   async function passOnUploadedFiles(files) {
     setUploadedFiles(files);
-    // Optional: also upload them to the server
+    // Optionally upload files to the server.
     await fetch("/api/upload", {
       method: "POST",
       body: new FormData(document.getElementById("upload-form")),
     });
   }
 
-  /** Called when user clicks a trace node in TraceTree => highlight in Editor. */
+  /** Called when the user clicks a trace node in TraceTree to highlight in the editor. */
   function highlightTraceNodeInEditor(node) {
     console.log("highlightTraceNodeInEditor called with node:", node);
     setTraceNodeToHighlight(node);
   }
 
-  /** Called from EditorManager when user hovers code => highlight in TraceTree. */
+  /** Called from EditorManager when the user hovers code to highlight in the TraceTree. */
   function handleHoverTraceId(traceId) {
-    // E.g. if multiple, pick one or store them all.
     console.log("WebsiteContainer: hovered trace ID in editor =>", traceId);
     setHoveredTraceId(traceId);
+  }
+
+  /** Fetches static methods JSON from the backend. */
+  async function fetchStaticMethods() {
+    try {
+      const response = await fetch("/api/static-methods");
+      const data = await response.json();
+      setStaticMethodsJson(data);
+    } catch (error) {
+      console.error("Error fetching static methods:", error);
+    }
+  }
+
+  /** Fetch JBMC result for a given instrument ID and switch the viewer to JBMC mode. */
+  async function handleFetchJBMC() {
+    if (!instrumentId) {
+      alert("Please enter instrument ID");
+      return;
+    }
+    try {
+      const resp = await fetch(`/api/jbmc/result/${instrumentId}`);
+      if (!resp.ok) {
+        const err = await resp.text();
+        throw new Error(err);
+      }
+      const data = await resp.json();
+      setJbmcJson(data);
+      setViewerMode("JBMC"); // Switch UI to display JBMC JSON
+    } catch (error) {
+      console.error("Error fetching JBMC result:", error);
+      alert("Could not fetch JBMC JSON: " + error.message);
+    }
   }
 
   console.log("[WebsiteContainer] viewerMode =", viewerMode);
@@ -91,8 +122,35 @@ function WebsiteContainer() {
         />
       </div>
 
-      {/* MIDDLE COLUMN: Modular Actions (top) + JSON/Method/Trace (bottom) */}
+      {/* MIDDLE COLUMN: JBMC Section, Modular Actions and JSON Viewer */}
       <div className="middle-container">
+        {/* JBMC Section */}
+        <div className="jbmc-section" style={{ margin: "10px" }}>
+          <div>
+            <button onClick={() => setViewerMode("JSON")}>
+              Show Normal JSON
+            </button>
+            <button onClick={() => setViewerMode("JBMC")}>
+              Show JBMC JSON
+            </button>
+            <input
+              placeholder="Instrument ID"
+              value={instrumentId}
+              onChange={(e) => setInstrumentId(e.target.value)}
+            />
+            <button onClick={handleFetchJBMC}>Fetch JBMC Output</button>
+          </div>
+          {viewerMode === "JBMC" && jbmcJson && (
+            <JsonViewer
+              jsonData={jbmcJson}
+              onElementClick={(updated) =>
+                console.log("JBMC JSON clicked:", updated)
+              }
+            />
+          )}
+        </div>
+
+        {/* Modular Actions Section */}
         <div className="modular-actions-section">
           <ModularActions
             projectName="MyProject"
@@ -108,62 +166,68 @@ function WebsiteContainer() {
           />
         </div>
 
+        {/* JSON Viewer Section with Tab Buttons */}
         <div className="json-viewer-section">
-          {/* Tab-like buttons */}
           <div style={{ display: "flex", gap: "10px", margin: "10px" }}>
             <button onClick={() => setViewerMode("JSON")}>JSON</button>
             <button onClick={() => setViewerMode("METHOD")}>Methods</button>
             <button onClick={() => setViewerMode("TRACE")}>Trace</button>
+            <button
+              onClick={() => {
+                setViewerMode("STATIC");
+                fetchStaticMethods();
+              }}
+            >
+              Static Methods
+            </button>
           </div>
 
-          {/* Render JSON viewer if selected */}
           {viewerMode === "JSON" && visualizationJson && (
             <JsonViewer
               jsonData={visualizationJson}
-              onElementClick={(updated) => {
-                console.log("JSON updated/clicked:", updated);
-              }}
+              onElementClick={(updated) =>
+                console.log("JSON updated/clicked:", updated)
+              }
             />
           )}
 
-        {/* Render MethodTreeView (new) if selected */}
-                 {viewerMode === "METHOD" && jsonManager && (
-                   <MethodTreeView
-                     jsonManager={jsonManager}
-                     onSelectMethod={(nodeIndex) => {
-                       if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
-                       const methodNode = jsonManager.nodes[nodeIndex];
+          {viewerMode === "METHOD" && jsonManager && (
+            <MethodTreeView
+              jsonManager={jsonManager}
+              onSelectMethod={(nodeIndex) => {
+                if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
+                const methodNode = jsonManager.nodes[nodeIndex];
+                if (methodNode.link && methodNode.link.file) {
+                  setActiveAndDisplayed(methodNode.link.file);
+                }
+                setActiveFunctionIndex(nodeIndex);
+                console.log("User picked methodNode #", nodeIndex, methodNode);
+                const initIters = jsonManager.initIterations(nodeIndex, []);
+                setActiveIterationIndices(initIters);
+              }}
+              className="method-view-section"
+            />
+          )}
 
-                       // Switch to file
-                       if (methodNode.link && methodNode.link.file) {
-                         setActiveAndDisplayed(methodNode.link.file);
-                       }
-
-                       // Mark this function as active
-                       setActiveFunctionIndex(nodeIndex);
-                       console.log("User picked methodNode #", nodeIndex, methodNode);
-
-                       // Re-initialize iteration indices for that new method
-                       const initIters = jsonManager.initIterations(nodeIndex, []);
-                       setActiveIterationIndices(initIters);
-                     }}
-                     className="method-view-section"
-                   />
-                 )}
-
-          {/* Render TraceTree if selected */}
           {viewerMode === "TRACE" && jsonManager && (
             <TraceTree
               nodes={jsonManager.nodes}
               onSelectTraceNode={(node) => {
-                // If the code is in a different file, switch to that file first
                 if (node.link && node.link.file) {
                   setActiveAndDisplayed(node.link.file);
                 }
-                // Then highlight in the editor
                 highlightTraceNodeInEditor(node);
               }}
               hoveredTraceId={hoveredTraceId}
+            />
+          )}
+
+          {viewerMode === "STATIC" && staticMethodsJson && (
+            <JsonViewer
+              jsonData={staticMethodsJson}
+              onElementClick={(updated) =>
+                console.log("Static methods JSON updated/clicked:", updated)
+              }
             />
           )}
         </div>
@@ -178,13 +242,11 @@ function WebsiteContainer() {
           jsonManager={jsonManager}
           activeFunctionIndex={activeFunctionIndex}
           setActiveFunctionIndex={setActiveFunctionIndex}
-          // Pass highlight states
           traceNodeToHighlight={traceNodeToHighlight}
           setTraceNodeToHighlight={setTraceNodeToHighlight}
-          // Pass in callback for code->trace highlighting
+          onHoverTraceId={handleHoverTraceId}
           activeIterationIndices={activeIterationIndices}
           setActiveIterationIndices={setActiveIterationIndices}
-          onHoverTraceId={handleHoverTraceId}
         />
       </div>
     </div>

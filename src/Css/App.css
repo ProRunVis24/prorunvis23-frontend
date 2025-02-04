@@ -415,3 +415,9 @@ body,
   background-color: #666;
   /* Or your highlight color */
 }
+/* Add this in your CSS file to style highlighted methods */
+
+.highlighted-method {
+  background-color: rgba(34, 139, 34, 0.3); /* Light green background for active methods */
+  border-radius: 3px;
+}
