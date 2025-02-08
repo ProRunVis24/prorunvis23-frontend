@@ -7,47 +7,31 @@ import loopImage from "../Images/loop.png";
 import linkImage from "../Images/link.png";
 import outlinkImage from "../Images/outlink.png";
 import "../Css/App.css";
-import "../Css/App.css";
 
 function EditorManager({
- displayedFile,
-   setActiveAndDisplayed,
-   isActiveDisplayed,
-   jsonManager,
-   activeFunctionIndex,
-   setActiveFunctionIndex,
-   traceNodeToHighlight,
-   setTraceNodeToHighlight,
-   onHoverTraceId,
+  displayedFile,
+  setActiveAndDisplayed,
+  isActiveDisplayed,
+  jsonManager,
+  activeFunctionIndex,
+  setActiveFunctionIndex,
+  traceNodeToHighlight,
+  setTraceNodeToHighlight,
+  onHoverTraceId,
+  onLineClick, // callback for line click events
   activeIterationIndices,
   setActiveIterationIndices,
 }) {
-  // State for the indices of the loop iterations currently active.
-
-
-  // State for the indices of the Nodes (other functions and throws)
-  // of the active function that can be used to jump to another node.
+  // States and refs
   const [jumpNodesIndices, setJumpNodesIndices] = useState([]);
-
-  // State to determine whether the file was changed through a jump
   const [doPositionJump, setDoPositionJump] = useState(false);
-
-  // The position to jump to on a new file load
   const [jumpPosition, setJumpPosition] = useState(new monaco.Position(0, 0));
-
-  // Reference to the editor container
   const editorContainerRef = useRef(null);
-
-  // Monaco editor instance
   const [editor, setEditor] = useState(null);
-
-  // Java file content to display
   const [javaFileContent, setJavaFileContent] = useState("");
-
-  // We'll build a line->traceId map (actually an array of traceIds) after we have editor + jsonManager
   const lineToTraceIdRef = useRef({});
 
-  /** Loads text from `displayedFile` into state. */
+  // Loads text from displayedFile into state
   const loadJavaFile = async () => {
     try {
       if (displayedFile) {
@@ -59,8 +43,7 @@ function EditorManager({
     }
   };
 
-  // ---------------------------------- Decorators (highlighting) ----------------------------------
-
+  // --- Highlighting functions (unchanged) ---
   function highlightActive(range) {
     editor.createDecorationsCollection([
       {
@@ -119,10 +102,9 @@ function EditorManager({
     ]);
   }
 
-  // Places an icon in the margin
   function setNodeSymbol(range, symbol) {
     const widgetRight = {
-      domNode: (function () {
+      domNode: (() => {
         const domNode = document.createElement("img");
         if (symbol === "loop") {
           domNode.src = loopImage;
@@ -133,15 +115,12 @@ function EditorManager({
         }
         return domNode;
       })(),
-
       getId() {
         return range.toString();
       },
-
       getDomNode() {
         return this.domNode;
       },
-
       getPosition() {
         return {
           lane: monaco.editor.GlyphMarginLane.Right,
@@ -159,7 +138,6 @@ function EditorManager({
     editor.layoutGlyphMarginWidget(widgetRight);
   }
 
-  // Draw a vertical line next to executed code
   function placeLinePiece(startLineNumber, symbol) {
     editor.createDecorationsCollection([
       {
@@ -189,7 +167,6 @@ function EditorManager({
       ) {
         continue;
       }
-
       let startLine = new monaco.Range(
         ranges[i].startLineNumber,
         0,
@@ -197,17 +174,11 @@ function EditorManager({
         0
       );
       let endLine = iterateLine(startLine);
-
       while (endLine.startLineNumber < ranges[i].endLineNumber) {
         placeLinePiece(endLine.startLineNumber, "line");
         endLine = iterateLine(endLine);
       }
-
-      placeLinePiece(
-        startLine.startLineNumber,
-        ongoing ? "line" : "start"
-      );
-
+      placeLinePiece(startLine.startLineNumber, ongoing ? "line" : "start");
       startLine = new monaco.Range(
         ranges[i].endLineNumber,
         0,
@@ -215,7 +186,6 @@ function EditorManager({
         0
       );
       endLine = iterateLine(startLine);
-
       if (i !== ranges.length - 1) {
         while (
           editor.getModel().getValueInRange(endLine).trim().length === 0 &&
@@ -224,7 +194,6 @@ function EditorManager({
           endLine = iterateLine(endLine);
         }
       }
-
       if (
         i + 1 < ranges.length &&
         endLine.startLineNumber === ranges[i + 1].startLineNumber
@@ -238,30 +207,36 @@ function EditorManager({
         }
         ongoing = true;
       } else {
-        placeLinePiece(
-          ranges[i].endLineNumber,
-          ongoing ? "end" : "one-line"
-        );
+        placeLinePiece(ranges[i].endLineNumber, ongoing ? "end" : "one-line");
         ongoing = false;
       }
     }
   }
 
-  // -------------------- Handling iteration changes --------------------
-
   function changeIteration(newIterationIndex) {
-    // your existing logic
-
-   setActiveIterationIndices([newIterationIndex]);
+    setActiveIterationIndices([newIterationIndex]);
   }
 
-  // --------------- Handling clicks to jump among nodes ---------------
+  // NEW: Register an onMouseDown listener that logs the event and calls onLineClick.
+  useEffect(() => {
+    if (editor && onLineClick) {
+      const disposable = editor.onMouseDown((e) => {
+        if (!e.target || !e.target.position) return;
+        const lineNumber = e.target.position.lineNumber;
+        const fileName = displayedFile ? displayedFile.name : "UnknownFile.java";
+        console.log("EditorManager: onMouseDown event:", e);
+        console.log(`EditorManager: Click detected on file ${fileName} at line ${lineNumber}`);
+        // Call the callback passed from the parent
+        onLineClick(fileName, lineNumber);
+      });
+      return () => disposable.dispose();
+    }
+  }, [editor, onLineClick, displayedFile]);
 
+  // (Keep your other event listeners such as handleJumps and handleIterationButton as-is)
   function handleJumps() {
     editor.onMouseDown((e) => {
-      if (!e.target || !e.target.position) {
-        return;
-      }
+      if (!e.target || !e.target.position) return;
       const position = e.target.position;
       jumpNodesIndices.forEach((jumpIndex) => {
         if (jumpIndex === 1) return;
@@ -274,13 +249,10 @@ function EditorManager({
               setActiveIterationIndices(jump.outLoopIterations);
               setActiveFunctionIndex(jump.outFunctionIndex);
             }
-
             jsonManager
               .updateActiveRangesFunction(activeFunctionIndex, activeIterationIndices)
               .forEach((range) => {
-                if (
-                  range.containsRange(jsonManager.nodes[jumpIndex].outLinks[0].range)
-                ) {
+                if (range.containsRange(jsonManager.nodes[jumpIndex].outLinks[0].range)) {
                   if (jump.outLinks[0].range.containsPosition(position)) {
                     setJumpPosition(jump.outLinkPosition);
                     setDoPositionJump(true);
@@ -300,10 +272,7 @@ function EditorManager({
             });
           }
         }
-        // skip link for current function if same file
-        if (jumpIndex === activeFunctionIndex) {
-          return;
-        }
+        if (jumpIndex === activeFunctionIndex) return;
         if (jump.nodeType === "Function") {
           if (jump.link.range.containsPosition(position)) {
             setJumpPosition(jump.linkPosition);
@@ -316,52 +285,42 @@ function EditorManager({
     });
   }
 
-  /** Handle clicks on loop lines to change iteration. */
-// In EditorManager, inside handleIterationButton:
-function handleIterationButton() {
-  editor.onMouseDown((e) => {
-    if (!e.target || !e.target.position) return;
-
-    const position = e.target.position;
-
-    activeIterationIndices.forEach((iterationIndex) => {
-      const iteration = jsonManager.nodes[iterationIndex];
-      if (iteration.link.range.containsPosition(position)) {
-        const baseId = JsonManager.getBaseTraceId(iteration.traceId);
-        let nextIteration = prompt("Please enter the iteration", iteration.iteration);
-        nextIteration = parseInt(nextIteration, 10);
-        for (let i = 0; i < jsonManager.nodes.length; i++) {
-          const node = jsonManager.nodes[i];
-          const candidateBaseId = JsonManager.getBaseTraceId(node.traceId);
-          if (
-            candidateBaseId === baseId &&
-            node.iteration === nextIteration &&
-            node.parentIndex === iteration.parentIndex
-          ) {
-            changeIteration(i);
-            break;
+  function handleIterationButton() {
+    editor.onMouseDown((e) => {
+      if (!e.target || !e.target.position) return;
+      const position = e.target.position;
+      activeIterationIndices.forEach((iterationIndex) => {
+        const iteration = jsonManager.nodes[iterationIndex];
+        if (iteration.link.range.containsPosition(position)) {
+          const baseId = JsonManager.getBaseTraceId(iteration.traceId);
+          let nextIteration = prompt("Please enter the iteration", iteration.iteration);
+          nextIteration = parseInt(nextIteration, 10);
+          for (let i = 0; i < jsonManager.nodes.length; i++) {
+            const node = jsonManager.nodes[i];
+            const candidateBaseId = JsonManager.getBaseTraceId(node.traceId);
+            if (
+              candidateBaseId === baseId &&
+              node.iteration === nextIteration &&
+              node.parentIndex === iteration.parentIndex
+            ) {
+              changeIteration(i);
+              break;
+            }
           }
         }
-      }
+      });
     });
-  });
-}
-
+  }
 
   function splitRangeByLine(range) {
     if (!editor) return [range];
-    // fallback if editor is null
-
     const result = [];
     const model = editor.getModel();
     if (!model) return [range];
-
     const startLineNumber = range.startLineNumber;
     const endLineNumber = range.endLineNumber;
-
     for (let lineNumber = startLineNumber; lineNumber <= endLineNumber; lineNumber++) {
       const lineContent = model.getLineContent(lineNumber);
-      // find the first non-whitespace character
       const firstNonWhitespace = lineContent.search(/\S/);
       const startColumn =
         lineNumber === startLineNumber
@@ -371,96 +330,77 @@ function handleIterationButton() {
         lineNumber === endLineNumber
           ? range.endColumn
           : model.getLineMaxColumn(lineNumber);
-
-      result.push(
-        new monaco.Range(lineNumber, startColumn, lineNumber, endColumn)
-      );
+      result.push(new monaco.Range(lineNumber, startColumn, lineNumber, endColumn));
     }
     return result;
   }
 
-  /** Reveal a position in the editor */
   function jumpToPosition(position) {
     if (!position || !editor) return;
     editor.revealLineNearTop(position.lineNumber);
     editor.setPosition(position);
   }
 
-  // --------------- useEffect for traceNodeToHighlight ---------------
   useEffect(() => {
     if (traceNodeToHighlight && editor) {
       if (traceNodeToHighlight.link && traceNodeToHighlight.link.range) {
         jumpToPosition(traceNodeToHighlight.link.range.getStartPosition());
         highlightActive(traceNodeToHighlight.link.range);
       }
-      // optionally: setTraceNodeToHighlight(null);
     }
   }, [traceNodeToHighlight, editor]);
 
-  // --------------- onMouseMove subscription ---------------
-useEffect(() => {
-  if (editor) {
-    const subscription = editor.onMouseMove((e) => {
-      if (!e.target || !e.target.position) {
-        onHoverTraceId && onHoverTraceId(null);
-        return;
-      }
-      const line = e.target.position.lineNumber;
-      const traceIds = lineToTraceIdRef.current[line];
-
-      // CHANGE #1: Remove "&& activeIterationIndices.length > 0"
-      // so ANY lines with traceIds are highlighted, not just loop/iteration lines
-      if (Array.isArray(traceIds) && traceIds.length > 0) {
-        // Keep your existing logic: pick the "active iteration" if present
-        // or fall back to the first trace ID
-        if (activeIterationIndices.length > 0) {
-          const activeIterIndex = activeIterationIndices[0];
-          const activeIterNode = jsonManager.nodes[activeIterIndex];
-          if (!activeIterNode) {
-            onHoverTraceId && onHoverTraceId(traceIds[0]);
-            return;
-          }
-          const activeTraceId = activeIterNode.traceId;
-
-          if (traceIds.includes(activeTraceId)) {
-            onHoverTraceId && onHoverTraceId(activeTraceId);
+  useEffect(() => {
+    if (editor) {
+      const subscription = editor.onMouseMove((e) => {
+        if (!e.target || !e.target.position) {
+          onHoverTraceId && onHoverTraceId(null);
+          return;
+        }
+        const line = e.target.position.lineNumber;
+        const traceIds = lineToTraceIdRef.current[line];
+        if (Array.isArray(traceIds) && traceIds.length > 0) {
+          if (activeIterationIndices.length > 0) {
+            const activeIterIndex = activeIterationIndices[0];
+            const activeIterNode = jsonManager.nodes[activeIterIndex];
+            if (!activeIterNode) {
+              onHoverTraceId && onHoverTraceId(traceIds[0]);
+              return;
+            }
+            const activeTraceId = activeIterNode.traceId;
+            if (traceIds.includes(activeTraceId)) {
+              onHoverTraceId && onHoverTraceId(activeTraceId);
+            } else {
+              onHoverTraceId && onHoverTraceId(traceIds[0]);
+            }
           } else {
             onHoverTraceId && onHoverTraceId(traceIds[0]);
           }
         } else {
-          // If no active iteration, just highlight the first trace ID
-          onHoverTraceId && onHoverTraceId(traceIds[0]);
+          onHoverTraceId && onHoverTraceId(null);
         }
-      } else {
-        onHoverTraceId && onHoverTraceId(null);
-      }
-    });
-    return () => subscription.dispose();
-  }
-}, [editor, onHoverTraceId, activeIterationIndices, jsonManager]);
+      });
+      return () => subscription.dispose();
+    }
+  }, [editor, onHoverTraceId, activeIterationIndices, jsonManager]);
 
-  // --------------- Initialize the main function + file ---------------
   useEffect(() => {
     if (jsonManager) {
       setActiveFunctionIndex(jsonManager.getMain());
-      // pick node #1’s file if that’s your main approach
       setActiveAndDisplayed(jsonManager.nodes[1].link.file);
       setActiveIterationIndices(jsonManager.initIterations(1, []));
     }
   }, [jsonManager]);
 
-  // --------------- Load the displayed file content ---------------
   useEffect(() => {
     if (displayedFile) {
       loadJavaFile();
     }
   }, [displayedFile]);
 
-  // --------------- Initialize / re-init the editor ---------------
   useEffect(() => {
     let newEditor;
     if (javaFileContent && editorContainerRef.current) {
-      // Build hints for iteration labels
       let hints = [];
       if (isActiveDisplayed()) {
         activeIterationIndices.forEach((iterationIndex) => {
@@ -474,8 +414,6 @@ useEffect(() => {
           hints.push({ position, content });
         });
       }
-
-      // If there's an existing editor, dispose it before re-creating
       if (editor) {
         editor.dispose();
       }
@@ -488,7 +426,6 @@ useEffect(() => {
         setEditor(newEditor.editor);
       }
     }
-    // Cleanup
     return () => {
       if (javaFileContent && editorContainerRef.current && newEditor) {
         newEditor.dispose();
@@ -496,14 +433,12 @@ useEffect(() => {
     };
   }, [javaFileContent, activeIterationIndices, activeFunctionIndex]);
 
-  // --------------- Update file display if active function changes ---------------
   useEffect(() => {
     if (jsonManager) {
       setActiveAndDisplayed(jsonManager.nodes[activeFunctionIndex].link.file);
     }
   }, [activeFunctionIndex]);
 
-  // --------------- Update jump-nodes if iteration changes ---------------
   useEffect(() => {
     if (jsonManager) {
       setJumpNodesIndices(
@@ -512,36 +447,24 @@ useEffect(() => {
     }
   }, [activeIterationIndices]);
 
-  // --------------- When editor updates, highlight active ranges ---------------
   useEffect(() => {
     if (jsonManager && editor) {
       const rangesToHighlight = jsonManager.updateActiveRangesFunction(
         activeFunctionIndex,
         activeIterationIndices
       );
-
       if (isActiveDisplayed()) {
         setDoPositionJump(true);
         rangesToHighlight.forEach((rangeToHighlight) => {
-          // split each range by line
           splitRangeByLine(rangeToHighlight).forEach((splitRangeToHighlight) => {
             highlightActive(splitRangeToHighlight);
           });
         });
-        // draw lines next to those ranges
         drawLine(rangesToHighlight);
-
-        // highlight jump links
         jumpNodesIndices.forEach((jumpIndex) => {
           const jNode = jsonManager.nodes[jumpIndex];
-          if (
-            jNode.nodeType !== "Function" ||
-            jumpIndex === activeFunctionIndex
-          ) {
-            if (
-              jNode.nodeType === "Function" &&
-              jNode.outLinks.length === 2
-            ) {
+          if (jNode.nodeType !== "Function" || jumpIndex === activeFunctionIndex) {
+            if (jNode.nodeType === "Function" && jNode.outLinks.length === 2) {
               highlightLink(jNode.outLinks[1].range);
               jsonManager
                 .updateActiveRangesFunction(activeFunctionIndex, activeIterationIndices)
@@ -556,22 +479,16 @@ useEffect(() => {
               });
             }
           }
-          // If not current function, highlight the function link
           if (jumpIndex !== activeFunctionIndex && jNode.nodeType === "Function") {
             highlightLink(jNode.link.range, "link");
           }
         });
-
         handleJumps();
         handleIterationButton();
-
-        // highlight loops
         activeIterationIndices.forEach((index) => {
           highlightLoop(jsonManager.nodes[index].link.range);
         });
       }
-
-      // Position the editor to the active node or do the saved jump
       if (!doPositionJump && isActiveDisplayed()) {
         if (activeFunctionIndex !== 1) {
           jumpToPosition(
@@ -593,22 +510,13 @@ useEffect(() => {
     }
   }, [editor]);
 
-  // --------------- Build line->traceIds map ---------------
   useEffect(() => {
-    if (!jsonManager || !jsonManager.nodes) {
-      return;
-    }
+    if (!jsonManager || !jsonManager.nodes) return;
     lineToTraceIdRef.current = {};
-
-    jsonManager.nodes.forEach((node, idx) => {
-      if (!node.traceId) return;
-      if (!node.ranges || node.ranges.length === 0) return;
-
+    jsonManager.nodes.forEach((node) => {
+      if (!node.traceId || !node.ranges || node.ranges.length === 0) return;
       node.ranges.forEach((rng) => {
-        const startLine = rng.startLineNumber;
-        const endLine = rng.endLineNumber;
-        for (let ln = startLine; ln <= endLine; ln++) {
-          // store an array of all traceIds for that line
+        for (let ln = rng.startLineNumber; ln <= rng.endLineNumber; ln++) {
           if (!lineToTraceIdRef.current[ln]) {
             lineToTraceIdRef.current[ln] = [];
           }
@@ -616,11 +524,8 @@ useEffect(() => {
         }
       });
     });
-
     console.log("Built line->traceId map:", lineToTraceIdRef.current);
   }, [jsonManager]);
-
-  // ------------------------- Render -------------------------
 
   return (
     <main className="right-container">
@@ -639,9 +544,9 @@ EditorManager.propTypes = {
   onHoverTraceId: PropTypes.func,
   isActiveDisplayed: PropTypes.func,
   jsonManager: PropTypes.instanceOf(JsonManager),
-  activeIterationIndices: PropTypes.array.isRequired,  // new prop
-  setActiveIterationIndices: PropTypes.func.isRequired,  // new prop
-
+  activeIterationIndices: PropTypes.array.isRequired,
+  setActiveIterationIndices: PropTypes.func.isRequired,
+  onLineClick: PropTypes.func, // NEW: prop for line click events
 };
 
 export default EditorManager;
