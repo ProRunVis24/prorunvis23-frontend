@@ -6,166 +6,176 @@ body,
   padding: 0;
   width: 100%;
   height: 100%;
-  /* Ensure everything can expand fully */
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif; /* A clean, modern font */
-  background-color: #1F1F1F; /* Overall background color */
-  color: #ECECEC; /* Light text color for dark background */
+  font-family: "Roboto", sans-serif;
+
+  /* Dark gradient background for a futuristic vibe */
+  background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
+  color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
 }
 
 /* App container: top-level */
 .App {
   display: flex;
-  flex-direction: column; /* Navbar on top, main content below */
+  flex-direction: column;
   width: 100%;
   height: 100vh;
+  overflow: hidden; /* Hide overflow beyond container */
 }
 
 /* NAVBAR */
 .nav {
   display: flex;
   align-items: center;
-  background-color: #222; /* Slightly lighter than background */
-  height: 10vh; /* Takes 10% of screen height */
-  padding: 0 20px; /* Horizontal padding */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  justify-content: flex-start;
+  background: linear-gradient(90deg, #15152b, #242447);
+  height: 60px;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 2;
 }
 
-/* Logo + text */
 .nav--icon {
-  height: 48px;
+  height: 42px;
   margin-right: 15px;
 }
+
+/* Logo text */
 .nav--logo_text {
-  margin-right: auto; /* pushes other items to the right */
-  font-weight: 600;
-  font-size: 1.2rem;
-  color: #ffc7b1;
-}
-.nav--title {
-  color: #ffc7b1;
-  font-weight: 400;
-  margin-right: 30px;
-  font-size: 1rem;
-}
-.nav--help-button {
-  background-color: #ffc7b1;
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: 500;
-}
-.nav--help-button:hover {
-  background-color: #fda781;
+  margin-right: auto;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #00ffd1; /* Neon teal accent */
 }
 
-/* CONTENT: all 3 columns fit into .content */
+/* Title or additional text (currently empty) */
+.nav--title {
+  color: #a7f3d0;
+  font-weight: 400;
+  margin-right: 20px;
+  font-size: 1rem;
+}
+
+/* Help button */
+.nav--help-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #25ffe0;
+  border-radius: 20px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+.nav--help-button:hover {
+  background-color: #25ffe0;
+}
+
+/* CONTENT: columns container */
 .content {
-  flex: 1; /* fill remaining height */
-  display: flex; /* side by side columns */
+  flex: 1;
+  display: flex;
   flex-direction: row;
-  height: 100%; /* since parent is 100vh minus nav */
-  overflow: hidden; /* we’ll manage scroll within columns if needed */
+  height: calc(100% - 60px);
+  overflow: hidden;
 }
 
 /* LEFT CONTAINER */
 .left-container {
-  width: 18%; /* or 280px if you prefer a fixed px */
-  min-width: 220px;
+  flex: 0 0 18%;
+  min-width: 240px;
   max-width: 400px;
-  background-color: #2A2A2A;
-  border-right: 1px solid #444;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow-y: auto; /* allows scrolling inside if too tall */
-  transition: width 0.2s ease-in-out;
+  background: #1f1f3b;
+  transition: width 0.3s ease-in-out;
+  overflow-y: auto;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
 }
 
-/* If user collapses left container */
+/* Collapsed left-container: now shrinks to 40px */
 .left-container.collapsed {
-  width: 60px;
-  min-width: 60px;
+  flex: 0 0 40px !important;
+  min-width: 40px !important;
   overflow: hidden;
-  background-color: #1F1F1F;
 }
+
+/* Buttons in the left container */
 .left-container button {
-  background-color: #333;
-  color: #EEE;
-  border: none;
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
   width: 100%;
   padding: 12px;
   font-weight: 500;
-  cursor: pointer;
   text-align: left;
-  transition: background-color 0.2s;
+  cursor: pointer;
+  transition: background-color 0.2s, padding-left 0.2s;
+  margin-bottom: 4px;
+  border-radius: 4px;
 }
 .left-container button:hover {
-  background-color: #444;
+  background-color: rgba(0, 255, 209, 0.2);
+  padding-left: 20px;
 }
 
-/* The folder tree area below the “Close directory” button */
+/* Folder tree container inside the left column */
 .folder-tree-container {
-  flex: 1;
-  margin: 0 10px;
+  margin: 10px;
   overflow-y: auto;
 }
 
 /* MIDDLE CONTAINER */
 .middle-container {
-  width: 25%;
-  min-width: 250px;
-  background-color: #2F2F2F;
+  flex: 2;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  overflow: hidden; /* each child will scroll if needed */
+  overflow: hidden;
+  background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
+  transition: flex 0.3s ease;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
 }
 
-/* top half: modular actions (like instrument/trace) */
-.modular-actions-section {
-  flex: 1; /* fill half vertically if also using the .json-viewer-section below */
+/* JBMC / Modular actions section at top */
+.jbmc-section {
+  background-color: rgba(34, 255, 173, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 10px;
   padding: 10px;
+  border-radius: 8px;
+  /* Let it scroll if content is big */
+  max-height: 200px;
   overflow-y: auto;
-  background-color: #3A3A3A;
 }
 
-/* .json-viewer-section for the bottom half */
+/* The modular actions section */
+.modular-actions-section {
+  background: rgba(42, 42, 66, 0.5);
+  margin: 10px;
+  flex: 1;
+  border-radius: 8px;
+  overflow-y: auto; /* Let it scroll if large */
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* JSON viewer section at bottom */
 .json-viewer-section {
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: auto;
-}
-
-/* JSON VIEWER */
-.json-viewer .react-json-view {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  background-color: #202020; /* a darker container for JSON */
-  color:#;
+  overflow-y: auto;
   margin: 10px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.json-display {
-  flex: 1;
-  padding: 10px;
-  overflow: auto;
 }
 
 /* Right container: the Monaco editor */
 .right-container {
-  flex: 1;
+  flex: 3;
   display: flex;
   flex-direction: column;
-  background-color: #1E1E1E;
-  color:#FFF-FFF;
-  box-sizing: border-box;
+  background-color: #18182f;
+  position: relative;
   overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
 }
 
 /* Editor container for Monaco */
@@ -175,21 +185,103 @@ body,
   min-height: 0;
   position: relative;
   overflow: hidden;
-  box-shadow: inset 0 0 10px #000;
 }
 
-/* DECORATIONS FOR THE EDITOR */
+/* JSON VIEWER STYLES */
+.json-viewer {
+  background-color: rgba(24, 24, 47, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.json-display {
+  max-height: 300px; /* you can adjust if needed */
+  overflow: auto;
+  margin-top: 6px;
+  padding: 6px;
+  background-color: #1a1a2f;
+  border-radius: 4px;
+}
+
+/* Download button inside the JSON viewer */
+.download-button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #2affdf;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.download-button:hover {
+  background-color: #2affdf;
+}
+
+/* TABLES: MergedAssignments etc. */
+.merged-assignments-container {
+  max-height: 240px; /* limit table's height so it can scroll */
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #24244f;
+}
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+th {
+  background-color: #303060;
+  color: #00ffd1;
+  font-weight: 600;
+}
+tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+tbody tr:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+}
+
+/* Buttons inside the middle container sections */
+.middle-container button,
+.jbmc-section button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  margin: 6px 6px 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  min-width: 80px;
+  display: inline-block;
+}
+.middle-container button:hover,
+.jbmc-section button:hover {
+  background-color: #454575;
+  transform: translateX(3px);
+}
+
+/* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
 .inactive {
-  background-color: rgba(178, 34, 34, 0.6); /* firebrick red */
+  background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
 }
 .active {
-  background-color: rgba(34, 139, 34, 0.6); /* forest green */
+  background-color: rgba(60, 255, 60, 0.35) !important; /* translucent green */
 }
 .link {
-  background-color: rgba(30, 144, 255, 0.6); /* dodgerblue */
+  background-color: rgba(30, 144, 255, 0.6) !important; /* dodgerblue */
 }
 .loop {
-  background-color: rgba(128, 0, 128, 0.6); /* purple */
+  background-color: rgba(128, 0, 128, 0.5) !important;  /* purple */
 }
 .start {
   content: url('../Images/start.png');
@@ -215,67 +307,44 @@ body,
   z-index: 1000;
 }
 
-/* MISC decorations */
-.my-loop-decoration {
-  background-color: pink;
-  opacity: 0.7;
-}
-.my-glyph-margin-class {
-  width: 4px;
-  background-color: pink;
-  margin-left: 4px;
-}
-.for-loop-decoration,
-.if-statement-decoration,
-.else-statement-decoration,
-.while-loop-decoration {
-  position: absolute;
-  margin-left: -50px; /* adjust as needed */
-  border-left: 4px solid #3498db;
-}
-.begin-line-highlight {
-  background-color: rgba(245, 10, 10, 0.3);
-}
-.my-line-numbers {
-  color: #f33 !important;
-}
-
 /* MONACO TOKEN COLORS OVERRIDES */
 .monaco-editor.token.keyword {
-  color: #C792EA;
+  color: #FFC1F3 !important; /* Pastel pink for keywords */
   font-weight: bold;
 }
 .monaco-editor.token.function {
-  color: #C3E88D;
+  color: #AFFFD1 !important; /* Light teal for function names */
 }
 .monaco-editor.token.type {
-  color: #FFCB6B;
+  color: #FFCB6B !important;
 }
 .monaco-editor.token.identifier {
-  color: #D6DEEB;
+  color: #D6DEEB !important;
 }
 .monaco-editor.token.string {
-  color: #C3E88D;
+  color: #C3E88D !important;
 }
 .monaco-editor.token.number {
-  color: #F78C6C;
+  color: #F78C6C !important;
 }
 .monaco-editor.token.operator {
-  color: #89DDFF;
+  color: #89DDFF !important;
 }
 .monaco-editor.token.annotation {
-  color: #82AAFF;
+  color: #82AAFF !important;
 }
 .monaco-editor.token.regex {
-  color: #ECC48D;
+  color: #ECC48D !important;
 }
 .monaco-editor.token.delimiter {
-  color: #89DDFF;
+  color: #89DDFF !important;
 }
 .monaco-editor.token.invalid {
-  background-color: #FF5370;
-  color: #FFF;
+  background-color: #FF5370 !important;
+  color: #FFF !important;
 }
+
+/* MONACO EDITOR HOVER */
 .monaco-editor .monaco-editor-hover {
   z-index: 1000;
   position: fixed;
@@ -292,17 +361,18 @@ body,
 /* Modal styling (Help, etc.) */
 .modal-container {
   max-width: 600px;
-  margin: 80px auto;
+  margin: 100px auto;
   padding: 20px;
-  background-color: #2F2F2F;
-  color: #EEE;
-  border-radius: 8px;
-  border: 1px solid #555;
+  background-color: #26264a;
+  color: #E8F5FF;
+  border-radius: 10px;
+  border: 2px solid #444;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
 }
 .modal-close-button {
-  background-color: #ffc7b1;
+  background-color: #00ffd1;
   color: #000;
-  border: none;
+  border: 1px solid #2affdf;
   padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
@@ -326,98 +396,86 @@ body,
 .picker {
   margin-right: 0;
   margin-bottom: 1rem;
-  color: #FFF;
-  background-color: #444;
-  border: none;
+  color: #cde2ff;
+  background-color: #32325A;
+  border: 1px solid #444;
   padding: 8px;
   border-radius: 4px;
+  transition: background-color 0.2s;
 }
 .picker:hover {
-  background-color: #555;
-}
-.download-button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #3498db;
-  color: #FFF;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.download-button:hover {
-  background-color: #1D7CC0;
+  background-color: #454575;
 }
 
-/*
-  =============== NEW STYLES FOR METHODVIEW + TRACETREE ==============
-*/
-
-.method-view-section {
-  margin: 10px;
-  padding: 10px;
-  background-color: #444;
-  border: 1px solid #666;
-  border-radius: 4px;
-  color: #fff;
-}
-
-.method-view-section h3 {
-  margin: 0 0 8px 0;
-  font-size: 1rem;
-  color: #eee;
-}
-
-.method-view-section select.method-view-dropdown {
-  width: 100%;
-  padding: 6px;
-  background-color: #555;
-  color: #fff;
-  border: 1px solid #666;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-/* ================================ */
-/*       TRACE TREE STYLES          */
-/* ================================ */
+/* TRACE TREE STYLES */
 .trace-tree-container {
   margin: 10px;
   padding: 10px;
-  border: 1px solid #666;
-  background-color: #444;
-  border-radius: 4px;
-  color: #fff;
-  max-height: 200px; /* or any you want */
+  background-color: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 200px;
   overflow-y: auto;
 }
-
 .trace-tree-container ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-
 .trace-tree-container li {
   margin: 4px 0;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, padding-left 0.2s;
 }
-
 .trace-tree-container li:hover {
-  background-color: #555;
+  background-color: rgba(0, 255, 209, 0.15);
+  padding-left: 8px;
 }
 
-.trace-tree-clickable {
-  /* If you want a specific style for clickable nodes */
+/* METHOD VIEW SECTION */
+.method-view-section {
+  margin: 10px;
+  padding: 10px;
+  background: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.method-view-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+.method-view-section select.method-view-dropdown {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
 
-.trace-tree-clickable.highlight {
-  background-color: #666;
-  /* Or your highlight color */
-}
-/* Add this in your CSS file to style highlighted methods */
-
+/* HIGHLIGHTED METHODS OR TRACE NODES */
+.trace-tree-clickable.highlight,
 .highlighted-method {
-  background-color: rgba(34, 139, 34, 0.3); /* Light green background for active methods */
+  background-color: rgba(0, 255, 209, 0.25);
   border-radius: 3px;
+}
+
+/* ---------- SCROLLBAR STYLING (optional) --------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+::-webkit-scrollbar-thumb {
+  background: #2affdf66;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2affdf;
 }
