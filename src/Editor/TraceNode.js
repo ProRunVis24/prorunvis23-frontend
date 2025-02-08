@@ -1,3 +1,4 @@
+
 /**
  * TracNode class that stores the information of a traced node from tha backend.
  * ranges: Array of all executed {@link monaco.Range}s contained in this node.
@@ -29,6 +30,7 @@ class TraceNode {
      */
     constructor(node) {
         //ranges: Array of all executed {@link monaco.Range}s contained in this node.
+
         this.ranges = [];
         if (node.ranges !== undefined)
             node.ranges.forEach((range) => {
@@ -88,9 +90,16 @@ class TraceNode {
         //traceId: Unique id that can be used to map each TraceNode to its code block.
         //      Loop iterations of the same loop have the same traceId.
         this.traceId = null;
-        if (node.traceId !== undefined)
-            this.traceId = node.traceId;
-
+if (node.traceId !== undefined) {
+  // Overwrite 'this.traceId' to always store the iteration-based ID
+  if (this.iteration != null && this.iteration > 0) {
+    this.traceId = node.traceId + "_iter" + this.iteration;
+  } else {
+    this.traceId = node.traceId;
+  }
+} else {
+  this.traceId = null;
+}
         //nodeType: String set to "Loop", "Function", "Throw" or "Other"
         this.nodeType = "Other";
         if (this.iteration != null) {
@@ -100,7 +109,7 @@ class TraceNode {
         } else if (this.outIndex != null) {
             this.nodeType = "Throw";
         }
-
+         this.nodeMethodName = node.nodeMethodName || null;
         //----The following attributes are initially set to null.----
         //  After creation of all TraceNodes assigned in {@link JsonManager},
         //  because they partly depend on other TraceNodes.

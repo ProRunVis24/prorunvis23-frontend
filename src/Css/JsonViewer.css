@@ -1,0 +1,22 @@
+.json-viewer {
+flex: 1;               /* fill parent vertical space if in a column layout */
+  overflow-y: auto;      /* user can scroll inside when JSON is large */
+  background-color: #222;
+  color: #fff;
+  min-height: 0;
+}
+
+
+
+.download-button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: #2196F3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.download-button:hover {
+  background-color: #0b7dda;
+}

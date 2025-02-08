@@ -1,3 +1,481 @@
+/* GLOBAL RESETS + SIZING */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+
+  /* Dark gradient background for a futuristic vibe */
+  background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
+  color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
+}
+
+/* App container: top-level */
 .App {
-    height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* Hide overflow beyond container */
+}
+
+/* NAVBAR */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(90deg, #15152b, #242447);
+  height: 60px;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.nav--icon {
+  height: 42px;
+  margin-right: 15px;
+}
+
+/* Logo text */
+.nav--logo_text {
+  margin-right: auto;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #00ffd1; /* Neon teal accent */
+}
+
+/* Title or additional text (currently empty) */
+.nav--title {
+  color: #a7f3d0;
+  font-weight: 400;
+  margin-right: 20px;
+  font-size: 1rem;
+}
+
+/* Help button */
+.nav--help-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #25ffe0;
+  border-radius: 20px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+.nav--help-button:hover {
+  background-color: #25ffe0;
+}
+
+/* CONTENT: columns container */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 60px);
+  overflow: hidden;
+}
+
+/* LEFT CONTAINER */
+.left-container {
+  flex: 0 0 18%;
+  min-width: 240px;
+  max-width: 400px;
+  background: #1f1f3b;
+  transition: width 0.3s ease-in-out;
+  overflow-y: auto;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+/* Collapsed left-container: now shrinks to 40px */
+.left-container.collapsed {
+  flex: 0 0 40px !important;
+  min-width: 40px !important;
+  overflow: hidden;
+}
+
+/* Buttons in the left container */
+.left-container button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  width: 100%;
+  padding: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, padding-left 0.2s;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+.left-container button:hover {
+  background-color: rgba(0, 255, 209, 0.2);
+  padding-left: 20px;
+}
+
+/* Folder tree container inside the left column */
+.folder-tree-container {
+  margin: 10px;
+  overflow-y: auto;
+}
+
+/* MIDDLE CONTAINER */
+.middle-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
+  transition: flex 0.3s ease;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+}
+
+/* JBMC / Modular actions section at top */
+.jbmc-section {
+  background-color: rgba(34, 255, 173, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  /* Let it scroll if content is big */
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* The modular actions section */
+.modular-actions-section {
+  background: rgba(42, 42, 66, 0.5);
+  margin: 10px;
+  flex: 1;
+  border-radius: 8px;
+  overflow-y: auto; /* Let it scroll if large */
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* JSON viewer section at bottom */
+.json-viewer-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  margin: 10px;
+}
+
+/* Right container: the Monaco editor */
+.right-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #18182f;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
+}
+
+/* Editor container for Monaco */
+.editor-container {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* JSON VIEWER STYLES */
+.json-viewer {
+  background-color: rgba(24, 24, 47, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.json-display {
+  max-height: 300px; /* you can adjust if needed */
+  overflow: auto;
+  margin-top: 6px;
+  padding: 6px;
+  background-color: #1a1a2f;
+  border-radius: 4px;
+}
+
+/* Download button inside the JSON viewer */
+.download-button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #2affdf;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.download-button:hover {
+  background-color: #2affdf;
+}
+
+/* TABLES: MergedAssignments etc. */
+.merged-assignments-container {
+  max-height: 240px; /* limit table's height so it can scroll */
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #24244f;
+}
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+th {
+  background-color: #303060;
+  color: #00ffd1;
+  font-weight: 600;
+}
+tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+tbody tr:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+}
+
+/* Buttons inside the middle container sections */
+.middle-container button,
+.jbmc-section button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  margin: 6px 6px 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  min-width: 80px;
+  display: inline-block;
+}
+.middle-container button:hover,
+.jbmc-section button:hover {
+  background-color: #454575;
+  transform: translateX(3px);
+}
+
+/* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
+.inactive {
+  background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
+}
+.active {
+  background-color: rgba(60, 255, 60, 0.35) !important; /* translucent green */
+}
+.link {
+  background-color: rgba(30, 144, 255, 0.6) !important; /* dodgerblue */
+}
+.loop {
+  background-color: rgba(128, 0, 128, 0.5) !important;  /* purple */
+}
+.start {
+  content: url('../Images/start.png');
+}
+.line {
+  content: url('../Images/line.png');
+}
+.end {
+  content: url('../Images/end.png');
+}
+.one-line {
+  content: url('../Images/oneLine.png');
+}
+
+/* Additional popup styling (if used) */
+.popup {
+  position: absolute;
+  background-color: #FFF;
+  color: #000;
+  border: 1px solid #CCC;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+/* MONACO TOKEN COLORS OVERRIDES */
+.monaco-editor.token.keyword {
+  color: #FFC1F3 !important; /* Pastel pink for keywords */
+  font-weight: bold;
+}
+.monaco-editor.token.function {
+  color: #AFFFD1 !important; /* Light teal for function names */
+}
+.monaco-editor.token.type {
+  color: #FFCB6B !important;
+}
+.monaco-editor.token.identifier {
+  color: #D6DEEB !important;
+}
+.monaco-editor.token.string {
+  color: #C3E88D !important;
+}
+.monaco-editor.token.number {
+  color: #F78C6C !important;
+}
+.monaco-editor.token.operator {
+  color: #89DDFF !important;
+}
+.monaco-editor.token.annotation {
+  color: #82AAFF !important;
+}
+.monaco-editor.token.regex {
+  color: #ECC48D !important;
+}
+.monaco-editor.token.delimiter {
+  color: #89DDFF !important;
+}
+.monaco-editor.token.invalid {
+  background-color: #FF5370 !important;
+  color: #FFF !important;
+}
+
+/* MONACO EDITOR HOVER */
+.monaco-editor .monaco-editor-hover {
+  z-index: 1000;
+  position: fixed;
+  visibility: visible;
+}
+.monaco-editor-hover .monaco-editor-hover-content {
+  background-color: #FFF;
+  color: #000;
+  border: 1px solid #444;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  padding: 8px;
+}
+
+/* Modal styling (Help, etc.) */
+.modal-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #26264a;
+  color: #E8F5FF;
+  border-radius: 10px;
+  border: 2px solid #444;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+.modal-close-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #2affdf;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.modal-content {
+  margin-top: 20px;
+}
+.modal {
+  /* If you need to style the overall modal container from ReactModal, do it here */
+}
+
+/* Buttons used in the top left area (like "Upload") */
+.upload-button-container,
+.reset-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+.picker {
+  margin-right: 0;
+  margin-bottom: 1rem;
+  color: #cde2ff;
+  background-color: #32325A;
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.picker:hover {
+  background-color: #454575;
+}
+
+/* TRACE TREE STYLES */
+.trace-tree-container {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.trace-tree-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.trace-tree-container li {
+  margin: 4px 0;
+  cursor: pointer;
+  transition: background-color 0.2s, padding-left 0.2s;
+}
+.trace-tree-container li:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+  padding-left: 8px;
+}
+
+/* METHOD VIEW SECTION */
+.method-view-section {
+  margin: 10px;
+  padding: 10px;
+  background: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.method-view-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+.method-view-section select.method-view-dropdown {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* HIGHLIGHTED METHODS OR TRACE NODES */
+.trace-tree-clickable.highlight,
+.highlighted-method {
+  background-color: rgba(0, 255, 209, 0.25);
+  border-radius: 3px;
+}
+
+/* ---------- SCROLLBAR STYLING (optional) --------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+::-webkit-scrollbar-thumb {
+  background: #2affdf66;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2affdf;
 }

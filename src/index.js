@@ -5,7 +5,7 @@ import React from 'react';
 import {createRoot} from 'react-dom/client';
 
 // Imports CSS-File for styling.
-import './Css/index.css';
+import './Css/App.css';
 
 // Imports the App-component from App.js.
 import App from './App.js';
