@@ -81,7 +81,7 @@ body,
   position: relative;
 }
 
-/* LEFT CONTAINER */
+/* Left container base styles */
 .left-container {
   flex: 0 0 18%;
   min-width: 240px;
@@ -93,7 +93,7 @@ body,
   position: relative;
 }
 
-/* Left container content wrapper (added change) */
+/* Left container content wrapper */
 .left-container-content {
   display: flex;
   flex-direction: column;
@@ -109,7 +109,6 @@ body,
   flex: 0 0 10px !important;
   min-width: 10px !important;
   max-width: 10px !important;
-  overflow: hidden;
   background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
 }
@@ -141,7 +140,7 @@ body,
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 30px !important;
+  width: 30px;
   height: 30px;
   background-color: #32325A;
   border: none !important;
@@ -157,6 +156,7 @@ body,
   padding: 0 !important;
   text-align: center !important;
   min-width: 30px !important;
+  width: 30px !important;
 }
 
 /* Show toggle button on hover */
@@ -203,7 +203,13 @@ body,
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
-
+.upload-button-container {
+  margin-top: 20px;
+  padding: 8px;
+  background-color: rgba(42, 42, 80, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
 /* Regular buttons in the left container */
 .left-container button:not(.left-container-toggle) {
   background-color: #32325A;
@@ -218,6 +224,7 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
+
 .left-container button:not(.left-container-toggle):hover {
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
@@ -225,7 +232,7 @@ body,
 
 /* Folder tree container */
 .folder-tree-container {
-  margin: 10px;
+  margin: 10px 0;
   overflow-y: auto;
   max-height: calc(100vh - 300px);
 }
@@ -235,11 +242,13 @@ body,
   flex: 2;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
   transition: flex 0.3s ease, min-width 0.3s ease;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
+  padding-right: 0;
 }
 
 /* Middle container collapsed state */
@@ -250,33 +259,66 @@ body,
   background: linear-gradient(90deg, #1a1a2e, #242447);
 }
 
-/* Improved middle container toggle button - moved to top */
+/* Improved middle container toggle button positioning */
 .middle-container-toggle {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 30px;
-  height: 30px;
+  top: 50%;
+  right: -14px; /* Position outside the container */
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
   background-color: #242447;
-  border: none;
-  border-radius: 0 0 0 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
   color: #cde2ff;
   cursor: pointer;
-  z-index: 10;
+  z-index: 15;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  padding: 0;
+  font-size: 16px;
 }
 
 .middle-container-toggle:hover {
   background-color: #454575;
+  color: #00ffd1;
 }
 
+/* Fix toggle icon when collapsed */
 .middle-container.collapsed .middle-container-toggle {
-  right: -30px; /* Position it outside when collapsed */
-  border-radius: 0 6px 6px 0;
+  right: -14px; /* Keep it at the same position */
+}
+
+/* Let toggle button overlap with right container */
+.right-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #18182f;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
+  transition: flex 0.3s ease;
+  margin-left: -14px; /* Negative margin to allow overlap */
+  padding-left: 14px; /* Padding to prevent content being hidden */
+  z-index: 10; /* Lower than toggle button */
+}
+
+/* Right container expands when middle is collapsed */
+.middle-container.collapsed + .right-container {
+  flex: 4;
+}
+
+/* Editor container for Monaco */
+.editor-container {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 /* JBMC / Modular actions section at top */
@@ -317,32 +359,6 @@ body,
   flex-direction: column;
   overflow-y: auto;
   margin: 10px;
-}
-
-/* Right container: the Monaco editor */
-.right-container {
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  background-color: #18182f;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px #000;
-  transition: flex 0.3s ease;
-}
-
-/* Right container expands when middle is collapsed */
-.middle-container.collapsed + .right-container {
-  flex: 4;
-}
-
-/* Editor container for Monaco */
-.editor-container {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  position: relative;
-  overflow: hidden;
 }
 
 /* JSON VIEWER STYLES */
@@ -409,7 +425,6 @@ tbody tr:hover {
 }
 
 /* Buttons inside the middle container sections */
-.middle-container button,
 .jbmc-section button {
   background-color: #32325A;
   color: #cde2ff;
@@ -420,6 +435,18 @@ tbody tr:hover {
   cursor: pointer;
   transition: background-color 0.2s, transform 0.2s;
   min-width: 80px;
+  display: inline-block;
+}
+.middle-container button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  margin: 6px 6px 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  min-width: 30px;
   display: inline-block;
 }
 .middle-container button:hover,
@@ -686,6 +713,9 @@ tbody tr:hover {
   transition: all 0.3s ease;
   background: rgba(42, 42, 66, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  max-height: unset;
 }
 
 .collapsible-header {
@@ -716,6 +746,8 @@ tbody tr:hover {
 
 .collapsible-content {
   padding: 10px;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .collapsible-section.collapsed {
@@ -757,4 +789,22 @@ tbody tr:hover {
   background-color: rgba(42, 42, 66, 0.3);
   border-radius: 0 0 6px 6px;
   padding: 10px;
+}
+
+/* Additional scrolling improvements for sections */
+.jbmc-section,
+.modular-actions-section,
+.json-viewer-section,
+.trace-tree-container,
+.method-view-section,
+.collapsible-content {
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* Additional helper class for toggle button content */
+.toggle-icon {
+  font-size: 12px;
+  font-weight: bold;
 }
