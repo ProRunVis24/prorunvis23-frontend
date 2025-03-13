@@ -30,6 +30,56 @@ if (rootElement) {
     );
 }
 
+// Create a button to open a new project session
+document.addEventListener('DOMContentLoaded', function() {
+    // Create new project button
+    var newProjectBtn = document.createElement('button');
+    newProjectBtn.textContent = 'New Project';
+    newProjectBtn.style.position = 'fixed';
+    newProjectBtn.style.bottom = '20px';
+    newProjectBtn.style.right = '20px';
+    newProjectBtn.style.padding = '10px 20px';
+    newProjectBtn.style.backgroundColor = '#4CAF50';
+    newProjectBtn.style.color = 'white';
+    newProjectBtn.style.border = 'none';
+    newProjectBtn.style.borderRadius = '5px';
+    newProjectBtn.style.cursor = 'pointer';
+    newProjectBtn.style.zIndex = '1000';
+
+    newProjectBtn.addEventListener('click', function() {
+        window.open('/new-project', '_blank');
+    });
+
+    document.body.appendChild(newProjectBtn);
+
+    // Optional: Display session/project info
+    var sessionInfoDiv = document.createElement('div');
+    sessionInfoDiv.style.position = 'fixed';
+    sessionInfoDiv.style.top = '10px';
+    sessionInfoDiv.style.right = '10px';
+    sessionInfoDiv.style.padding = '5px';
+    sessionInfoDiv.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
+    sessionInfoDiv.style.borderRadius = '3px';
+    sessionInfoDiv.style.fontSize = '12px';
+    sessionInfoDiv.style.zIndex = '999';
+
+    // Fetch session info
+    fetch('/debug/session')
+        .then(response => response.text())
+        .then(html => {
+            // Extract project ID from the HTML response
+            const projectIdMatch = html.match(/Project ID: ([a-zA-Z0-9-]+)/);
+            const projectId = projectIdMatch ? projectIdMatch[1] : 'Unknown';
+            sessionInfoDiv.textContent = 'Project: ' + projectId;
+        })
+        .catch(error => {
+            console.error('Error fetching session info:', error);
+            sessionInfoDiv.textContent = 'Project: Unknown';
+        });
+
+    document.body.appendChild(sessionInfoDiv);
+});
+
 // reportWebVitals is called to capture performance data and report it.
 // This can be used for analysing and optimizing the performance.
 // More information about this process can be found here: https://bit.ly/CRA-vitals
