@@ -1,32 +1,34 @@
+// MergedAssignmentsTable.jsx
+
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-function MergedAssignmentsTable({ traceId, projectId, selectedVariable }) {
+export default function MergedAssignmentsTable({ traceId, selectedVariable }) {
   const [allRows, setAllRows] = useState([]);
 
   useEffect(() => {
-    // Only fetch data if both traceId and projectId are available
-    if (!traceId || !projectId) return;
+    if (!traceId) return;
 
-    // Fetch processed trace (the array of nodes) using projectId
-    fetch(`/api/jbmc/flatten?projectId=${projectId}`)
+    // 1) fetch processed trace (the array of nodes) from your backend
+    fetch(`/api/visualize/${traceId}`)
       .then((res) => {
         if (!res.ok) {
-          throw new Error(`Failed to load processed trace for projectId=${projectId}`);
+          throw new Error(`Failed to load processed trace for traceId=${traceId}`);
         }
         return res.json();
       })
       .then((nodeList) => {
-        // Flatten each node’s jbmcValues to produce an array of rows
+        // nodeList is an array of TraceNodes
+        // 2) Flatten each node’s jbmcValues to produce an array of rows
         const flattened = flattenAssignments(nodeList);
-        setAllRows(flattened);
+        setAllRows(flattened); // store the entire flattened list
       })
       .catch((err) => {
         console.error("Error fetching or flattening merged JBMC data:", err);
       });
-  }, [traceId, projectId, selectedVariable]);
+  }, [traceId]);
 
-  // Filter the rows if a selectedVariable is provided
+  // If selectedVariable is set, filter the rows
   const rowsToDisplay = selectedVariable
     ? allRows.filter(row => row.variableName === selectedVariable)
     : allRows;
@@ -64,11 +66,10 @@ function MergedAssignmentsTable({ traceId, projectId, selectedVariable }) {
 
 MergedAssignmentsTable.propTypes = {
   traceId: PropTypes.string.isRequired,
-  projectId: PropTypes.string.isRequired,
   selectedVariable: PropTypes.string // optional
 };
 
-// Helper function to flatten each node's jbmcValues
+// Flatten each node’s jbmcValues
 function flattenAssignments(nodeList) {
   const result = [];
   nodeList.forEach((node) => {
@@ -87,7 +88,7 @@ function flattenAssignments(nodeList) {
   return result;
 }
 
-// Inline styles for table headers and cells
+// Some inline styling
 const thStyle = {
   border: "1px solid gray",
   backgroundColor: "#444",
@@ -97,5 +98,3 @@ const tdStyle = {
   border: "1px solid gray",
   padding: "6px"
 };
-
-export default MergedAssignmentsTable;
