@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import CollapsibleSection from './WebsiteElements/CollapsibleSection';
 
 function ModularActions({ setJsonManager, projectName, onVisualize }) {
   // Local state variables, including the sole source for project ID
@@ -14,12 +13,16 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
   const [jbmcArrayLength, setJbmcArrayLength] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
 
+<<<<<<< HEAD
   // Project ID is now solely managed via local state based on user input.
   const handleProjectIdChange = (e) => {
     setLocalProjectId(e.target.value);
   };
 
   // Instrument: Uses the project ID from the input field.
+=======
+  // 1) INSTRUMENT
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleInstrument = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before instrumenting");
@@ -31,11 +34,16 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
         `/api/instrument?projectName=${encodeURIComponent(projectName)}&projectId=${encodeURIComponent(localProjectId)}`,
         { method: "POST" }
       );
+<<<<<<< HEAD
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Instrumentation failed: ${errorText}`);
       }
       const idText = await response.text();
+=======
+      const idText = await response.text(); // returns a string ID/path
+      alert("Instrument ID (local): " + idText);
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
       setInstrumentId(idText.trim());
       alert("Instrument ID: " + idText);
     } catch (error) {
@@ -45,7 +53,11 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
+<<<<<<< HEAD
   // Trace: Reads the project ID from the local input.
+=======
+  // 2) TRACE
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleTrace = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before tracing");
@@ -57,6 +69,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
     setIsLoading(true);
     try {
+<<<<<<< HEAD
       const response = await fetch(
         `/api/trace?instrumentId=${encodeURIComponent(instrumentId)}&projectId=${encodeURIComponent(localProjectId)}`,
         { method: "POST" }
@@ -66,6 +79,13 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
         throw new Error(`Trace run failed: ${errorText}`);
       }
       const idText = await response.text();
+=======
+      const response = await fetch(`/api/trace?instrumentId=${instrumentId}`, {
+        method: "POST"
+      });
+      const idText = await response.text(); // e.g., a path to Trace.tr
+      alert("Trace ID (local): " + idText);
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
       setTraceId(idText.trim());
       alert("Trace ID: " + idText);
     } catch (error) {
@@ -75,7 +95,11 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
+<<<<<<< HEAD
   // Process: Uses the same local project ID.
+=======
+  // 3) PROCESS
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleProcess = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before processing");
@@ -105,7 +129,11 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
+<<<<<<< HEAD
   // Visualize: Again, the request uses the project ID from the input.
+=======
+  // 4) VISUALIZE
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleVisualize = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before visualizing");
@@ -125,10 +153,24 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
         throw new Error(`Visualization failed: ${errorText}`);
       }
       const data = await resp.json();
+<<<<<<< HEAD
       setVisualizationJson(data);
       if (onVisualize) {
         onVisualize(data);
       }
+=======
+      console.log("Parsed JSON data:", data);
+
+      // Save to local state
+      setVisualizationJson(data);
+
+      // Execute parent callback if provided
+      if (onVisualize) {
+        onVisualize(data);
+      }
+
+      // Dynamically import the JsonManager and load the data
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
       const { default: JsonManager } = await import("./Editor/JsonManager.js");
       setJsonManager(new JsonManager(data));
     } catch (error) {
@@ -138,7 +180,11 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
+<<<<<<< HEAD
   // Run JBMC: Uses the project ID from the input field.
+=======
+  // JBMC: Run JBMC with the provided parameters
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleRunJBMC = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before running JBMC");
@@ -170,7 +216,11 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
+<<<<<<< HEAD
   // Download visualization JSON
+=======
+  // Allows user to download the visualization JSON
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   const handleDownloadJson = () => {
     if (!visualizationJson) return;
     const jsonStr = JSON.stringify(visualizationJson, null, 2);
@@ -184,6 +234,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
   };
 
   return (
+<<<<<<< HEAD
     <div className="modular-actions-container">
       {/* Project ID input field */}
       <div className="form-group project-id-form-group">
@@ -326,6 +377,107 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           )}
         </div>
       </CollapsibleSection>
+=======
+    <div style={{ padding: "10px", backgroundColor: "#333", color: "white" }}>
+      <h3>Modular Actions (Local Storage Flow)</h3>
+
+      {/* Instrument Section */}
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={handleInstrument}>Instrument</button>
+        <br />
+        <label>
+          Instrument ID:{" "}
+          <input
+            type="text"
+            value={instrumentId}
+            onChange={(e) => setInstrumentId(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {/* JBMC Section */}
+      <div style={{ marginBottom: "1rem" }}>
+        <h4>JBMC</h4>
+        <label>
+          Instrument ID:{" "}
+          <input
+            type="text"
+            value={instrumentId}
+            onChange={(e) => setInstrumentId(e.target.value)}
+            placeholder="e.g. 1234-uuid from instrumentation"
+          />
+        </label>
+        <br />
+        <label>
+          Method Signature:{" "}
+          <input
+            type="text"
+            value={jbmcMethodSig}
+            onChange={(e) => setJbmcMethodSig(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Unwind:{" "}
+          <input
+            type="number"
+            value={jbmcUnwind}
+            onChange={(e) => setJbmcUnwind(Number(e.target.value))}
+          />
+        </label>
+        <br />
+        <label>
+          Max Array Length:{" "}
+          <input
+            type="number"
+            value={jbmcArrayLength}
+            onChange={(e) => setJbmcArrayLength(Number(e.target.value))}
+          />
+        </label>
+        <br />
+        <button onClick={handleRunJBMC}>Run JBMC</button>
+      </div>
+
+      {/* Trace Section */}
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={handleTrace}>Trace</button>
+        <br />
+        <label>
+          Trace ID (local path):{" "}
+          <input
+            type="text"
+            value={traceId}
+            onChange={(e) => setTraceId(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {/* Process Section */}
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={handleProcess}>Process</button>
+        <br />
+        <label>
+          Processed Trace Path (local ID):{" "}
+          <input
+            type="text"
+            value={processedTracePath}
+            onChange={(e) => setProcessedTracePath(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {/* Visualize Section */}
+      <div style={{ marginBottom: "1rem" }}>
+        <button onClick={handleVisualize}>Visualize</button>
+      </div>
+
+      {/* Download Visualization JSON */}
+      {visualizationJson && (
+        <div style={{ marginBottom: "1rem" }}>
+          <button onClick={handleDownloadJson}>Download Visualization JSON</button>
+        </div>
+      )}
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
     </div>
   );
 }

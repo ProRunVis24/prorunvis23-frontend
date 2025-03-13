@@ -78,7 +78,6 @@ body,
   flex-direction: row;
   height: calc(100% - 60px);
   overflow: hidden;
-  position: relative;
 }
 
 /* Left container base styles */
@@ -87,12 +86,13 @@ body,
   min-width: 240px;
   max-width: 400px;
   background: #1f1f3b;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  transition: width 0.3s ease-in-out;
+  overflow-y: auto;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
 
+<<<<<<< HEAD
 /* Left container content wrapper */
 .left-container-content {
   display: flex;
@@ -212,6 +212,17 @@ body,
 }
 /* Regular buttons in the left container */
 .left-container button:not(.left-container-toggle) {
+=======
+/* Collapsed left-container: now shrinks to 40px */
+.left-container.collapsed {
+  flex: 0 0 40px !important;
+  min-width: 40px !important;
+  overflow: hidden;
+}
+
+/* Buttons in the left container */
+.left-container button {
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   background-color: #32325A;
   color: #cde2ff;
   border: 1px solid #444;
@@ -224,17 +235,20 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
+<<<<<<< HEAD
 
 .left-container button:not(.left-container-toggle):hover {
+=======
+.left-container button:hover {
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
 }
 
-/* Folder tree container */
+/* Folder tree container inside the left column */
 .folder-tree-container {
   margin: 10px 0;
   overflow-y: auto;
-  max-height: calc(100vh - 300px);
 }
 
 /* MIDDLE CONTAINER */
@@ -245,8 +259,9 @@ body,
   overflow-y: auto;
   overflow-x: hidden;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
-  transition: flex 0.3s ease, min-width 0.3s ease;
+  transition: flex 0.3s ease;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
+<<<<<<< HEAD
   position: relative;
   padding-right: 0;
 }
@@ -319,6 +334,8 @@ body,
   min-height: 0;
   position: relative;
   overflow: hidden;
+=======
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
 }
 
 /* JBMC / Modular actions section at top */
@@ -344,14 +361,6 @@ body,
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Modular Actions Container */
-.modular-actions-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 5px;
-}
-
 /* JSON viewer section at bottom */
 .json-viewer-section {
   flex: 1;
@@ -361,6 +370,29 @@ body,
   margin: 10px;
 }
 
+<<<<<<< HEAD
+=======
+/* Right container: the Monaco editor */
+.right-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #18182f;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
+}
+
+/* Editor container for Monaco */
+.editor-container {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
 /* JSON VIEWER STYLES */
 .json-viewer {
   background-color: rgba(24, 24, 47, 0.8);
@@ -663,6 +695,7 @@ tbody tr:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #2affdf;
+<<<<<<< HEAD
 }
 
 /* Form elements styling */
@@ -808,3 +841,6 @@ tbody tr:hover {
   font-size: 12px;
   font-weight: bold;
 }
+=======
+}
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
