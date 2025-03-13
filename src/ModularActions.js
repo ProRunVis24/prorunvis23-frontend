@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import CollapsibleSection from './WebsiteElements/CollapsibleSection';
 
 function ModularActions({ setJsonManager, projectName, onVisualize }) {
   // State variables
@@ -11,14 +12,14 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
   const [jbmcUnwind, setJbmcUnwind] = useState(5);
   const [jbmcArrayLength, setJbmcArrayLength] = useState(5);
 
-  // 1) INSTRUMENT
+  // All your existing handler functions remain the same
   const handleInstrument = async () => {
     try {
       const response = await fetch(
         `/api/instrument?projectName=${encodeURIComponent(projectName)}&inputDir=resources/in`,
         { method: "POST" }
       );
-      const idText = await response.text(); // returns a string ID/path
+      const idText = await response.text();
       alert("Instrument ID (local): " + idText);
       setInstrumentId(idText.trim());
     } catch (error) {
@@ -27,7 +28,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
-  // 2) TRACE
   const handleTrace = async () => {
     if (!instrumentId) {
       alert("No instrumentId set!");
@@ -37,7 +37,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
       const response = await fetch(`/api/trace?instrumentId=${instrumentId}`, {
         method: "POST"
       });
-      const idText = await response.text(); // e.g., a path to Trace.tr
+      const idText = await response.text();
       alert("Trace ID (local): " + idText);
       setTraceId(idText.trim());
     } catch (error) {
@@ -46,7 +46,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
-  // 3) PROCESS
   const handleProcess = async () => {
     if (!traceId) {
       alert("No traceId set!");
@@ -65,7 +64,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
-  // 4) VISUALIZE
   const handleVisualize = async () => {
     if (!processedTracePath) {
       alert("No processedTrace path (local ID) set!");
@@ -80,15 +78,12 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
       const data = await resp.json();
       console.log("Parsed JSON data:", data);
 
-      // Save to local state
       setVisualizationJson(data);
 
-      // Execute parent callback if provided
       if (onVisualize) {
         onVisualize(data);
       }
 
-      // Dynamically import the JsonManager and load the data
       const { default: JsonManager } = await import("./Editor/JsonManager.js");
       setJsonManager(new JsonManager(data));
     } catch (error) {
@@ -97,7 +92,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
-  // JBMC: Run JBMC with the provided parameters
   const handleRunJBMC = async () => {
     if (!instrumentId) {
       alert("You must have an instrumentId set (the same as used for trace).");
@@ -122,7 +116,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
   };
 
-  // Allows user to download the visualization JSON
   const handleDownloadJson = () => {
     if (!visualizationJson) return;
     const jsonStr = JSON.stringify(visualizationJson, null, 2);
@@ -136,105 +129,115 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
   };
 
   return (
-    <div style={{ padding: "10px", backgroundColor: "#333", color: "white" }}>
-      <h3>Modular Actions (Local Storage Flow)</h3>
-
+    <div className="modular-actions-container">
       {/* Instrument Section */}
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={handleInstrument}>Instrument</button>
-        <br />
-        <label>
-          Instrument ID:{" "}
-          <input
-            type="text"
-            value={instrumentId}
-            onChange={(e) => setInstrumentId(e.target.value)}
-          />
-        </label>
-      </div>
+      <CollapsibleSection title="Instrument & Trace" defaultOpen={true}>
+        <div className="action-group">
+          <button onClick={handleInstrument}>Instrument</button>
+          <div className="form-group">
+            <label>
+              Instrument ID:{" "}
+              <input
+                type="text"
+                value={instrumentId}
+                onChange={(e) => setInstrumentId(e.target.value)}
+                className="input-field"
+              />
+            </label>
+          </div>
 
-      {/* JBMC Section */}
-      <div style={{ marginBottom: "1rem" }}>
-        <h4>JBMC</h4>
-        <label>
-          Instrument ID:{" "}
-          <input
-            type="text"
-            value={instrumentId}
-            onChange={(e) => setInstrumentId(e.target.value)}
-            placeholder="e.g. 1234-uuid from instrumentation"
-          />
-        </label>
-        <br />
-        <label>
-          Method Signature:{" "}
-          <input
-            type="text"
-            value={jbmcMethodSig}
-            onChange={(e) => setJbmcMethodSig(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Unwind:{" "}
-          <input
-            type="number"
-            value={jbmcUnwind}
-            onChange={(e) => setJbmcUnwind(Number(e.target.value))}
-          />
-        </label>
-        <br />
-        <label>
-          Max Array Length:{" "}
-          <input
-            type="number"
-            value={jbmcArrayLength}
-            onChange={(e) => setJbmcArrayLength(Number(e.target.value))}
-          />
-        </label>
-        <br />
-        <button onClick={handleRunJBMC}>Run JBMC</button>
-      </div>
-
-      {/* Trace Section */}
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={handleTrace}>Trace</button>
-        <br />
-        <label>
-          Trace ID (local path):{" "}
-          <input
-            type="text"
-            value={traceId}
-            onChange={(e) => setTraceId(e.target.value)}
-          />
-        </label>
-      </div>
-
-      {/* Process Section */}
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={handleProcess}>Process</button>
-        <br />
-        <label>
-          Processed Trace Path (local ID):{" "}
-          <input
-            type="text"
-            value={processedTracePath}
-            onChange={(e) => setProcessedTracePath(e.target.value)}
-          />
-        </label>
-      </div>
-
-      {/* Visualize Section */}
-      <div style={{ marginBottom: "1rem" }}>
-        <button onClick={handleVisualize}>Visualize</button>
-      </div>
-
-      {/* Download Visualization JSON */}
-      {visualizationJson && (
-        <div style={{ marginBottom: "1rem" }}>
-          <button onClick={handleDownloadJson}>Download Visualization JSON</button>
+          <button onClick={handleTrace}>Trace</button>
+          <div className="form-group">
+            <label>
+              Trace ID (local path):{" "}
+              <input
+                type="text"
+                value={traceId}
+                onChange={(e) => setTraceId(e.target.value)}
+                className="input-field"
+              />
+            </label>
+          </div>
         </div>
-      )}
+      </CollapsibleSection>
+
+      {/* JBMC Subsection */}
+      <CollapsibleSection title="JBMC Parameters" defaultOpen={false}>
+        <div className="action-group">
+          <div className="form-group">
+            <label>
+              Instrument ID:{" "}
+              <input
+                type="text"
+                value={instrumentId}
+                onChange={(e) => setInstrumentId(e.target.value)}
+                placeholder="e.g. 1234-uuid from instrumentation"
+                className="input-field"
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              Method Signature:{" "}
+              <input
+                type="text"
+                value={jbmcMethodSig}
+                onChange={(e) => setJbmcMethodSig(e.target.value)}
+                className="input-field"
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              Unwind:{" "}
+              <input
+                type="number"
+                value={jbmcUnwind}
+                onChange={(e) => setJbmcUnwind(Number(e.target.value))}
+                className="input-field"
+              />
+            </label>
+          </div>
+          <div className="form-group">
+            <label>
+              Max Array Length:{" "}
+              <input
+                type="number"
+                value={jbmcArrayLength}
+                onChange={(e) => setJbmcArrayLength(Number(e.target.value))}
+                className="input-field"
+              />
+            </label>
+          </div>
+          <button onClick={handleRunJBMC}>Run JBMC</button>
+        </div>
+      </CollapsibleSection>
+
+      {/* Process & Visualize Section */}
+      <CollapsibleSection title="Process & Visualize" defaultOpen={true}>
+        <div className="action-group">
+          <button onClick={handleProcess}>Process</button>
+          <div className="form-group">
+            <label>
+              Processed Trace Path (local ID):{" "}
+              <input
+                type="text"
+                value={processedTracePath}
+                onChange={(e) => setProcessedTracePath(e.target.value)}
+                className="input-field"
+              />
+            </label>
+          </div>
+
+          <button onClick={handleVisualize}>Visualize</button>
+
+          {visualizationJson && (
+            <button onClick={handleDownloadJson} className="download-button">
+              Download Visualization JSON
+            </button>
+          )}
+        </div>
+      </CollapsibleSection>
     </div>
   );
 }

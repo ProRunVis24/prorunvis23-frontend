@@ -6,12 +6,12 @@ import ModularActions from "./ModularActions";
 import JsonViewer from "./WebsiteElements/JsonViewer";
 import TraceTree from "./WebsiteElements/TraceTree";
 import MethodTreeView from "./WebsiteElements/MethodTreeView";
-
-import MergedAssignmentsTable from "./WebsiteElements/MergedAssignmentsTable"; // Our filtered table component
+import CollapsibleSection from "./WebsiteElements/CollapsibleSection"; // Import the new component
+import MergedAssignmentsTable from "./WebsiteElements/MergedAssignmentsTable";
 import "./Css/App.css";
 
 function WebsiteContainer() {
-  // Basic states for file management, JSON data and visualization
+  // Existing states remain the same
   const [displayedFile, setDisplayedFile] = useState(null);
   const [activeFile, setActiveFile] = useState(null);
   const [jsonManager, setJsonManager] = useState(null);
@@ -23,15 +23,14 @@ function WebsiteContainer() {
   const [traceNodeToHighlight, setTraceNodeToHighlight] = useState(null);
   const [hoveredTraceId, setHoveredTraceId] = useState(null);
   const [activeIterationIndices, setActiveIterationIndices] = useState([]);
-
-  // New state for the variable selected from the editor
   const [selectedVariable, setSelectedVariable] = useState(null);
-
-  // Additional states for JBMC integration
   const [jbmcJson, setJbmcJson] = useState(null);
   const [instrumentId, setInstrumentId] = useState("");
 
-  /** Sets both 'displayedFile' and 'activeFile' to the file that matches the given path. */
+  // New state for middle container collapse
+  const [isMiddleContainerCollapsed, setIsMiddleContainerCollapsed] = useState(false);
+
+  // All your existing functions remain the same
   function setActiveAndDisplayed(path) {
     uploadedFiles.forEach((uploadedFile) => {
       if (path === uploadedFile.webkitRelativePath) {
@@ -41,19 +40,14 @@ function WebsiteContainer() {
     });
   }
 
-  /** Displays the current active file in the editor (if any). */
   function setDisplayedToActive() {
     setDisplayedFile(activeFile);
   }
 
-  /** Checks if the file currently displayed is the same as the 'active' file. */
   function isActiveDisplayed() {
     return activeFile && displayedFile ? activeFile === displayedFile : false;
   }
 
-  /**
-   * Receives the files from the folder upload (DirectoryBar) and optionally uploads them.
-   */
   async function passOnUploadedFiles(files) {
     setUploadedFiles(files);
     await fetch("/api/upload", {
@@ -62,29 +56,22 @@ function WebsiteContainer() {
     });
   }
 
-  /** Called when the user clicks a trace node in TraceTree to highlight in the editor. */
   function highlightTraceNodeInEditor(node) {
     console.log("highlightTraceNodeInEditor called with node:", node);
     setTraceNodeToHighlight(node);
   }
 
-  /** Called from EditorManager when the user hovers code to highlight in the TraceTree. */
   function handleHoverTraceId(traceId) {
     console.log("WebsiteContainer: hovered trace ID in editor =>", traceId);
     setHoveredTraceId(traceId);
   }
 
-  /**
-   * NEW: Called when the user clicks on a line in the editor.
-   * It uses the new backend endpoint to fetch variable declarations for that line.
-   */
   function handleLineClick(fileName, line) {
     console.log(`Line clicked: file=${fileName}, line=${line}`);
     fetch(`/api/varMapping?file=${encodeURIComponent(fileName)}&line=${line}`)
       .then((res) => res.json())
       .then((variableNames) => {
         if (variableNames && variableNames.length > 0) {
-          // For simplicity, pick the first variable (or you could allow the user to choose)
           setSelectedVariable(variableNames[0]);
           console.log("Selected variable:", variableNames[0]);
         } else {
@@ -98,7 +85,6 @@ function WebsiteContainer() {
       });
   }
 
-  /** Fetches static methods JSON from the backend. */
   async function fetchStaticMethods() {
     try {
       const response = await fetch("/api/static-methods");
@@ -109,7 +95,20 @@ function WebsiteContainer() {
     }
   }
 
-  /** Fetch JBMC result for a given instrument ID and switch the viewer to JBMC mode. */
+  function handleJsonData(jsonData) {
+    try {
+      if (!jsonData) {
+        console.warn("Received null/undefined JSON data");
+        return;
+      }
+      console.log("Initializing JsonManager with:", jsonData);
+      setJsonManager(new JsonManager(jsonData));
+    } catch (error) {
+      console.error("Error initializing JsonManager:", error);
+      alert("Failed to process JSON data: " + error.message);
+    }
+  }
+
   async function handleFetchJBMC() {
     if (!instrumentId) {
       alert("Please enter instrument ID");
@@ -123,150 +122,170 @@ function WebsiteContainer() {
       }
       const data = await resp.json();
       setJbmcJson(data);
-      setViewerMode("JBMC"); // Switch UI to display JBMC JSON
+      setViewerMode("JBMC");
     } catch (error) {
       console.error("Error fetching JBMC result:", error);
       alert("Could not fetch JBMC JSON: " + error.message);
     }
   }
 
-  console.log("[WebsiteContainer] viewerMode =", viewerMode);
-  console.log("[WebsiteContainer] jsonManager =", jsonManager);
-  console.log("[WebsiteContainer] visualizationJson =", visualizationJson);
+  // Toggle middle container collapsed state
+  const toggleMiddleContainer = () => {
+    setIsMiddleContainerCollapsed(!isMiddleContainerCollapsed);
+  };
 
   return (
     <div className="content">
       {/* LEFT COLUMN: Directory */}
-      <div className="left-container">
-        <DirectoryBar
-          setDisplayedFile={setDisplayedFile}
-          setDisplayedToActive={setDisplayedToActive}
-          passOnUploadedFiles={passOnUploadedFiles}
-          passOnJsonData={(jsonData) => {
-            console.log("[WebsiteContainer] JSON from DirectoryBar:", jsonData);
-            setJsonManager(new JsonManager(jsonData));
-          }}
-        />
-      </div>
+      <DirectoryBar
+        setDisplayedFile={setDisplayedFile}
+        setDisplayedToActive={setDisplayedToActive}
+        passOnUploadedFiles={passOnUploadedFiles}
+        passOnJsonData={(jsonData) => {
+          console.log("[WebsiteContainer] JSON from DirectoryBar:", jsonData);
+          setJsonManager(new JsonManager(jsonData));
+        }}
+      />
 
-      {/* MIDDLE COLUMN: JBMC Section, Modular Actions and JSON Viewer */}
-      <div className="middle-container">
-        {/* JBMC Section */}
-        <div className="jbmc-section" style={{ margin: "10px" }}>
-          <div>
-            <button onClick={() => setViewerMode("JSON")}>
-              Show Normal JSON
-            </button>
-            <button onClick={() => setViewerMode("JBMC")}>
-              Show JBMC JSON
-            </button>
-            <input
-              placeholder="Instrument ID"
-              value={instrumentId}
-              onChange={(e) => setInstrumentId(e.target.value)}
-            />
-            <button onClick={handleFetchJBMC}>Fetch JBMC Output</button>
-          </div>
-          {viewerMode === "JBMC" && jbmcJson && (
-            <JsonViewer
-              jsonData={jbmcJson}
-              onElementClick={(updated) =>
-                console.log("JBMC JSON clicked:", updated)
-              }
-            />
-          )}
-          {/* Show the JBMC assignments table (filtered by selected variable if any) */}
-          {instrumentId && (
-            <div style={{ marginTop: "10px" }}>
-              <MergedAssignmentsTable
-                traceId={instrumentId}
-                selectedVariable={selectedVariable}
+      {/* MIDDLE COLUMN with collapsible sections */}
+      <div className={`middle-container ${isMiddleContainerCollapsed ? 'collapsed' : ''}`}>
+        <button
+          className="middle-container-toggle"
+          onClick={toggleMiddleContainer}
+        >
+          {isMiddleContainerCollapsed ? '►' : '◄'}
+        </button>
+
+        {!isMiddleContainerCollapsed && (
+          <>
+            {/* JBMC Section as a separate collapsible section */}
+            <CollapsibleSection title="JBMC Controls" defaultOpen={false}>
+              <div>
+                <input
+                  placeholder="Instrument ID"
+                  value={instrumentId}
+                  onChange={(e) => setInstrumentId(e.target.value)}
+                  className="input-field"
+                />
+                <button onClick={handleFetchJBMC}>Fetch JBMC Output</button>
+                <div className="button-group">
+                  <button onClick={() => setViewerMode("JSON")}>Show Normal JSON</button>
+                  <button onClick={() => setViewerMode("JBMC")}>Show JBMC JSON</button>
+                </div>
+              </div>
+
+              {viewerMode === "JBMC" && jbmcJson && (
+                <JsonViewer
+                  jsonData={jbmcJson}
+                  onElementClick={(updated) => console.log("JBMC JSON clicked:", updated)}
+                />
+              )}
+
+              {instrumentId && (
+                <div style={{ marginTop: "10px" }}>
+                  <MergedAssignmentsTable
+                    traceId={instrumentId}
+                    selectedVariable={selectedVariable}
+                  />
+                </div>
+              )}
+            </CollapsibleSection>
+
+            {/* Modular Actions Section */}
+            <CollapsibleSection title="Modular Actions" defaultOpen={true}>
+              <ModularActions
+                projectName="MyProject"
+                setJsonManager={(newManager) => {
+                  console.log("[WebsiteContainer] setJsonManager called:", newManager);
+                  setJsonManager(newManager);
+                }}
+                onVisualize={(json) => {
+                  console.log("[WebsiteContainer] onVisualize - got JSON:", json);
+                  setVisualizationJson(json);
+                }}
+                uploadedFiles={uploadedFiles}
               />
-            </div>
-          )}
-        </div>
+            </CollapsibleSection>
 
-        {/* Modular Actions Section */}
-        <div className="modular-actions-section">
-          <ModularActions
-            projectName="MyProject"
-            setJsonManager={(newManager) => {
-              console.log("[WebsiteContainer] setJsonManager called:", newManager);
-              setJsonManager(newManager);
-            }}
-            onVisualize={(json) => {
-              console.log("[WebsiteContainer] onVisualize - got JSON:", json);
-              setVisualizationJson(json);
-            }}
-            uploadedFiles={uploadedFiles}
-          />
-        </div>
+            {/* JSON Viewer Section with Tab Buttons */}
+            <CollapsibleSection title="Visualization Output" defaultOpen={true}>
+              <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+                <button
+                  className={viewerMode === "JSON" ? "active-tab" : ""}
+                  onClick={() => setViewerMode("JSON")}
+                >
+                  JSON
+                </button>
+                <button
+                  className={viewerMode === "METHOD" ? "active-tab" : ""}
+                  onClick={() => setViewerMode("METHOD")}
+                >
+                  Methods
+                </button>
+                <button
+                  className={viewerMode === "TRACE" ? "active-tab" : ""}
+                  onClick={() => setViewerMode("TRACE")}
+                >
+                  Trace
+                </button>
+                <button
+                  className={viewerMode === "STATIC" ? "active-tab" : ""}
+                  onClick={() => {
+                    setViewerMode("STATIC");
+                    fetchStaticMethods();
+                  }}
+                >
+                  Static Methods
+                </button>
+              </div>
 
-        {/* JSON Viewer Section with Tab Buttons */}
-        <div className="json-viewer-section">
-          <div style={{ display: "flex", gap: "10px", margin: "10px" }}>
-            <button onClick={() => setViewerMode("JSON")}>JSON</button>
-            <button onClick={() => setViewerMode("METHOD")}>Methods</button>
-            <button onClick={() => setViewerMode("TRACE")}>Trace</button>
-            <button
-              onClick={() => {
-                setViewerMode("STATIC");
-                fetchStaticMethods();
-              }}
-            >
-              Static Methods
-            </button>
-          </div>
+              {viewerMode === "JSON" && visualizationJson && (
+                <JsonViewer
+                  jsonData={visualizationJson}
+                  onElementClick={(updated) => console.log("JSON updated/clicked:", updated)}
+                />
+              )}
 
-          {viewerMode === "JSON" && visualizationJson && (
-            <JsonViewer
-              jsonData={visualizationJson}
-              onElementClick={(updated) =>
-                console.log("JSON updated/clicked:", updated)
-              }
-            />
-          )}
+              {viewerMode === "METHOD" && jsonManager && (
+                <MethodTreeView
+                  jsonManager={jsonManager}
+                  onSelectMethod={(nodeIndex) => {
+                    if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
+                    const methodNode = jsonManager.nodes[nodeIndex];
+                    if (methodNode.link && methodNode.link.file) {
+                      setActiveAndDisplayed(methodNode.link.file);
+                    }
+                    setActiveFunctionIndex(nodeIndex);
+                    console.log("User picked methodNode #", nodeIndex, methodNode);
+                    const initIters = jsonManager.initIterations(nodeIndex, []);
+                    setActiveIterationIndices(initIters);
+                  }}
+                  className="method-view-section"
+                />
+              )}
 
-          {viewerMode === "METHOD" && jsonManager && (
-            <MethodTreeView
-              jsonManager={jsonManager}
-              onSelectMethod={(nodeIndex) => {
-                if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
-                const methodNode = jsonManager.nodes[nodeIndex];
-                if (methodNode.link && methodNode.link.file) {
-                  setActiveAndDisplayed(methodNode.link.file);
-                }
-                setActiveFunctionIndex(nodeIndex);
-                console.log("User picked methodNode #", nodeIndex, methodNode);
-                const initIters = jsonManager.initIterations(nodeIndex, []);
-                setActiveIterationIndices(initIters);
-              }}
-              className="method-view-section"
-            />
-          )}
+              {viewerMode === "TRACE" && jsonManager && (
+                <TraceTree
+                  nodes={jsonManager.nodes}
+                  onSelectTraceNode={(node) => {
+                    if (node.link && node.link.file) {
+                      setActiveAndDisplayed(node.link.file);
+                    }
+                    highlightTraceNodeInEditor(node);
+                  }}
+                  hoveredTraceId={hoveredTraceId}
+                />
+              )}
 
-          {viewerMode === "TRACE" && jsonManager && (
-            <TraceTree
-              nodes={jsonManager.nodes}
-              onSelectTraceNode={(node) => {
-                if (node.link && node.link.file) {
-                  setActiveAndDisplayed(node.link.file);
-                }
-                highlightTraceNodeInEditor(node);
-              }}
-              hoveredTraceId={hoveredTraceId}
-            />
-          )}
-
-          {viewerMode === "STATIC" && staticMethodsJson && (
-            <JsonViewer
-              jsonData={staticMethodsJson}
-              onElementClick={(updated) =>
-                console.log("Static methods JSON updated/clicked:", updated)
-              }
-            />
-          )}
-        </div>
+              {viewerMode === "STATIC" && staticMethodsJson && (
+                <JsonViewer
+                  jsonData={staticMethodsJson}
+                  onElementClick={(updated) => console.log("Static methods JSON updated/clicked:", updated)}
+                />
+              )}
+            </CollapsibleSection>
+          </>
+        )}
       </div>
 
       {/* RIGHT COLUMN: Editor */}
@@ -281,8 +300,6 @@ function WebsiteContainer() {
           traceNodeToHighlight={traceNodeToHighlight}
           setTraceNodeToHighlight={setTraceNodeToHighlight}
           onHoverTraceId={handleHoverTraceId}
-          // NEW: Pass our line-click callback to the EditorManager so that when a user clicks on a line,
-          // EditorManager can call it with the current file and line number.
           onLineClick={handleLineClick}
           activeIterationIndices={activeIterationIndices}
           setActiveIterationIndices={setActiveIterationIndices}

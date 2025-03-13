@@ -78,6 +78,7 @@ body,
   flex-direction: row;
   height: calc(100% - 60px);
   overflow: hidden;
+  position: relative;
 }
 
 /* LEFT CONTAINER */
@@ -86,21 +87,125 @@ body,
   min-width: 240px;
   max-width: 400px;
   background: #1f1f3b;
-  transition: width 0.3s ease-in-out;
-  overflow-y: auto;
+  transition: all 0.3s ease;
+  overflow: hidden;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
 
-/* Collapsed left-container: now shrinks to 40px */
-.left-container.collapsed {
-  flex: 0 0 40px !important;
-  min-width: 40px !important;
-  overflow: hidden;
+/* Left container content wrapper (added change) */
+.left-container-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: visible;
 }
 
-/* Buttons in the left container */
-.left-container button {
+/* Collapsed left container */
+.left-container.collapsed {
+  flex: 0 0 10px !important;
+  min-width: 10px !important;
+  max-width: 10px !important;
+  overflow: hidden;
+  background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide content when collapsed */
+.left-container.collapsed .left-container-content {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Show content on hover when collapsed */
+.left-container.collapsed:hover {
+  flex: 0 0 18% !important;
+  min-width: 240px !important;
+  max-width: 400px !important;
+  background: #1f1f3b;
+  z-index: 15;
+}
+
+.left-container.collapsed:hover .left-container-content {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Toggle button styles */
+.left-container-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px !important;
+  height: 30px;
+  background-color: #32325A;
+  border: none !important;
+  border-radius: 50% !important;
+  color: #cde2ff;
+  cursor: pointer;
+  z-index: 20;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease;
+  opacity: 0;
+  padding: 0 !important;
+  text-align: center !important;
+  min-width: 30px !important;
+}
+
+/* Show toggle button on hover */
+.left-container:hover .left-container-toggle {
+  opacity: 1;
+}
+
+/* Position toggle button when collapsed */
+.left-container.collapsed .left-container-toggle {
+  right: -15px;
+  opacity: 0;
+}
+
+/* Show toggle button when hovering on collapsed container */
+.left-container.collapsed:hover .left-container-toggle {
+  opacity: 1;
+  right: 10px;
+}
+
+.left-container-toggle:hover {
+  background-color: #454575 !important;
+  transform: none !important;
+  padding-left: 0 !important;
+}
+
+/* Jump button styles */
+.jump-button {
+  background-color: #304060 !important;
+  margin-bottom: 15px !important;
+  border: 1px solid #445580 !important;
+  color: #00ffd1 !important;
+  font-weight: 600 !important;
+}
+
+.jump-button:hover {
+  background-color: #445580 !important;
+}
+
+/* Improved upload container */
+.upload-json-container {
+  margin-top: 20px;
+  padding: 8px;
+  background-color: rgba(42, 42, 80, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Regular buttons in the left container */
+.left-container button:not(.left-container-toggle) {
   background-color: #32325A;
   color: #cde2ff;
   border: 1px solid #444;
@@ -113,15 +218,16 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
-.left-container button:hover {
+.left-container button:not(.left-container-toggle):hover {
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
 }
 
-/* Folder tree container inside the left column */
+/* Folder tree container */
 .folder-tree-container {
   margin: 10px;
   overflow-y: auto;
+  max-height: calc(100vh - 300px);
 }
 
 /* MIDDLE CONTAINER */
@@ -131,8 +237,46 @@ body,
   flex-direction: column;
   overflow: hidden;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
-  transition: flex 0.3s ease;
+  transition: flex 0.3s ease, min-width 0.3s ease;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+/* Middle container collapsed state */
+.middle-container.collapsed {
+  flex: 0 0 10px !important;
+  min-width: 10px !important;
+  overflow: hidden;
+  background: linear-gradient(90deg, #1a1a2e, #242447);
+}
+
+/* Improved middle container toggle button - moved to top */
+.middle-container-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #242447;
+  border: none;
+  border-radius: 0 0 0 6px;
+  color: #cde2ff;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.middle-container-toggle:hover {
+  background-color: #454575;
+}
+
+.middle-container.collapsed .middle-container-toggle {
+  right: -30px; /* Position it outside when collapsed */
+  border-radius: 0 6px 6px 0;
 }
 
 /* JBMC / Modular actions section at top */
@@ -158,6 +302,14 @@ body,
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+/* Modular Actions Container */
+.modular-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5px;
+}
+
 /* JSON viewer section at bottom */
 .json-viewer-section {
   flex: 1;
@@ -176,6 +328,12 @@ body,
   position: relative;
   overflow: hidden;
   box-shadow: inset 0 0 10px #000;
+  transition: flex 0.3s ease;
+}
+
+/* Right container expands when middle is collapsed */
+.middle-container.collapsed + .right-container {
+  flex: 4;
 }
 
 /* Editor container for Monaco */
@@ -478,4 +636,125 @@ tbody tr:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #2affdf;
+}
+
+/* Form elements styling */
+.form-group {
+  margin: 10px 0;
+}
+
+.input-field {
+  background-color: #242447;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: #00ffd1;
+  outline: none;
+}
+
+.action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Active tab styling */
+.active-tab {
+  background-color: #00ffd1 !important;
+  color: #1a1a2e !important;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+/* Collapsible sections styling */
+.collapsible-section {
+  margin: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: rgba(42, 42, 66, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  background: linear-gradient(140deg, #24244b 0%, #32325A 100%);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.collapsible-header:hover {
+  background: linear-gradient(140deg, #32325A 0%, #454575 100%);
+}
+
+.collapsible-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00ffd1;
+}
+
+.collapse-icon {
+  color: #cde2ff;
+  font-size: 0.8rem;
+}
+
+.collapsible-content {
+  padding: 10px;
+}
+
+.collapsible-section.collapsed {
+  max-height: 38px; /* Header height */
+  transition: max-height 0.3s ease;
+}
+
+.collapsible-section.expanded {
+  max-height: 1000px; /* Arbitrary large value */
+  transition: max-height 0.3s ease;
+}
+
+/* Tab navigation styling */
+.tab-navigation {
+  display: flex;
+  gap: 2px;
+  background-color: #1a1a2e;
+  padding: 5px 5px 0;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 10px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  background-color: #32325A;
+  color: #cde2ff;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-button.active {
+  background-color: #00ffd1;
+  color: #1a1a2e;
+}
+
+.tab-content {
+  background-color: rgba(42, 42, 66, 0.3);
+  border-radius: 0 0 6px 6px;
+  padding: 10px;
 }
