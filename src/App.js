@@ -1,7 +1,7 @@
+
 import React, {useEffect, useRef} from 'react';
 import Navbar from "./WebsiteElements/Navbar";
 import WebsiteContainer from "./WebsiteContainer";
-
 /**
  * Observes Left/RightContainer for correct resizing. Prohibits sending too many requests to DOM, which causes a Runtime Error.
  */
@@ -16,7 +16,6 @@ const debounce = (func, wait) => {
         timeout = setTimeout(later, wait);
     };
 };
-
 /**
  * Represents the main application component in the React application.
  * This component initializes a content area with dynamic resize handling.
@@ -36,28 +35,20 @@ const debounce = (func, wait) => {
  */
 function App() {
     const contentRef = useRef(null);
-
     useEffect(() => {
-
         const handleResize = debounce(() => {
-
         }, 100);
-
         const observer = new ResizeObserver(handleResize);
         if (contentRef.current) {
             observer.observe(contentRef.current);
         }
-
         return () => observer.disconnect(); // Cleanup-Function and disconnects
     }, []);
-
    return (
        <div className="App">
          <Navbar />
            <WebsiteContainer />
-
        </div>
      );
 }
-
 export default App;

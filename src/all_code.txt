@@ -59,12 +59,10 @@ body,
   height: 100%;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-
   /* Dark gradient background for a futuristic vibe */
   background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
   color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
 }
-
 /* App container: top-level */
 .App {
   display: flex;
@@ -73,7 +71,6 @@ body,
   height: 100vh;
   overflow: hidden; /* Hide overflow beyond container */
 }
-
 /* NAVBAR */
 .nav {
   display: flex;
@@ -85,12 +82,10 @@ body,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   z-index: 2;
 }
-
 .nav--icon {
   height: 42px;
   margin-right: 15px;
 }
-
 /* Logo text */
 .nav--logo_text {
   margin-right: auto;
@@ -98,7 +93,6 @@ body,
   font-size: 1.3rem;
   color: #00ffd1; /* Neon teal accent */
 }
-
 /* Title or additional text (currently empty) */
 .nav--title {
   color: #a7f3d0;
@@ -106,7 +100,6 @@ body,
   margin-right: 20px;
   font-size: 1rem;
 }
-
 /* Help button */
 .nav--help-button {
   background-color: #00ffd1;
@@ -121,16 +114,15 @@ body,
 .nav--help-button:hover {
   background-color: #25ffe0;
 }
-
 /* CONTENT: columns container */
 .content {
   flex: 1;
   display: flex;
   flex-direction: row;
   height: calc(100% - 60px);
+  overflow: hidden;
   position: relative;
 }
-
 /* Left container base styles */
 .left-container {
   flex: 0 0 18%;
@@ -142,7 +134,6 @@ body,
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
-
 /* Left container content wrapper */
 .left-container-content {
   display: flex;
@@ -153,7 +144,6 @@ body,
   transition: opacity 0.3s ease, visibility 0.3s ease;
   visibility: visible;
 }
-
 /* Collapsed left container */
 .left-container.collapsed {
   flex: 0 0 10px !important;
@@ -162,14 +152,12 @@ body,
   background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
 }
-
 /* Hide content when collapsed */
 .left-container.collapsed .left-container-content {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
 /* Show content on hover when collapsed */
 .left-container.collapsed:hover {
   flex: 0 0 18% !important;
@@ -178,13 +166,11 @@ body,
   background: #1f1f3b;
   z-index: 15;
 }
-
 .left-container.collapsed:hover .left-container-content {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-
 /* Toggle button styles */
 .left-container-toggle {
   position: absolute;
@@ -208,30 +194,25 @@ body,
   min-width: 30px !important;
   width: 30px !important;
 }
-
 /* Show toggle button on hover */
 .left-container:hover .left-container-toggle {
   opacity: 1;
 }
-
 /* Position toggle button when collapsed */
 .left-container.collapsed .left-container-toggle {
   right: -15px;
   opacity: 0;
 }
-
 /* Show toggle button when hovering on collapsed container */
 .left-container.collapsed:hover .left-container-toggle {
   opacity: 1;
   right: 10px;
 }
-
 .left-container-toggle:hover {
   background-color: #454575 !important;
   transform: none !important;
   padding-left: 0 !important;
 }
-
 /* Jump button styles */
 .jump-button {
   background-color: #304060 !important;
@@ -240,11 +221,9 @@ body,
   color: #00ffd1 !important;
   font-weight: 600 !important;
 }
-
 .jump-button:hover {
   background-color: #445580 !important;
 }
-
 /* Improved upload container */
 .upload-json-container {
   margin-top: 20px;
@@ -274,35 +253,29 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
-
 .left-container button:not(.left-container-toggle):hover {
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
 }
-
 /* Folder tree container */
 .folder-tree-container {
   margin: 10px 0;
   overflow-y: auto;
   max-height: calc(100vh - 300px);
 }
-
 /* MIDDLE CONTAINER */
 .middle-container {
- flex: 2;
-   display: flex;
-   flex-direction: column;
-   max-height: calc(100vh - 60px); /* This is good */
-   height: calc(100vh - 60px); /* Adding explicit height */
-   overflow-y: auto;
-   overflow-x: hidden;
-   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
-   transition: flex 0.3s ease, min-width 0.3s ease;
-   border-right: 2px solid rgba(255, 255, 255, 0.06);
-   position: relative;
-   padding: 0 0 20px 0;
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
+  transition: flex 0.3s ease, min-width 0.3s ease;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  padding-right: 0;
 }
-
 /* Middle container collapsed state */
 .middle-container.collapsed {
   flex: 0 0 10px !important;
@@ -310,7 +283,6 @@ body,
   overflow: hidden;
   background: linear-gradient(90deg, #1a1a2e, #242447);
 }
-
 /* Improved middle container toggle button positioning */
 .middle-container-toggle {
   position: absolute;
@@ -333,17 +305,14 @@ body,
   padding: 0;
   font-size: 16px;
 }
-
 .middle-container-toggle:hover {
   background-color: #454575;
   color: #00ffd1;
 }
-
 /* Fix toggle icon when collapsed */
 .middle-container.collapsed .middle-container-toggle {
   right: -14px; /* Keep it at the same position */
 }
-
 /* Let toggle button overlap with right container */
 .right-container {
   flex: 3;
@@ -358,12 +327,10 @@ body,
   padding-left: 14px; /* Padding to prevent content being hidden */
   z-index: 10; /* Lower than toggle button */
 }
-
 /* Right container expands when middle is collapsed */
 .middle-container.collapsed + .right-container {
   flex: 4;
 }
-
 /* Editor container for Monaco */
 .editor-container {
   flex: 1;
@@ -372,7 +339,6 @@ body,
   position: relative;
   overflow: hidden;
 }
-
 /* JBMC / Modular actions section at top */
 .jbmc-section {
   background-color: rgba(34, 255, 173, 0.07);
@@ -384,18 +350,16 @@ body,
   max-height: 200px;
   overflow-y: auto;
 }
-
 /* The modular actions section */
 .modular-actions-section {
   background: rgba(42, 42, 66, 0.5);
   margin: 10px;
-
+  flex: 1;
   border-radius: 8px;
   overflow-y: auto; /* Let it scroll if large */
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
 /* Modular Actions Container */
 .modular-actions-container {
   display: flex;
@@ -403,20 +367,14 @@ body,
   gap: 15px;
   padding: 5px;
 }
-
 /* JSON viewer section at bottom */
 .json-viewer-section {
-  background: rgba(42, 42, 66, 0.5);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
   margin: 10px;
-  /* Remove or adjust flex: 1 if it's forcing a height */
-  /* flex: 1; */
-  min-height: 0;
-  border-radius: 8px;
-  overflow-y: auto; /* Allows scrolling if content is large */
-  padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
 /* JSON VIEWER STYLES */
 .json-viewer {
   background-color: rgba(24, 24, 47, 0.8);
@@ -435,7 +393,6 @@ body,
   background-color: #1a1a2f;
   border-radius: 4px;
 }
-
 /* Download button inside the JSON viewer */
 .download-button {
   margin-top: 10px;
@@ -450,7 +407,6 @@ body,
 .download-button:hover {
   background-color: #2affdf;
 }
-
 /* TABLES: MergedAssignments etc. */
 .merged-assignments-container {
   max-height: 240px; /* limit table's height so it can scroll */
@@ -479,7 +435,6 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background-color: rgba(0, 255, 209, 0.15);
 }
-
 /* Buttons inside the middle container sections */
 .jbmc-section button {
   background-color: #32325A;
@@ -510,7 +465,6 @@ tbody tr:hover {
   background-color: #454575;
   transform: translateX(3px);
 }
-
 /* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
 .inactive {
   background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
@@ -536,7 +490,6 @@ tbody tr:hover {
 .one-line {
   content: url('../Images/oneLine.png');
 }
-
 /* Additional popup styling (if used) */
 .popup {
   position: absolute;
@@ -547,7 +500,6 @@ tbody tr:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.5);
   z-index: 1000;
 }
-
 /* MONACO TOKEN COLORS OVERRIDES */
 .monaco-editor.token.keyword {
   color: #FFC1F3 !important; /* Pastel pink for keywords */
@@ -584,7 +536,6 @@ tbody tr:hover {
   background-color: #FF5370 !important;
   color: #FFF !important;
 }
-
 /* MONACO EDITOR HOVER */
 .monaco-editor .monaco-editor-hover {
   z-index: 1000;
@@ -598,7 +549,6 @@ tbody tr:hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   padding: 8px;
 }
-
 /* Modal styling (Help, etc.) */
 .modal-container {
   max-width: 600px;
@@ -625,7 +575,6 @@ tbody tr:hover {
 .modal {
   /* If you need to style the overall modal container from ReactModal, do it here */
 }
-
 /* Buttons used in the top left area (like "Upload") */
 .upload-button-container,
 .reset-button-container {
@@ -647,7 +596,6 @@ tbody tr:hover {
 .picker:hover {
   background-color: #454575;
 }
-
 /* TRACE TREE STYLES */
 .trace-tree-container {
   margin: 10px;
@@ -673,7 +621,6 @@ tbody tr:hover {
   background-color: rgba(0, 255, 209, 0.15);
   padding-left: 8px;
 }
-
 /* METHOD VIEW SECTION */
 .method-view-section {
   margin: 10px;
@@ -698,14 +645,12 @@ tbody tr:hover {
   border-radius: 4px;
   font-size: 0.9rem;
 }
-
 /* HIGHLIGHTED METHODS OR TRACE NODES */
 .trace-tree-clickable.highlight,
 .highlighted-method {
   background-color: rgba(0, 255, 209, 0.25);
   border-radius: 3px;
 }
-
 /* ---------- SCROLLBAR STYLING (optional) --------- */
 ::-webkit-scrollbar {
   width: 8px;
@@ -720,12 +665,10 @@ tbody tr:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: #2affdf;
 }
-
 /* Form elements styling */
 .form-group {
   margin: 10px 0;
 }
-
 .input-field {
   background-color: #242447;
   color: #cde2ff;
@@ -736,36 +679,31 @@ tbody tr:hover {
   max-width: 300px;
   transition: border-color 0.2s;
 }
-
 .input-field:focus {
   border-color: #00ffd1;
   outline: none;
 }
-
 .action-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 /* Active tab styling */
 .active-tab {
   background-color: #00ffd1 !important;
   color: #1a1a2e !important;
 }
-
 /* Button group */
 .button-group {
   display: flex;
   gap: 8px;
   margin: 10px 0;
 }
-
 /* Collapsible sections styling */
 .collapsible-section {
- margin: 10px;
+  margin: 10px;
   border-radius: 8px;
-  overflow: visible; /* Changed from hidden to allow content to scroll in container */
+  overflow: hidden;
   transition: all 0.3s ease;
   background: rgba(42, 42, 66, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -773,7 +711,6 @@ tbody tr:hover {
   flex-direction: column;
   max-height: unset;
 }
-
 .collapsible-header {
   display: flex;
   justify-content: space-between;
@@ -783,169 +720,32 @@ tbody tr:hover {
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .collapsible-header:hover {
   background: linear-gradient(140deg, #32325A 0%, #454575 100%);
 }
-
 .collapsible-header h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: #00ffd1;
 }
-
 .collapse-icon {
   color: #cde2ff;
   font-size: 0.8rem;
 }
-/* NewWelcomeScreen.css */
-
-.welcome-screen {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: #0f0f1f;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: #e8f5ff;
-}
-
-/* Subtle gradient overlay animation */
-.welcome-screen__overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(45% 45% at 30% 30%, rgba(0,255,209, 0.2), transparent 70%),
-              radial-gradient(60% 60% at 70% 60%, rgba(30, 144, 255, 0.2), transparent 80%),
-              radial-gradient(40% 40% at 80% 10%, rgba(180, 0, 255, 0.3), transparent 70%);
-  animation: moveGradient 12s ease-in-out infinite alternate;
-  z-index: 1;
-}
-
-/* Animate the radial gradients */
-@keyframes moveGradient {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-5%, -5%, 0);
-  }
-}
-
-/* The content container */
-.welcome-screen__content {
-  position: relative;
-  z-index: 2;
-  max-width: 500px;
-  text-align: center;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  background-color: rgba(26, 26, 46, 0.75);
-}
-
-/* Title style */
-.welcome-screen__title {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #00ffd1;
-  text-shadow: 0 0 8px rgba(0, 255, 209, 0.5);
-}
-
-/* Subtitle */
-.welcome-screen__subtitle {
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-  color: #b0fdf6;
-  line-height: 1.4;
-}
-
-/* Form and inputs */
-.welcome-screen__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.welcome-screen__label {
-  margin-bottom: 0.5rem;
-  color: #aaa;
-}
-
-.welcome-screen__input {
-  padding: 0.6rem 1rem;
-  border: 1px solid #444;
-  border-radius: 4px;
-  background-color: #1a1a2f;
-  color: #cde2ff;
-  min-width: 260px;
-  text-align: center;
-}
-.welcome-screen__input:focus {
-  outline: none;
-  border-color: #00ffd1;
-}
-
-/* Buttons */
-.welcome-screen__buttons {
-  display: flex;
-  gap: 0.8rem;
-}
-
-/* Reusable "neon" button classes */
-.btn {
-  cursor: pointer;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  transition: box-shadow 0.3s, transform 0.3s;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-/* Neon style variations */
-.btn.neon {
-  background-color: #00ffd1;
-  color: #0f0f1f;
-  box-shadow: 0 0 8px rgba(0, 255, 209, 0.5);
-}
-.btn.neon:hover {
-  box-shadow: 0 0 12px rgba(0, 255, 209, 0.8);
-}
-
-.btn.neon-green {
-  background-color: #57ff89;
-  color: #0f0f1f;
-  box-shadow: 0 0 8px rgba(87, 255, 137, 0.5);
-}
-.btn.neon-green:hover {
-  box-shadow: 0 0 12px rgba(87, 255, 137, 0.8);
-}
-
 .collapsible-content {
- padding: 10px;
-   overflow-y: visible;
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
 }
-
 .collapsible-section.collapsed {
   max-height: 38px; /* Header height */
   transition: max-height 0.3s ease;
 }
-
 .collapsible-section.expanded {
   max-height: 1000px; /* Arbitrary large value */
   transition: max-height 0.3s ease;
 }
-
 /* Tab navigation styling */
 .tab-navigation {
   display: flex;
@@ -955,7 +755,6 @@ tbody tr:hover {
   border-radius: 6px 6px 0 0;
   margin-bottom: 10px;
 }
-
 .tab-button {
   padding: 8px 16px;
   background-color: #32325A;
@@ -965,18 +764,15 @@ tbody tr:hover {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .tab-button.active {
   background-color: #00ffd1;
   color: #1a1a2e;
 }
-
 .tab-content {
   background-color: rgba(42, 42, 66, 0.3);
   border-radius: 0 0 6px 6px;
   padding: 10px;
 }
-
 /* Additional scrolling improvements for sections */
 .jbmc-section,
 .modular-actions-section,
@@ -988,13 +784,11 @@ tbody tr:hover {
   max-height: calc(100vh - 200px);
   scrollbar-width: thin; /* For Firefox */
 }
-
 /* Additional helper class for toggle button content */
 .toggle-icon {
   font-size: 12px;
   font-weight: bold;
-}
-===== ./index.js =====
+}===== ./index.js =====
 // Imports the React module.
 import React from 'react';
 
@@ -1224,9 +1018,9 @@ MethodTreeView.propTypes = {
   onSelectMethod: PropTypes.func.isRequired,
   className: PropTypes.string,
 };===== ./WebsiteElements/ReadmeModal.js =====
+};===== ./WebsiteElements/ReadmeModal.js =====
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
-
 /**
  * Defines a modal component that displays readme or help information to the user.
  * This functional component renders a modal dialog containing a title and a message
@@ -1265,17 +1059,13 @@ export default function ReadmeModal({closeModal}) {
         <div key={4}><b> Navigation: </b>
             <p> You can use the <b>directory bar</b> on the left side to open all the Java files in your project. </p>
             <p> If you want to jump back to the file with the function currently visualized you can use the <b>Jump-to-active-function-button</b>, it will open the file for you and display the function.</p> </div>];
-
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const handleBack = () => {
         setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
-
     const handleNext = () => {
         setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, content.length - 1));
     };
-
     return (
         <div className="modal-container">
             <button className="modal-close-button" onClick={closeModal}>
@@ -1299,7 +1089,8 @@ export default function ReadmeModal({closeModal}) {
 }
     ReadmeModal.propTypes = {
         closeModal: PropTypes.instanceOf(Function)
-    };===== ./WebsiteElements/Navbar.js =====
+    };
+===== ./WebsiteElements/Navbar.js =====
 // src/WelcomeScreen.js
 import React, { useState } from "react";
 
@@ -1458,10 +1249,8 @@ JsonViewer.propTypes = {
 export default JsonViewer;===== ./WebsiteElements/CollapsibleSection.js =====
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 const CollapsibleSection = ({ title, defaultOpen = true, className = '', children }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-
   return (
     <div className={`collapsible-section ${className} ${isOpen ? 'expanded' : 'collapsed'}`}>
       <div className="collapsible-header" onClick={() => setIsOpen(!isOpen)}>
@@ -1472,14 +1261,12 @@ const CollapsibleSection = ({ title, defaultOpen = true, className = '', childre
     </div>
   );
 };
-
 CollapsibleSection.propTypes = {
   title: PropTypes.string.isRequired,
   defaultOpen: PropTypes.bool,
   className: PropTypes.string,
   children: PropTypes.node
 };
-
 export default CollapsibleSection;===== ./WebsiteElements/StaticMethodsView.js =====
 // StaticMethodsView.js
 import React, { useEffect, useState } from 'react';
@@ -1572,135 +1359,113 @@ TraceTree.propTypes = {
   onSelectTraceNode: PropTypes.func.isRequired,
   hoveredTraceId: PropTypes.string,
 };===== ./WebsiteElements/DirectoryBar.js =====
+// DirectoryBar.js
 import React, { useEffect, useState } from 'react';
 import FolderTree from 'react-folder-tree';
 import 'react-folder-tree/dist/style.css';
 import "../Css/App.css";
 import PropTypes from "prop-types";
-
 /**
- * Left-side component for uploading a Java folder and optionally a JSON file.
- * There's no direct display of project ID here; we rely on the parent's single
- * "Project ID" field.
+ * Represents the left component that displays a folder tree of Java files.
+ * Files are uploaded into a project-specific folder (resources/in/project-[projectId]).
+ * The projectId is passed as a prop.
  */
-function DirectoryBar({
-  setDisplayedFile,
-  setDisplayedToActive,
-  passOnUploadedFiles,
-  passOnJsonData,
-  projectId
-}) {
+function DirectoryBar({ setDisplayedFile, setDisplayedToActive, passOnUploadedFiles, passOnJsonData, projectId }) {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [folderTreeData, setFolderTreeData] = useState(null);
   const [isLeftContainerCollapsed, setIsLeftContainerCollapsed] = useState(false);
-
-  // Called when user picks a local folder containing .java files
+  const [uploadedJsonFile, setUploadedJsonFile] = useState(null);
+  // Handle file upload and build folder tree
   const handleFileUpload = (event) => {
     const filteredFiles = Array.from(event.target.files).filter(file =>
       file.webkitRelativePath.endsWith('.java')
     );
     setUploadedFiles(filteredFiles);
-
     if (filteredFiles.length > 0) {
-      const folderName = filteredFiles[0].webkitRelativePath.split('/')[0];
-      const treeData = buildFolderTree(filteredFiles, folderName);
+      const directoryName = filteredFiles[0].webkitRelativePath.split('/')[0];
+      const treeData = buildFolderTree(filteredFiles, directoryName);
       setFolderTreeData(treeData);
     }
   };
-
-  // Build a "folder tree" data structure for FolderTree
-  const buildFolderTree = (fileList, rootFolderName) => {
-    const root = { name: rootFolderName, isOpen: true, children: [] };
+  const buildFolderTree = (fileList, directoryName) => {
+    const root = { name: directoryName, isOpen: true, children: [] };
     let i = 0;
-
-    fileList.forEach((file) => {
-      const pathParts = file.webkitRelativePath.split('/');
+    fileList.forEach(file => {
+      const splitPath = file.webkitRelativePath.split('/');
       let currentLevel = root;
-
-      pathParts.forEach((part, idx) => {
-        if (idx > 0) {
+      splitPath.forEach((part, index) => {
+        if (index > 0) {
           const nodeName = part.replace('.java', '');
-          let existing = currentLevel.children.find(child => child.name === nodeName);
-          const isDirectory = idx < pathParts.length - 1;
-
-          if (!isDirectory && !existing) {
-            existing = {
+          let existingNode = currentLevel.children.find(child => child.name === nodeName);
+          const isDirectory = index < splitPath.length - 1;
+          if (!isDirectory && !existingNode) {
+            existingNode = {
               name: nodeName,
               realPath: file.webkitRelativePath,
               index: i,
-              children: undefined,
+              children: isDirectory ? [] : undefined
             };
-            currentLevel.children.push(existing);
             i++;
-          } else if (!existing) {
-            existing = { name: nodeName, children: [] };
-            currentLevel.children.push(existing);
+            currentLevel.children.push(existingNode);
+          } else if (!existingNode) {
+            existingNode = { name: nodeName, children: isDirectory ? [] : undefined };
+            currentLevel.children.push(existingNode);
           }
-          currentLevel = existing;
+          currentLevel = existingNode;
         }
       });
     });
-
     return root;
   };
-
-  // Toggle the collapsed/expanded state of the left container
   const toggleLeftContainer = () => {
     setIsLeftContainerCollapsed(!isLeftContainerCollapsed);
   };
-
-  // When user clicks on a node (file) in FolderTree
+  // When a file node is clicked, set it as the displayed file
   const onNameClick = ({ nodeData }) => {
     const { realPath, index } = nodeData;
     if (realPath != null) {
       setDisplayedFile(uploadedFiles[index]);
     }
   };
-
-  // Handle JSON file upload
+  // Handle JSON file upload (for uploading processed JSON, etc.)
   const handleJsonFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
+      setUploadedJsonFile(file);
       uploadJsonFileToBackend(file);
     }
   };
-
-  // POST the JSON file to the server
   const uploadJsonFileToBackend = async (file) => {
     if (!projectId) {
-      alert("Please enter a Project ID before uploading JSON files");
+      alert('Please enter a Project ID before uploading JSON files');
       return;
     }
-
     const formData = new FormData();
     formData.append('jsonFile', file);
     formData.append('projectId', projectId);
-
     try {
-      const res = await fetch('/api/upload-json', {
+      const response = await fetch('/api/upload-json', {
         method: 'POST',
         body: formData,
       });
-      if (!res.ok) {
-        alert("Error uploading JSON file.");
-        return;
+      if (response.ok) {
+        const jsonData = await response.json();
+        passOnJsonData(jsonData);
+        alert('JSON file successfully uploaded!');
+      } else {
+        alert('Error uploading JSON file.');
       }
-      const jsonData = await res.json();
-      passOnJsonData(jsonData);
-      alert("JSON file successfully uploaded!");
     } catch (error) {
-      console.error("Error uploading JSON file:", error);
-      alert("An unexpected error occurred.");
+      console.error('Error uploading JSON file:', error);
+      alert('An unexpected error occurred.');
     }
   };
-
-  // If `uploadedFiles` changes, pass them upward
+  // When uploadedFiles change, pass them upward
   useEffect(() => {
     if (uploadedFiles.length > 0) {
       passOnUploadedFiles(uploadedFiles);
     }
-  }, [uploadedFiles, passOnUploadedFiles]);
-
+  }, [uploadedFiles]);
   return (
     <main className={`left-container ${isLeftContainerCollapsed ? 'collapsed' : ''}`}>
       <button
@@ -1710,13 +1475,14 @@ function DirectoryBar({
       >
         {isLeftContainerCollapsed ? '►' : '◄'}
       </button>
-
       <div className="left-container-content">
         <button onClick={setDisplayedToActive} className="jump-button">
           Jump to active function
         </button>
-
-        {/* Only a hidden input for projectId is used by the forms */}
+        {/* Display current project ID */}
+        <div className="project-id-display">
+          Project ID: {projectId || 'Not set'}
+        </div>
         <div className="upload-button-container">
           <form id="upload-form" className="text-box" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={projectId || ''} />
@@ -1730,7 +1496,6 @@ function DirectoryBar({
             />
           </form>
         </div>
-
         <div className="upload-json-container">
           <form id="json-upload-form" encType="multipart/form-data">
             <input type="hidden" name="projectId" value={projectId || ''} />
@@ -1743,7 +1508,6 @@ function DirectoryBar({
             />
           </form>
         </div>
-
         {folderTreeData && (
           <div className="folder-tree-container">
             <FolderTree
@@ -1759,16 +1523,15 @@ function DirectoryBar({
     </main>
   );
 }
-
 DirectoryBar.propTypes = {
   setDisplayedFile: PropTypes.func.isRequired,
   setDisplayedToActive: PropTypes.func.isRequired,
   passOnUploadedFiles: PropTypes.func.isRequired,
   passOnJsonData: PropTypes.func.isRequired,
-  projectId: PropTypes.string,
+  projectId: PropTypes.string
 };
-
-export default DirectoryBar;===== ./WebsiteElements/MergedAssignmentsTable.js =====
+export default DirectoryBar;
+===== ./WebsiteElements/MergedAssignmentsTable.js =====
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
@@ -1923,10 +1686,8 @@ export default function HelpButton() {
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import CollapsibleSection from './WebsiteElements/CollapsibleSection';
-
-function ModularActions({ setJsonManager, projectName, onVisualize }) {
-  // Local state variables, including the sole source for project ID
-  const [localProjectId, setLocalProjectId] = useState("");
+function ModularActions({ setJsonManager, projectName, projectId, setProjectId, onVisualize, uploadedFiles }) {
+  // State variables
   const [instrumentId, setInstrumentId] = useState("");
   const [traceId, setTraceId] = useState("");
   const [processedTracePath, setProcessedTracePath] = useState("");
@@ -1935,13 +1696,21 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
   const [jbmcUnwind, setJbmcUnwind] = useState(5);
   const [jbmcArrayLength, setJbmcArrayLength] = useState(5);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Project ID is now solely managed via local state based on user input.
+  // Project ID can be updated directly in ModularActions too
+  const [localProjectId, setLocalProjectId] = useState(projectId);
+  // Update local state when parent prop changes
+  React.useEffect(() => {
+    setLocalProjectId(projectId);
+  }, [projectId]);
+  // Update parent when local state changes
   const handleProjectIdChange = (e) => {
-    setLocalProjectId(e.target.value);
+    const newProjectId = e.target.value;
+    setLocalProjectId(newProjectId);
+    if (setProjectId) {
+      setProjectId(newProjectId);
+    }
   };
-
-  // Instrument: Uses the project ID from the input field.
+  // Instrument code with project ID support
   const handleInstrument = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before instrumenting");
@@ -1950,7 +1719,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `/api/instrument?projectName=${encodeURIComponent(projectName)}&projectId=${encodeURIComponent(localProjectId)}`,
+        `/api/instrument?projectName=${encodeURIComponent(projectName)}&projectId=${localProjectId}`,
         { method: "POST" }
       );
       if (!response.ok) {
@@ -1958,16 +1727,17 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
         throw new Error(`Instrumentation failed: ${errorText}`);
       }
       const idText = await response.text();
+      console.log(`Instrumentation successful for project ${localProjectId}, received ID: ${idText}`);
       setInstrumentId(idText.trim());
       alert("Instrument ID: " + idText);
     } catch (error) {
+      console.error("Error instrumenting project:", error);
       alert("Instrumentation failed: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Trace: Reads the project ID from the local input.
+  // Trace code with project ID support
   const handleTrace = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before tracing");
@@ -1979,25 +1749,25 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `/api/trace?instrumentId=${encodeURIComponent(instrumentId)}&projectId=${encodeURIComponent(localProjectId)}`,
-        { method: "POST" }
-      );
+      const response = await fetch(`/api/trace?instrumentId=${instrumentId}&projectId=${localProjectId}`, {
+        method: "POST"
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Trace run failed: ${errorText}`);
       }
       const idText = await response.text();
+      console.log(`Trace successful for project ${localProjectId}, received ID: ${idText}`);
       setTraceId(idText.trim());
       alert("Trace ID: " + idText);
     } catch (error) {
+      console.error("Error running trace:", error);
       alert("Trace run failed: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Process: Uses the same local project ID.
+  // Process trace with project ID support
   const handleProcess = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before processing");
@@ -2009,25 +1779,25 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
     setIsLoading(true);
     try {
-      const response = await fetch(
-        `/api/process?traceId=${encodeURIComponent(traceId)}&projectId=${encodeURIComponent(localProjectId)}`,
-        { method: "POST" }
-      );
+      const response = await fetch(`/api/process?traceId=${traceId}&projectId=${localProjectId}`, {
+        method: "POST"
+      });
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Processing failed: ${errorText}`);
       }
       const resultText = await response.text();
+      console.log(`Processing successful for project ${localProjectId}, received ID: ${resultText}`);
       setProcessedTracePath(resultText.trim());
       alert("Processed trace stored locally under ID: " + resultText);
     } catch (error) {
+      console.error("Error processing trace:", error);
       alert("Processing failed: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Visualize: Again, the request uses the project ID from the input.
+  // Visualize trace with project ID support
   const handleVisualize = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before visualizing");
@@ -2039,14 +1809,14 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     }
     setIsLoading(true);
     try {
-      const resp = await fetch(
-        `/api/visualize/${encodeURIComponent(processedTracePath)}?projectId=${encodeURIComponent(localProjectId)}`
-      );
+      const localId = processedTracePath;
+      const resp = await fetch(`/api/visualize/${localId}?projectId=${localProjectId}`);
       if (!resp.ok) {
         const errorText = await resp.text();
         throw new Error(`Visualization failed: ${errorText}`);
       }
       const data = await resp.json();
+      console.log(`Visualization successful for project ${localProjectId}, received data:`, data);
       setVisualizationJson(data);
       if (onVisualize) {
         onVisualize(data);
@@ -2054,13 +1824,13 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
       const { default: JsonManager } = await import("./Editor/JsonManager.js");
       setJsonManager(new JsonManager(data));
     } catch (error) {
+      console.error("Error visualizing trace JSON:", error);
       alert("Visualization failed: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
-  // Run JBMC: Uses the project ID from the input field.
+  // Run JBMC with project ID support
   const handleRunJBMC = async () => {
     if (!localProjectId) {
       alert("Please enter a Project ID before running JBMC");
@@ -2073,7 +1843,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     setIsLoading(true);
     try {
       const params = new URLSearchParams({
-        instrumentId: instrumentId,
+        instrumentId,
         methodSignature: jbmcMethodSig,
         unwind: jbmcUnwind,
         maxArray: jbmcArrayLength,
@@ -2084,14 +1854,15 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
         const errText = await resp.text();
         throw new Error(`JBMC run failed: ${errText}`);
       }
+      console.log(`JBMC run successful for project ${localProjectId}`);
       alert("JBMC run succeeded! Check /api/jbmc/result/<instrumentId> or the UI below.");
     } catch (error) {
+      console.error("Error running JBMC:", error);
       alert("JBMC error: " + error.message);
     } finally {
       setIsLoading(false);
     }
   };
-
   // Download visualization JSON
   const handleDownloadJson = () => {
     if (!visualizationJson) return;
@@ -2104,7 +1875,6 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     a.click();
     URL.revokeObjectURL(url);
   };
-
   return (
     <div className="modular-actions-container">
       {/* Project ID input field */}
@@ -2128,21 +1898,19 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           New Project
         </button>
       </div>
-
       {/* Loading indicator */}
       {isLoading && (
         <div className="loading-indicator">
           Processing request...
         </div>
       )}
-
-      {/* Instrument & Trace Section */}
-      <CollapsibleSection title="Instrument & Trace" defaultOpen={false}>
+      {/* Instrument Section */}
+      <CollapsibleSection title="Instrument & Trace" defaultOpen={true}>
         <div className="action-group">
           <button onClick={handleInstrument} disabled={isLoading}>Instrument</button>
           <div className="form-group">
             <label>
-              Instrument ID:
+              Instrument ID:{" "}
               <input
                 type="text"
                 value={instrumentId}
@@ -2155,7 +1923,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           <button onClick={handleTrace} disabled={isLoading}>Trace</button>
           <div className="form-group">
             <label>
-              Trace ID (local path):
+              Trace ID (local path):{" "}
               <input
                 type="text"
                 value={traceId}
@@ -2167,13 +1935,12 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           </div>
         </div>
       </CollapsibleSection>
-
-      {/* JBMC Parameters Section */}
+      {/* JBMC Subsection */}
       <CollapsibleSection title="JBMC Parameters" defaultOpen={false}>
         <div className="action-group">
           <div className="form-group">
             <label>
-              Instrument ID:
+              Instrument ID:{" "}
               <input
                 type="text"
                 value={instrumentId}
@@ -2186,7 +1953,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           </div>
           <div className="form-group">
             <label>
-              Method Signature:
+              Method Signature:{" "}
               <input
                 type="text"
                 value={jbmcMethodSig}
@@ -2198,7 +1965,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           </div>
           <div className="form-group">
             <label>
-              Unwind:
+              Unwind:{" "}
               <input
                 type="number"
                 value={jbmcUnwind}
@@ -2210,7 +1977,7 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           </div>
           <div className="form-group">
             <label>
-              Max Array Length:
+              Max Array Length:{" "}
               <input
                 type="number"
                 value={jbmcArrayLength}
@@ -2223,14 +1990,13 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
           <button onClick={handleRunJBMC} disabled={isLoading}>Run JBMC</button>
         </div>
       </CollapsibleSection>
-
       {/* Process & Visualize Section */}
-      <CollapsibleSection title="Process & Visualize" defaultOpen={false}>
+      <CollapsibleSection title="Process & Visualize" defaultOpen={true}>
         <div className="action-group">
           <button onClick={handleProcess} disabled={isLoading}>Process</button>
           <div className="form-group">
             <label>
-              Processed Trace Path (local ID):
+              Processed Trace Path (local ID):{" "}
               <input
                 type="text"
                 value={processedTracePath}
@@ -2251,91 +2017,71 @@ function ModularActions({ setJsonManager, projectName, onVisualize }) {
     </div>
   );
 }
-
 ModularActions.propTypes = {
   projectName: PropTypes.string.isRequired,
+  projectId: PropTypes.string,
+  setProjectId: PropTypes.func,
   setJsonManager: PropTypes.func.isRequired,
   onVisualize: PropTypes.func,
+  uploadedFiles: PropTypes.array
 };
+export default ModularActions;
+===== ./App.js =====
 
-export default ModularActions;===== ./WelcomeScreen.js =====
-import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-
+import React, {useEffect, useRef} from 'react';
+import Navbar from "./WebsiteElements/Navbar";
+import WebsiteContainer from "./WebsiteContainer";
 /**
- * A redesigned welcome screen for ProRunVis (or any other project).
- * Features:
- *  - Animated background overlay (optional)
- *  - Large neon-styled title
- *  - Reworked project ID input box + new project button
+ * Observes Left/RightContainer for correct resizing. Prohibits sending too many requests to DOM, which causes a Runtime Error.
  */
-export default function WelcomeScreen() {
-  const [typedProjectId, setTypedProjectId] = useState("");
-
-  useEffect(() => {
-    // (Optional) Run any side-effects or load data needed before user logs in/opens a project
-  }, []);
-
-  const handleOpenProject = () => {
-    if (!typedProjectId) {
-      alert("Please enter a project ID or choose 'Create New Project'");
-      return;
-    }
-    window.location.href = `/?projectId=${encodeURIComponent(typedProjectId)}`;
-  };
-
-  const handleNewProject = () => {
-    const newId = uuidv4();
-    window.location.href = `/?projectId=${encodeURIComponent(newId)}`;
-  };
-
-  return (
-    <div className="welcome-screen">
-      {/* Animated overlay (for a subtle gradient animation) */}
-      <div className="welcome-screen__overlay" />
-
-      <div className="welcome-screen__content">
-        <h1 className="welcome-screen__title">ProRunVis</h1>
-        <p className="welcome-screen__subtitle">
-          Visualize and analyze your Java projects with ease.
-        </p>
-
-        <div className="welcome-screen__form">
-          <label htmlFor="project-input" className="welcome-screen__label">
-            Enter an existing Project ID:
-          </label>
-          <input
-            id="project-input"
-            type="text"
-            placeholder="e.g. 123e4567"
-            value={typedProjectId}
-            onChange={(e) => setTypedProjectId(e.target.value)}
-            className="welcome-screen__input"
-          />
-
-          <div className="welcome-screen__buttons">
-            <button onClick={handleOpenProject} className="btn neon">
-              Open Project
-            </button>
-            <button onClick={handleNewProject} className="btn neon-green">
-              Create New Project
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}===== ./App.js =====
-// In your main App or any place you wish to display it
-import React from "react";
-import NewWelcomeScreen from "./WelcomeScreen";
-import "./Css/App.css"; // if separated
-
-export default function App() {
-  return (
-    <NewWelcomeScreen />
-  );
-}===== ./Editor/EditorManager.js =====
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+/**
+ * Represents the main application component in the React application.
+ * This component initializes a content area with dynamic resize handling.
+ * It utilizes a ResizeObserver to monitor changes in the size of the container element
+ * and debounces the resize events to limit the frequency of handling callbacks.
+ *
+ * <p>Upon component mount, it sets up an observer on the content container to listen for resize events.
+ * When the container's size changes, it logs a message indicating that the container size has changed.
+ * This is intended to demonstrate how to handle dynamic content resizing in React components.
+ *
+ * <p>The cleanup function returned by useEffect ensures that the observer is disconnected
+ * when the component unmounts, preventing potential memory leaks.
+ *
+ * @return A React component that displays the application layout, including a navbar
+ *         and a content area divided into left and right components. The content area
+ *         is monitored for size changes, demonstrating dynamic resize handling.
+ */
+function App() {
+    const contentRef = useRef(null);
+    useEffect(() => {
+        const handleResize = debounce(() => {
+        }, 100);
+        const observer = new ResizeObserver(handleResize);
+        if (contentRef.current) {
+            observer.observe(contentRef.current);
+        }
+        return () => observer.disconnect(); // Cleanup-Function and disconnects
+    }, []);
+   return (
+       <div className="App">
+         <Navbar />
+           <WebsiteContainer />
+       </div>
+     );
+}
+export default App;
+===== ./Editor/EditorManager.js =====
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import EditorInitializer from "./EditorInitializer";
@@ -3508,7 +3254,6 @@ import MethodTreeView from "./WebsiteElements/MethodTreeView";
 import CollapsibleSection from "./WebsiteElements/CollapsibleSection";
 import MergedAssignmentsTable from "./WebsiteElements/MergedAssignmentsTable";
 import "./Css/App.css";
-
 function WebsiteContainer() {
   // Basic state management
   const [displayedFile, setDisplayedFile] = useState(null);
@@ -3526,24 +3271,21 @@ function WebsiteContainer() {
   const [jbmcJson, setJbmcJson] = useState(null);
   const [instrumentId, setInstrumentId] = useState("");
   const [isMiddleContainerCollapsed, setIsMiddleContainerCollapsed] = useState(false);
-
-  // Project ID state used for file upload and variable mapping in DirectoryBar
+  // Project ID state from URL or manual input
   const [projectId, setProjectId] = useState(() => {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("projectId") || "";
   });
-
-  // On mount, check URL for an existing projectId
+  // On mount, update projectId from URL (if available)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const urlProjectId = urlParams.get("projectId");
     if (urlProjectId) {
       setProjectId(urlProjectId);
-      console.log(`Using Project ID from URL: ${urlProjectId}`);
+      console.log(`Working with project ID: ${urlProjectId}`);
     }
   }, []);
-
-  // Whenever projectId changes, update the URL for consistency
+  // Update URL when projectId changes
   useEffect(() => {
     if (projectId) {
       const url = new URL(window.location);
@@ -3551,8 +3293,6 @@ function WebsiteContainer() {
       window.history.pushState({}, "", url);
     }
   }, [projectId]);
-
-  // Helper: Switch displayed file to match a given path
   function setActiveAndDisplayed(path) {
     uploadedFiles.forEach((file) => {
       if (path === file.webkitRelativePath) {
@@ -3567,18 +3307,15 @@ function WebsiteContainer() {
   function isActiveDisplayed() {
     return activeFile && displayedFile ? activeFile === displayedFile : false;
   }
-
-  // Called by DirectoryBar after user picks a folder
   async function passOnUploadedFiles(files) {
     setUploadedFiles(files);
-
     if (!projectId) {
       alert("Please enter a Project ID before uploading files");
       return;
     }
     const formData = new FormData(document.getElementById("upload-form"));
+    // Append projectId to form data
     formData.append("projectId", projectId);
-
     try {
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -3594,25 +3331,21 @@ function WebsiteContainer() {
       alert(`Upload failed: ${error.message}`);
     }
   }
-
-  // Called if we want to highlight a specific trace node in the editor
   function highlightTraceNodeInEditor(node) {
-    console.log("Highlighting trace node in editor:", node);
+    console.log("highlightTraceNodeInEditor called with node:", node);
     setTraceNodeToHighlight(node);
   }
-
-  // Hover callback from the Editor
   function handleHoverTraceId(traceId) {
+    console.log("Hovered trace ID:", traceId);
     setHoveredTraceId(traceId);
   }
-
-  // If user clicks a line in the Editor, fetch variable mappings from that line
   function handleLineClick(fileName, line) {
-    console.log(`Line clicked => file: ${fileName}, line: ${line}`);
+    console.log(`Line clicked: file=${fileName}, line=${line}`);
     if (!projectId) {
-      console.error("No projectId set for variable mapping!");
+      console.error("No project ID set for variable mapping");
       return;
     }
+    // Include projectId in API call
     fetch(`/api/varMapping?file=${encodeURIComponent(fileName)}&line=${line}&projectId=${projectId}`)
       .then((res) => {
         if (!res.ok) {
@@ -3621,55 +3354,53 @@ function WebsiteContainer() {
         return res.json();
       })
       .then((variableNames) => {
-        if (variableNames?.length > 0) {
+        if (variableNames && variableNames.length > 0) {
           setSelectedVariable(variableNames[0]);
-          console.log("Selected variable on that line:", variableNames[0]);
+          console.log("Selected variable:", variableNames[0]);
         } else {
           setSelectedVariable(null);
-          console.log("No variable declared on that line.");
+          console.log("No variables declared on this line.");
         }
       })
       .catch((err) => {
-        console.error("Error fetching varMapping:", err);
+        console.error("Error fetching variable mapping:", err);
         setSelectedVariable(null);
       });
   }
-
-  // Fetch static methods from the server for the "Static Methods" view
   async function fetchStaticMethods() {
     if (!projectId) {
       alert("Please enter a Project ID first");
       return;
     }
     try {
-      const resp = await fetch(`/api/static-methods?projectId=${projectId}`);
-      if (!resp.ok) {
-        throw new Error(`Failed to fetch static methods: ${resp.status}`);
+      // Include projectId in API call
+      const response = await fetch(`/api/static-methods?projectId=${projectId}`);
+      if (!response.ok) {
+        throw new Error(`Static methods fetch failed: ${response.status}`);
       }
-      const data = await resp.json();
+      const data = await response.json();
       setStaticMethodsJson(data);
     } catch (error) {
       console.error("Error fetching static methods:", error);
-      alert(`Error: ${error.message}`);
+      alert(`Failed to fetch static methods: ${error.message}`);
     }
   }
-
-  // If user uploads a JSON file in DirectoryBar
   function handleJsonData(jsonData) {
-    if (!jsonData) return;
     try {
-      console.log("Initializing JSON Manager with uploaded JSON data...");
+      if (!jsonData) {
+        console.warn("Received null/undefined JSON data");
+        return;
+      }
+      console.log("Initializing JsonManager with:", jsonData);
       setJsonManager(new JsonManager(jsonData));
-    } catch (err) {
-      console.error("JSON parse error:", err);
-      alert("Error reading JSON data: " + err.message);
+    } catch (error) {
+      console.error("Error initializing JsonManager:", error);
+      alert("Failed to process JSON data: " + error.message);
     }
   }
-
-  // JBMC result fetch
   async function handleFetchJBMC() {
     if (!instrumentId) {
-      alert("Please enter instrument ID first");
+      alert("Please enter instrument ID");
       return;
     }
     if (!projectId) {
@@ -3679,47 +3410,60 @@ function WebsiteContainer() {
     try {
       const resp = await fetch(`/api/jbmc/result/${instrumentId}?projectId=${projectId}`);
       if (!resp.ok) {
-        const errText = await resp.text();
-        throw new Error(errText);
+        const err = await resp.text();
+        throw new Error(err);
       }
       const data = await resp.json();
       setJbmcJson(data);
       setViewerMode("JBMC");
     } catch (error) {
+      console.error("Error fetching JBMC result:", error);
       alert("Could not fetch JBMC JSON: " + error.message);
     }
   }
-
-  // Toggle the middle container's collapsed state
-  function toggleMiddleContainer() {
+  const toggleMiddleContainer = () => {
     setIsMiddleContainerCollapsed(!isMiddleContainerCollapsed);
-  }
-
-  // Launch a new project in a new tab
-  function handleCreateNewProject() {
+  };
+  const handleCreateNewProject = () => {
     window.open("/new-project", "_blank");
-  }
-
+  };
   return (
     <div className="content">
-      {/* LEFT COLUMN - DirectoryBar */}
+      {/* Project Control Bar */}
+      <div className="project-control-bar">
+        <div className="project-id-input-group">
+          <label htmlFor="project-id-input">Project ID:</label>
+          <input
+            id="project-id-input"
+            type="text"
+            value={projectId}
+            onChange={(e) => setProjectId(e.target.value)}
+            placeholder="Enter project ID"
+            className="project-id-input"
+          />
+        </div>
+        <button onClick={handleCreateNewProject} className="new-project-button">
+          New Project
+        </button>
+      </div>
+      {/* LEFT COLUMN: Directory */}
       <DirectoryBar
         setDisplayedFile={setDisplayedFile}
         setDisplayedToActive={setDisplayedToActive}
         passOnUploadedFiles={passOnUploadedFiles}
-        passOnJsonData={handleJsonData}   // If a user uploads some JSON
-        projectId={projectId}            // For file upload and related actions
+        passOnJsonData={(jsonData) => {
+          console.log("[WebsiteContainer] JSON from DirectoryBar:", jsonData);
+          setJsonManager(new JsonManager(jsonData));
+        }}
+        projectId={projectId}
       />
-
-      {/* MIDDLE COLUMN - collapsible sections */}
+      {/* MIDDLE COLUMN with collapsible sections */}
       <div className={`middle-container ${isMiddleContainerCollapsed ? "collapsed" : ""}`}>
         <button className="middle-container-toggle" onClick={toggleMiddleContainer}>
           {isMiddleContainerCollapsed ? "►" : "◄"}
         </button>
-
         {!isMiddleContainerCollapsed && (
           <>
-            {/* JBMC Controls Section */}
             <CollapsibleSection title="JBMC Controls" defaultOpen={false}>
               <div>
                 <input
@@ -3734,14 +3478,12 @@ function WebsiteContainer() {
                   <button onClick={() => setViewerMode("JBMC")}>Show JBMC JSON</button>
                 </div>
               </div>
-
               {viewerMode === "JBMC" && jbmcJson && (
                 <JsonViewer
                   jsonData={jbmcJson}
                   onElementClick={(updated) => console.log("JBMC JSON clicked:", updated)}
                 />
               )}
-
               {instrumentId && projectId && (
                 <div style={{ marginTop: "10px" }}>
                   <MergedAssignmentsTable
@@ -3752,40 +3494,31 @@ function WebsiteContainer() {
                 </div>
               )}
             </CollapsibleSection>
-
-            {/* Modular Actions Section */}
             <CollapsibleSection title="Modular Actions" defaultOpen={true}>
-              {/* Note: ModularActions now manages its own Project ID input.
-                  We no longer pass projectId, setProjectId, or uploadedFiles to it. */}
               <ModularActions
                 projectName="MyProject"
-                setJsonManager={setJsonManager}
-                onVisualize={(vizJson) => {
-                  console.log("Visualization JSON loaded:", vizJson);
-                  setVisualizationJson(vizJson);
+                projectId={projectId}
+                setProjectId={setProjectId}
+                setJsonManager={(newManager) => {
+                  console.log("[WebsiteContainer] setJsonManager called:", newManager);
+                  setJsonManager(newManager);
                 }}
+                onVisualize={(json) => {
+                  console.log("[WebsiteContainer] onVisualize - got JSON:", json);
+                  setVisualizationJson(json);
+                }}
+                uploadedFiles={uploadedFiles}
               />
             </CollapsibleSection>
-
-            {/* Visualization Output Section */}
             <CollapsibleSection title="Visualization Output" defaultOpen={true}>
               <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
-                <button
-                  className={viewerMode === "JSON" ? "active-tab" : ""}
-                  onClick={() => setViewerMode("JSON")}
-                >
+                <button className={viewerMode === "JSON" ? "active-tab" : ""} onClick={() => setViewerMode("JSON")}>
                   JSON
                 </button>
-                <button
-                  className={viewerMode === "METHOD" ? "active-tab" : ""}
-                  onClick={() => setViewerMode("METHOD")}
-                >
+                <button className={viewerMode === "METHOD" ? "active-tab" : ""} onClick={() => setViewerMode("METHOD")}>
                   Methods
                 </button>
-                <button
-                  className={viewerMode === "TRACE" ? "active-tab" : ""}
-                  onClick={() => setViewerMode("TRACE")}
-                >
+                <button className={viewerMode === "TRACE" ? "active-tab" : ""} onClick={() => setViewerMode("TRACE")}>
                   Trace
                 </button>
                 <button
@@ -3798,37 +3531,34 @@ function WebsiteContainer() {
                   Static Methods
                 </button>
               </div>
-
               {viewerMode === "JSON" && visualizationJson && (
                 <JsonViewer
                   jsonData={visualizationJson}
-                  onElementClick={(updated) => console.log("JSON viewer clicked:", updated)}
+                  onElementClick={(updated) => console.log("JSON updated/clicked:", updated)}
                 />
               )}
-
               {viewerMode === "METHOD" && jsonManager && (
                 <MethodTreeView
                   jsonManager={jsonManager}
                   onSelectMethod={(nodeIndex) => {
-                    if (!jsonManager.nodes[nodeIndex]) return;
+                    if (!jsonManager || !jsonManager.nodes[nodeIndex]) return;
                     const methodNode = jsonManager.nodes[nodeIndex];
-                    if (methodNode.link?.file) {
+                    if (methodNode.link && methodNode.link.file) {
                       setActiveAndDisplayed(methodNode.link.file);
                     }
                     setActiveFunctionIndex(nodeIndex);
-                    console.log("Selected method node:", nodeIndex, methodNode);
+                    console.log("User picked methodNode #", nodeIndex, methodNode);
                     const initIters = jsonManager.initIterations(nodeIndex, []);
                     setActiveIterationIndices(initIters);
                   }}
                   className="method-view-section"
                 />
               )}
-
               {viewerMode === "TRACE" && jsonManager && (
                 <TraceTree
                   nodes={jsonManager.nodes}
                   onSelectTraceNode={(node) => {
-                    if (node.link?.file) {
+                    if (node.link && node.link.file) {
                       setActiveAndDisplayed(node.link.file);
                     }
                     highlightTraceNodeInEditor(node);
@@ -3836,19 +3566,16 @@ function WebsiteContainer() {
                   hoveredTraceId={hoveredTraceId}
                 />
               )}
-
               {viewerMode === "STATIC" && staticMethodsJson && (
                 <JsonViewer
                   jsonData={staticMethodsJson}
-                  onElementClick={(updated) => console.log("Static methods JSON clicked:", updated)}
+                  onElementClick={(updated) => console.log("Static methods JSON updated/clicked:", updated)}
                 />
               )}
             </CollapsibleSection>
           </>
         )}
       </div>
-
-      {/* RIGHT COLUMN - Editor */}
       <div className="right-container">
         <EditorManager
           displayedFile={displayedFile}
@@ -3868,5 +3595,4 @@ function WebsiteContainer() {
     </div>
   );
 }
-
 export default WebsiteContainer;

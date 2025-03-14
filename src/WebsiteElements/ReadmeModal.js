@@ -1,6 +1,6 @@
+
 import React, {useState} from 'react';
 import PropTypes from "prop-types";
-
 /**
  * Defines a modal component that displays readme or help information to the user.
  * This functional component renders a modal dialog containing a title and a message
@@ -39,17 +39,13 @@ export default function ReadmeModal({closeModal}) {
         <div key={4}><b> Navigation: </b>
             <p> You can use the <b>directory bar</b> on the left side to open all the Java files in your project. </p>
             <p> If you want to jump back to the file with the function currently visualized you can use the <b>Jump-to-active-function-button</b>, it will open the file for you and display the function.</p> </div>];
-
     const [currentIndex, setCurrentIndex] = useState(0);
-
     const handleBack = () => {
         setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
-
     const handleNext = () => {
         setCurrentIndex((prevIndex) => Math.min(prevIndex + 1, content.length - 1));
     };
-
     return (
         <div className="modal-container">
             <button className="modal-close-button" onClick={closeModal}>
