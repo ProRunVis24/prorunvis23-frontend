@@ -12,6 +12,7 @@ body,
   background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
   color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
 }
+
 /* App container: top-level */
 .App {
   display: flex;
@@ -20,6 +21,7 @@ body,
   height: 100vh;
   overflow: hidden; /* Hide overflow beyond container */
 }
+
 /* NAVBAR */
 .nav {
   display: flex;
@@ -31,10 +33,12 @@ body,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   z-index: 2;
 }
+
 .nav--icon {
   height: 42px;
   margin-right: 15px;
 }
+
 /* Logo text */
 .nav--logo_text {
   margin-right: auto;
@@ -42,6 +46,7 @@ body,
   font-size: 1.3rem;
   color: #00ffd1; /* Neon teal accent */
 }
+
 /* Title or additional text (currently empty) */
 .nav--title {
   color: #a7f3d0;
@@ -49,6 +54,7 @@ body,
   margin-right: 20px;
   font-size: 1rem;
 }
+
 /* Help button */
 .nav--help-button {
   background-color: #00ffd1;
@@ -60,9 +66,11 @@ body,
   font-weight: 500;
   transition: background-color 0.25s ease;
 }
+
 .nav--help-button:hover {
   background-color: #25ffe0;
 }
+
 /* CONTENT: columns container */
 .content {
   flex: 1;
@@ -72,6 +80,7 @@ body,
   overflow: hidden;
   position: relative;
 }
+
 /* Left container base styles */
 .left-container {
   flex: 0 0 18%;
@@ -83,6 +92,7 @@ body,
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
+
 /* Left container content wrapper */
 .left-container-content {
   display: flex;
@@ -93,6 +103,7 @@ body,
   transition: opacity 0.3s ease, visibility 0.3s ease;
   visibility: visible;
 }
+
 /* Collapsed left container */
 .left-container.collapsed {
   flex: 0 0 10px !important;
@@ -101,12 +112,14 @@ body,
   background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
 }
+
 /* Hide content when collapsed */
 .left-container.collapsed .left-container-content {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
+
 /* Show content on hover when collapsed */
 .left-container.collapsed:hover {
   flex: 0 0 18% !important;
@@ -115,11 +128,13 @@ body,
   background: #1f1f3b;
   z-index: 15;
 }
+
 .left-container.collapsed:hover .left-container-content {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
+
 /* Toggle button styles */
 .left-container-toggle {
   position: absolute;
@@ -143,25 +158,30 @@ body,
   min-width: 30px !important;
   width: 30px !important;
 }
+
 /* Show toggle button on hover */
 .left-container:hover .left-container-toggle {
   opacity: 1;
 }
+
 /* Position toggle button when collapsed */
 .left-container.collapsed .left-container-toggle {
   right: -15px;
   opacity: 0;
 }
+
 /* Show toggle button when hovering on collapsed container */
 .left-container.collapsed:hover .left-container-toggle {
   opacity: 1;
   right: 10px;
 }
+
 .left-container-toggle:hover {
   background-color: #454575 !important;
   transform: none !important;
   padding-left: 0 !important;
 }
+
 /* Jump button styles */
 .jump-button {
   background-color: #304060 !important;
@@ -170,9 +190,11 @@ body,
   color: #00ffd1 !important;
   font-weight: 600 !important;
 }
+
 .jump-button:hover {
   background-color: #445580 !important;
 }
+
 /* Improved upload container */
 .upload-json-container {
   margin-top: 20px;
@@ -181,6 +203,7 @@ body,
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .upload-button-container {
   margin-top: 20px;
   padding: 8px;
@@ -188,6 +211,7 @@ body,
   border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 /* Regular buttons in the left container */
 .left-container button:not(.left-container-toggle) {
   background-color: #32325A;
@@ -202,29 +226,34 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
+
 .left-container button:not(.left-container-toggle):hover {
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
 }
+
 /* Folder tree container */
 .folder-tree-container {
   margin: 10px 0;
   overflow-y: auto;
   max-height: calc(100vh - 300px);
 }
-/* MIDDLE CONTAINER */
+
+/* MIDDLE CONTAINER - improved scrolling */
 .middle-container {
   flex: 2;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
   transition: flex 0.3s ease, min-width 0.3s ease;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
   padding-right: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
+
 /* Middle container collapsed state */
 .middle-container.collapsed {
   flex: 0 0 10px !important;
@@ -232,6 +261,7 @@ body,
   overflow: hidden;
   background: linear-gradient(90deg, #1a1a2e, #242447);
 }
+
 /* Improved middle container toggle button positioning */
 .middle-container-toggle {
   position: absolute;
@@ -254,14 +284,17 @@ body,
   padding: 0;
   font-size: 16px;
 }
+
 .middle-container-toggle:hover {
   background-color: #454575;
   color: #00ffd1;
 }
+
 /* Fix toggle icon when collapsed */
 .middle-container.collapsed .middle-container-toggle {
   right: -14px; /* Keep it at the same position */
 }
+
 /* Let toggle button overlap with right container */
 .right-container {
   flex: 3;
@@ -276,10 +309,12 @@ body,
   padding-left: 14px; /* Padding to prevent content being hidden */
   z-index: 10; /* Lower than toggle button */
 }
+
 /* Right container expands when middle is collapsed */
 .middle-container.collapsed + .right-container {
   flex: 4;
 }
+
 /* Editor container for Monaco */
 .editor-container {
   flex: 1;
@@ -288,6 +323,7 @@ body,
   position: relative;
   overflow: hidden;
 }
+
 /* JBMC / Modular actions section at top */
 .jbmc-section {
   background-color: rgba(34, 255, 173, 0.07);
@@ -299,6 +335,7 @@ body,
   max-height: 200px;
   overflow-y: auto;
 }
+
 /* The modular actions section */
 .modular-actions-section {
   background: rgba(42, 42, 66, 0.5);
@@ -309,13 +346,17 @@ body,
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
+
 /* Modular Actions Container */
 .modular-actions-container {
   display: flex;
   flex-direction: column;
   gap: 15px;
   padding: 5px;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
 }
+
 /* JSON viewer section at bottom */
 .json-viewer-section {
   flex: 1;
@@ -323,7 +364,9 @@ body,
   flex-direction: column;
   overflow-y: auto;
   margin: 10px;
+  max-height: 300px;
 }
+
 /* JSON VIEWER STYLES */
 .json-viewer {
   background-color: rgba(24, 24, 47, 0.8);
@@ -334,14 +377,16 @@ body,
   margin-bottom: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
+
 .json-display {
-  max-height: 300px; /* you can adjust if needed */
+  max-height: 250px;
   overflow: auto;
   margin-top: 6px;
   padding: 6px;
   background-color: #1a1a2f;
   border-radius: 4px;
 }
+
 /* Download button inside the JSON viewer */
 .download-button {
   margin-top: 10px;
@@ -353,37 +398,45 @@ body,
   cursor: pointer;
   transition: background-color 0.2s;
 }
+
 .download-button:hover {
   background-color: #2affdf;
 }
+
 /* TABLES: MergedAssignments etc. */
 .merged-assignments-container {
   max-height: 240px; /* limit table's height so it can scroll */
   overflow-y: auto;
   margin-top: 0.5rem;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   background-color: #24244f;
 }
+
 th, td {
   border: 1px solid #333;
   padding: 8px;
   text-align: left;
   font-size: 0.9rem;
 }
+
 th {
   background-color: #303060;
   color: #00ffd1;
   font-weight: 600;
 }
+
 tbody tr:nth-child(even) {
   background-color: rgba(255, 255, 255, 0.04);
 }
+
 tbody tr:hover {
   background-color: rgba(0, 255, 209, 0.15);
 }
+
 /* Buttons inside the middle container sections */
 .jbmc-section button {
   background-color: #32325A;
@@ -397,6 +450,7 @@ tbody tr:hover {
   min-width: 80px;
   display: inline-block;
 }
+
 .middle-container button {
   background-color: #32325A;
   color: #cde2ff;
@@ -409,36 +463,46 @@ tbody tr:hover {
   min-width: 30px;
   display: inline-block;
 }
+
 .middle-container button:hover,
 .jbmc-section button:hover {
   background-color: #454575;
   transform: translateX(3px);
 }
+
 /* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
 .inactive {
   background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
 }
+
 .active {
   background-color: rgba(60, 255, 60, 0.35) !important; /* translucent green */
 }
+
 .link {
   background-color: rgba(30, 144, 255, 0.6) !important; /* dodgerblue */
 }
+
 .loop {
   background-color: rgba(128, 0, 128, 0.5) !important;  /* purple */
 }
+
 .start {
   content: url('../Images/start.png');
 }
+
 .line {
   content: url('../Images/line.png');
 }
+
 .end {
   content: url('../Images/end.png');
 }
+
 .one-line {
   content: url('../Images/oneLine.png');
 }
+
 /* Additional popup styling (if used) */
 .popup {
   position: absolute;
@@ -449,48 +513,61 @@ tbody tr:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.5);
   z-index: 1000;
 }
+
 /* MONACO TOKEN COLORS OVERRIDES */
 .monaco-editor.token.keyword {
   color: #FFC1F3 !important; /* Pastel pink for keywords */
   font-weight: bold;
 }
+
 .monaco-editor.token.function {
   color: #AFFFD1 !important; /* Light teal for function names */
 }
+
 .monaco-editor.token.type {
   color: #FFCB6B !important;
 }
+
 .monaco-editor.token.identifier {
   color: #D6DEEB !important;
 }
+
 .monaco-editor.token.string {
   color: #C3E88D !important;
 }
+
 .monaco-editor.token.number {
   color: #F78C6C !important;
 }
+
 .monaco-editor.token.operator {
   color: #89DDFF !important;
 }
+
 .monaco-editor.token.annotation {
   color: #82AAFF !important;
 }
+
 .monaco-editor.token.regex {
   color: #ECC48D !important;
 }
+
 .monaco-editor.token.delimiter {
   color: #89DDFF !important;
 }
+
 .monaco-editor.token.invalid {
   background-color: #FF5370 !important;
   color: #FFF !important;
 }
+
 /* MONACO EDITOR HOVER */
 .monaco-editor .monaco-editor-hover {
   z-index: 1000;
   position: fixed;
   visibility: visible;
 }
+
 .monaco-editor-hover .monaco-editor-hover-content {
   background-color: #FFF;
   color: #000;
@@ -498,6 +575,7 @@ tbody tr:hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   padding: 8px;
 }
+
 /* Modal styling (Help, etc.) */
 .modal-container {
   max-width: 600px;
@@ -509,6 +587,7 @@ tbody tr:hover {
   border: 2px solid #444;
   box-shadow: 0 10px 20px rgba(0,0,0,0.6);
 }
+
 .modal-close-button {
   background-color: #00ffd1;
   color: #000;
@@ -518,12 +597,15 @@ tbody tr:hover {
   cursor: pointer;
   border-radius: 4px;
 }
+
 .modal-content {
   margin-top: 20px;
 }
+
 .modal {
   /* If you need to style the overall modal container from ReactModal, do it here */
 }
+
 /* Buttons used in the top left area (like "Upload") */
 .upload-button-container,
 .reset-button-container {
@@ -532,6 +614,7 @@ tbody tr:hover {
   align-items: center;
   margin: 1rem 0;
 }
+
 .picker {
   margin-right: 0;
   margin-bottom: 1rem;
@@ -542,9 +625,11 @@ tbody tr:hover {
   border-radius: 4px;
   transition: background-color 0.2s;
 }
+
 .picker:hover {
   background-color: #454575;
 }
+
 /* TRACE TREE STYLES */
 .trace-tree-container {
   margin: 10px;
@@ -553,23 +638,27 @@ tbody tr:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   color: #cde2ff;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
 }
+
 .trace-tree-container ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
+
 .trace-tree-container li {
   margin: 4px 0;
   cursor: pointer;
   transition: background-color 0.2s, padding-left 0.2s;
 }
+
 .trace-tree-container li:hover {
   background-color: rgba(0, 255, 209, 0.15);
   padding-left: 8px;
 }
+
 /* METHOD VIEW SECTION */
 .method-view-section {
   margin: 10px;
@@ -578,13 +667,15 @@ tbody tr:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   color: #cde2ff;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
 }
+
 .method-view-section h3 {
   margin: 0 0 8px 0;
   font-size: 1rem;
 }
+
 .method-view-section select.method-view-dropdown {
   width: 100%;
   padding: 8px;
@@ -594,30 +685,55 @@ tbody tr:hover {
   border-radius: 4px;
   font-size: 0.9rem;
 }
+
 /* HIGHLIGHTED METHODS OR TRACE NODES */
 .trace-tree-clickable.highlight,
 .highlighted-method {
   background-color: rgba(0, 255, 209, 0.25);
   border-radius: 3px;
 }
+
 /* ---------- SCROLLBAR STYLING (optional) --------- */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: #1a1a2e;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #2affdf66;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #2affdf;
 }
+
+/* Improved scrollbars for middle container */
+.middle-container *::-webkit-scrollbar {
+  width: 8px;
+}
+
+.middle-container *::-webkit-scrollbar-track {
+  background: rgba(26, 26, 46, 0.5);
+}
+
+.middle-container *::-webkit-scrollbar-thumb {
+  background: rgba(42, 255, 223, 0.4);
+  border-radius: 4px;
+}
+
+.middle-container *::-webkit-scrollbar-thumb:hover {
+  background: rgba(42, 255, 223, 0.7);
+}
+
 /* Form elements styling */
 .form-group {
   margin: 10px 0;
 }
+
 .input-field {
   background-color: #242447;
   color: #cde2ff;
@@ -628,26 +744,31 @@ tbody tr:hover {
   max-width: 300px;
   transition: border-color 0.2s;
 }
+
 .input-field:focus {
   border-color: #00ffd1;
   outline: none;
 }
+
 .action-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 /* Active tab styling */
 .active-tab {
   background-color: #00ffd1 !important;
   color: #1a1a2e !important;
 }
+
 /* Button group */
 .button-group {
   display: flex;
   gap: 8px;
   margin: 10px 0;
 }
+
 /* Collapsible sections styling */
 .collapsible-section {
   margin: 10px;
@@ -658,8 +779,10 @@ tbody tr:hover {
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   max-height: unset;
 }
+
 .collapsible-header {
   display: flex;
   justify-content: space-between;
@@ -669,32 +792,39 @@ tbody tr:hover {
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .collapsible-header:hover {
   background: linear-gradient(140deg, #32325A 0%, #454575 100%);
 }
+
 .collapsible-header h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: #00ffd1;
 }
+
 .collapse-icon {
   color: #cde2ff;
   font-size: 0.8rem;
 }
+
 .collapsible-content {
   padding: 10px;
-  flex: 1;
   overflow-y: auto;
+  max-height: 350px;
 }
+
 .collapsible-section.collapsed {
   max-height: 38px; /* Header height */
   transition: max-height 0.3s ease;
 }
+
 .collapsible-section.expanded {
   max-height: 1000px; /* Arbitrary large value */
   transition: max-height 0.3s ease;
 }
+
 /* Tab navigation styling */
 .tab-navigation {
   display: flex;
@@ -704,6 +834,7 @@ tbody tr:hover {
   border-radius: 6px 6px 0 0;
   margin-bottom: 10px;
 }
+
 .tab-button {
   padding: 8px 16px;
   background-color: #32325A;
@@ -713,15 +844,18 @@ tbody tr:hover {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .tab-button.active {
   background-color: #00ffd1;
   color: #1a1a2e;
 }
+
 .tab-content {
   background-color: rgba(42, 42, 66, 0.3);
   border-radius: 0 0 6px 6px;
   padding: 10px;
 }
+
 /* Additional scrolling improvements for sections */
 .jbmc-section,
 .modular-actions-section,
@@ -733,8 +867,178 @@ tbody tr:hover {
   max-height: calc(100vh - 200px);
   scrollbar-width: thin; /* For Firefox */
 }
+
+/* Add bottom padding to middle container for better scrolling */
+.middle-container > :last-child {
+  margin-bottom: 20px;
+}
+
 /* Additional helper class for toggle button content */
 .toggle-icon {
   font-size: 12px;
   font-weight: bold;
+}
+
+/* Welcome container styles */
+.welcome-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
+  color: #E8F5FF;
+}
+
+.welcome-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  background: rgba(42, 42, 80, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-logo {
+  width: 150px;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  color: #00ffd1;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #cde2ff;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.open-button, .new-button {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+
+.open-button {
+  background-color: #00ffd1;
+  color: #1a1a2e;
+  border: 1px solid #25ffe0;
+}
+
+.new-button {
+  background-color: transparent;
+  color: #00ffd1;
+  border: 1px solid #00ffd1;
+}
+
+.open-button:hover {
+  background-color: #25ffe0;
+  transform: translateY(-3px);
+}
+
+.new-button:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Editor welcome screen styles */
+.editor-welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
+  padding: 2rem;
+}
+
+.editor-welcome-content {
+  max-width: 800px;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(42, 42, 80, 0.5);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.editor-welcome-content h2 {
+  color: #00ffd1;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-instructions {
+  text-align: left;
+  margin-top: 1.5rem;
+}
+
+.welcome-steps {
+  margin: 2rem 0;
+}
+
+.welcome-step {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #00ffd1;
+  color: #1a1a2e;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.welcome-features {
+  margin-top: 2rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.welcome-features h3 {
+  color: #00ffd1;
+  margin-bottom: 1rem;
+}
+
+.feature-highlight {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.feature-highlight.active {
+  background-color: rgba(60, 255, 60, 0.35);
+}
+
+.feature-highlight.link {
+  background-color: rgba(30, 144, 255, 0.6);
+}
+
+.feature-highlight.loop {
+  background-color: rgba(128, 0, 128, 0.5);
 }

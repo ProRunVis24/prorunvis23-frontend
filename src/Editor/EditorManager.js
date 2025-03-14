@@ -527,11 +527,51 @@ function EditorManager({
     console.log("Built line->traceId map:", lineToTraceIdRef.current);
   }, [jsonManager]);
 
-  return (
-    <main className="right-container">
-      <div ref={editorContainerRef} className="editor-container"></div>
-    </main>
-  );
+  // Welcome component when no file is loaded
+  const EditorWelcome = () => {
+    return (
+      <div className="editor-welcome-container">
+        <div className="editor-welcome-content">
+          <h2>Welcome to ProRunVis Code Visualizer</h2>
+          <div className="welcome-instructions">
+            <p>Upload a Java project from the left panel to get started.</p>
+            <div className="welcome-steps">
+              <div className="welcome-step">
+                <span className="step-number">1</span>
+                <p>Use the directory browser on the left to select and upload a Java project</p>
+              </div>
+              <div className="welcome-step">
+                <span className="step-number">2</span>
+                <p>Run instrumentation and tracing using the modular actions panel</p>
+              </div>
+              <div className="welcome-step">
+                <span className="step-number">3</span>
+                <p>Visualize the execution flow with color-coded highlights and interactive elements</p>
+              </div>
+            </div>
+            <div className="welcome-features">
+              <h3>Features:</h3>
+              <ul>
+                <p><span className="feature-highlight active"></span> Active code is highlighted in <strong>green</strong></p>
+                <p><span className="feature-highlight link"></span> Function calls and jumps are highlighted in <strong>blue</strong></p>
+                <p><span className="feature-highlight loop"></span> Loops are highlighted in <strong>purple</strong></p>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+ return (
+   <main className="right-container">
+     {!displayedFile ? (
+       <EditorWelcome />
+     ) : (
+       <div ref={editorContainerRef} className="editor-container"></div>
+     )}
+   </main>
+ );
 }
 
 EditorManager.propTypes = {

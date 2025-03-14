@@ -1,3 +1,4 @@
+// index.js
 // Imports the React module.
 import React from 'react';
 
@@ -6,6 +7,8 @@ import {createRoot} from 'react-dom/client';
 
 // Imports CSS-File for styling.
 import './Css/App.css';
+
+
 
 // Imports the App-component from App.js.
 import App from './App.js';
@@ -29,53 +32,6 @@ if (rootElement) {
         </React.StrictMode>
     );
 }
-// Create a button to open a new project session
-document.addEventListener('DOMContentLoaded', function() {
-    // Create new project button
-    var newProjectBtn = document.createElement('button');
-    newProjectBtn.textContent = 'New Project';
-    newProjectBtn.style.position = 'fixed';
-    newProjectBtn.style.bottom = '20px';
-    newProjectBtn.style.right = '20px';
-    newProjectBtn.style.padding = '10px 20px';
-    newProjectBtn.style.backgroundColor = '#4CAF50';
-    newProjectBtn.style.color = 'white';
-    newProjectBtn.style.border = 'none';
-    newProjectBtn.style.borderRadius = '5px';
-    newProjectBtn.style.cursor = 'pointer';
-    newProjectBtn.style.zIndex = '1000';
-
-    newProjectBtn.addEventListener('click', function() {
-        window.open('/new-project', '_blank');
-    });
-
-    document.body.appendChild(newProjectBtn);
-
-
-});
-
-// Create a button to open a new project session
-document.addEventListener('DOMContentLoaded', function() {
-    // Create new project button
-    var newProjectBtn = document.createElement('button');
-    newProjectBtn.textContent = 'New Project';
-    newProjectBtn.style.position = 'fixed';
-    newProjectBtn.style.bottom = '20px';
-    newProjectBtn.style.right = '20px';
-    newProjectBtn.style.padding = '10px 20px';
-    newProjectBtn.style.backgroundColor = '#4CAF50';
-    newProjectBtn.style.color = 'white';
-    newProjectBtn.style.border = 'none';
-    newProjectBtn.style.borderRadius = '5px';
-    newProjectBtn.style.cursor = 'pointer';
-    newProjectBtn.style.zIndex = '1000';
-
-    newProjectBtn.addEventListener('click', function() {
-        window.open('/new-project', '_blank');
-    });
-
-
-});
 
 // reportWebVitals is called to capture performance data and report it.
 // This can be used for analysing and optimizing the performance.

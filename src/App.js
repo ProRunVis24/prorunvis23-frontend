@@ -1,7 +1,10 @@
-
-import React, {useEffect, useRef} from 'react';
+// App.js
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types'; // Add this import
 import Navbar from "./WebsiteElements/Navbar";
 import WebsiteContainer from "./WebsiteContainer";
+import "./Css/App.css";
+
 /**
  * Observes Left/RightContainer for correct resizing. Prohibits sending too many requests to DOM, which causes a Runtime Error.
  */
@@ -16,39 +19,70 @@ const debounce = (func, wait) => {
         timeout = setTimeout(later, wait);
     };
 };
-/**
- * Represents the main application component in the React application.
- * This component initializes a content area with dynamic resize handling.
- * It utilizes a ResizeObserver to monitor changes in the size of the container element
- * and debounces the resize events to limit the frequency of handling callbacks.
- *
- * <p>Upon component mount, it sets up an observer on the content container to listen for resize events.
- * When the container's size changes, it logs a message indicating that the container size has changed.
- * This is intended to demonstrate how to handle dynamic content resizing in React components.
- *
- * <p>The cleanup function returned by useEffect ensures that the observer is disconnected
- * when the component unmounts, preventing potential memory leaks.
- *
- * @return A React component that displays the application layout, including a navbar
- *         and a content area divided into left and right components. The content area
- *         is monitored for size changes, demonstrating dynamic resize handling.
- */
+
+// Welcome Screen Component
+function WelcomeScreen({ onEnterApp }) {
+    return (
+        <div className="welcome-container">
+            <div className="welcome-content">
+                <img
+                    src="/CDProRunVis.png"
+                    alt="ProRunVis Logo"
+                    className="welcome-logo"
+                />
+                <h1>Welcome to ProRunVis</h1>
+                <p>A visualization tool for understanding program control flow</p>
+
+                <div className="welcome-buttons">
+                    <button className="open-button" onClick={onEnterApp}>
+                        Open Project
+                    </button>
+                    <button
+                        className="new-button"
+                        onClick={() => window.open('/new-project', '_blank')}
+                    >
+                        Create New Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+// Add prop-types validation here
+WelcomeScreen.propTypes = {
+    onEnterApp: PropTypes.func.isRequired
+};
+
+// Rest of your App component stays the same
 function App() {
     const contentRef = useRef(null);
+    const [showWelcome, setShowWelcome] = useState(true);
+
     useEffect(() => {
         const handleResize = debounce(() => {
         }, 100);
+
         const observer = new ResizeObserver(handleResize);
         if (contentRef.current) {
             observer.observe(contentRef.current);
         }
+
         return () => observer.disconnect(); // Cleanup-Function and disconnects
     }, []);
-   return (
-       <div className="App">
-         <Navbar />
-           <WebsiteContainer />
-       </div>
-     );
+
+    // If showing welcome screen
+    if (showWelcome) {
+        return <WelcomeScreen onEnterApp={() => setShowWelcome(false)} />;
+    }
+
+    // Otherwise show the main app
+    return (
+        <div className="App" ref={contentRef}>
+            <Navbar />
+            <WebsiteContainer />
+        </div>
+    );
 }
+
 export default App;
