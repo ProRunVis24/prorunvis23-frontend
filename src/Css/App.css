@@ -8,12 +8,10 @@ body,
   height: 100%;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
-
   /* Dark gradient background for a futuristic vibe */
   background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
   color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
 }
-
 /* App container: top-level */
 .App {
   display: flex;
@@ -22,7 +20,6 @@ body,
   height: 100vh;
   overflow: hidden; /* Hide overflow beyond container */
 }
-
 /* NAVBAR */
 .nav {
   display: flex;
@@ -34,12 +31,10 @@ body,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
   z-index: 2;
 }
-
 .nav--icon {
   height: 42px;
   margin-right: 15px;
 }
-
 /* Logo text */
 .nav--logo_text {
   margin-right: auto;
@@ -47,7 +42,6 @@ body,
   font-size: 1.3rem;
   color: #00ffd1; /* Neon teal accent */
 }
-
 /* Title or additional text (currently empty) */
 .nav--title {
   color: #a7f3d0;
@@ -55,7 +49,6 @@ body,
   margin-right: 20px;
   font-size: 1rem;
 }
-
 /* Help button */
 .nav--help-button {
   background-color: #00ffd1;
@@ -70,7 +63,6 @@ body,
 .nav--help-button:hover {
   background-color: #25ffe0;
 }
-
 /* CONTENT: columns container */
 .content {
   flex: 1;
@@ -78,21 +70,19 @@ body,
   flex-direction: row;
   height: calc(100% - 60px);
   overflow: hidden;
+  position: relative;
 }
-
 /* Left container base styles */
 .left-container {
   flex: 0 0 18%;
   min-width: 240px;
   max-width: 400px;
   background: #1f1f3b;
-  transition: width 0.3s ease-in-out;
-  overflow-y: auto;
+  transition: all 0.3s ease;
+  overflow: hidden;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
   position: relative;
 }
-
-<<<<<<< HEAD
 /* Left container content wrapper */
 .left-container-content {
   display: flex;
@@ -103,7 +93,6 @@ body,
   transition: opacity 0.3s ease, visibility 0.3s ease;
   visibility: visible;
 }
-
 /* Collapsed left container */
 .left-container.collapsed {
   flex: 0 0 10px !important;
@@ -112,14 +101,12 @@ body,
   background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
 }
-
 /* Hide content when collapsed */
 .left-container.collapsed .left-container-content {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
 /* Show content on hover when collapsed */
 .left-container.collapsed:hover {
   flex: 0 0 18% !important;
@@ -128,13 +115,11 @@ body,
   background: #1f1f3b;
   z-index: 15;
 }
-
 .left-container.collapsed:hover .left-container-content {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
 }
-
 /* Toggle button styles */
 .left-container-toggle {
   position: absolute;
@@ -158,30 +143,25 @@ body,
   min-width: 30px !important;
   width: 30px !important;
 }
-
 /* Show toggle button on hover */
 .left-container:hover .left-container-toggle {
   opacity: 1;
 }
-
 /* Position toggle button when collapsed */
 .left-container.collapsed .left-container-toggle {
   right: -15px;
   opacity: 0;
 }
-
 /* Show toggle button when hovering on collapsed container */
 .left-container.collapsed:hover .left-container-toggle {
   opacity: 1;
   right: 10px;
 }
-
 .left-container-toggle:hover {
   background-color: #454575 !important;
   transform: none !important;
   padding-left: 0 !important;
 }
-
 /* Jump button styles */
 .jump-button {
   background-color: #304060 !important;
@@ -190,11 +170,9 @@ body,
   color: #00ffd1 !important;
   font-weight: 600 !important;
 }
-
 .jump-button:hover {
   background-color: #445580 !important;
 }
-
 /* Improved upload container */
 .upload-json-container {
   margin-top: 20px;
@@ -212,17 +190,6 @@ body,
 }
 /* Regular buttons in the left container */
 .left-container button:not(.left-container-toggle) {
-=======
-/* Collapsed left-container: now shrinks to 40px */
-.left-container.collapsed {
-  flex: 0 0 40px !important;
-  min-width: 40px !important;
-  overflow: hidden;
-}
-
-/* Buttons in the left container */
-.left-container button {
->>>>>>> parent of edf9068 (Collapsible sections optimized)
   background-color: #32325A;
   color: #cde2ff;
   border: 1px solid #444;
@@ -235,22 +202,16 @@ body,
   margin-bottom: 4px;
   border-radius: 4px;
 }
-<<<<<<< HEAD
-
 .left-container button:not(.left-container-toggle):hover {
-=======
-.left-container button:hover {
->>>>>>> parent of edf9068 (Collapsible sections optimized)
   background-color: rgba(0, 255, 209, 0.2);
   padding-left: 20px;
 }
-
-/* Folder tree container inside the left column */
+/* Folder tree container */
 .folder-tree-container {
   margin: 10px 0;
   overflow-y: auto;
+  max-height: calc(100vh - 300px);
 }
-
 /* MIDDLE CONTAINER */
 .middle-container {
   flex: 2;
@@ -259,13 +220,11 @@ body,
   overflow-y: auto;
   overflow-x: hidden;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
-  transition: flex 0.3s ease;
+  transition: flex 0.3s ease, min-width 0.3s ease;
   border-right: 2px solid rgba(255, 255, 255, 0.06);
-<<<<<<< HEAD
   position: relative;
   padding-right: 0;
 }
-
 /* Middle container collapsed state */
 .middle-container.collapsed {
   flex: 0 0 10px !important;
@@ -273,7 +232,6 @@ body,
   overflow: hidden;
   background: linear-gradient(90deg, #1a1a2e, #242447);
 }
-
 /* Improved middle container toggle button positioning */
 .middle-container-toggle {
   position: absolute;
@@ -296,17 +254,14 @@ body,
   padding: 0;
   font-size: 16px;
 }
-
 .middle-container-toggle:hover {
   background-color: #454575;
   color: #00ffd1;
 }
-
 /* Fix toggle icon when collapsed */
 .middle-container.collapsed .middle-container-toggle {
   right: -14px; /* Keep it at the same position */
 }
-
 /* Let toggle button overlap with right container */
 .right-container {
   flex: 3;
@@ -321,12 +276,10 @@ body,
   padding-left: 14px; /* Padding to prevent content being hidden */
   z-index: 10; /* Lower than toggle button */
 }
-
 /* Right container expands when middle is collapsed */
 .middle-container.collapsed + .right-container {
   flex: 4;
 }
-
 /* Editor container for Monaco */
 .editor-container {
   flex: 1;
@@ -334,10 +287,7 @@ body,
   min-height: 0;
   position: relative;
   overflow: hidden;
-=======
->>>>>>> parent of edf9068 (Collapsible sections optimized)
 }
-
 /* JBMC / Modular actions section at top */
 .jbmc-section {
   background-color: rgba(34, 255, 173, 0.07);
@@ -349,7 +299,6 @@ body,
   max-height: 200px;
   overflow-y: auto;
 }
-
 /* The modular actions section */
 .modular-actions-section {
   background: rgba(42, 42, 66, 0.5);
@@ -360,7 +309,13 @@ body,
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
-
+/* Modular Actions Container */
+.modular-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5px;
+}
 /* JSON viewer section at bottom */
 .json-viewer-section {
   flex: 1;
@@ -369,30 +324,6 @@ body,
   overflow-y: auto;
   margin: 10px;
 }
-
-<<<<<<< HEAD
-=======
-/* Right container: the Monaco editor */
-.right-container {
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-  background-color: #18182f;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 10px #000;
-}
-
-/* Editor container for Monaco */
-.editor-container {
-  flex: 1;
-  width: 100%;
-  min-height: 0;
-  position: relative;
-  overflow: hidden;
-}
-
->>>>>>> parent of edf9068 (Collapsible sections optimized)
 /* JSON VIEWER STYLES */
 .json-viewer {
   background-color: rgba(24, 24, 47, 0.8);
@@ -411,7 +342,6 @@ body,
   background-color: #1a1a2f;
   border-radius: 4px;
 }
-
 /* Download button inside the JSON viewer */
 .download-button {
   margin-top: 10px;
@@ -426,7 +356,6 @@ body,
 .download-button:hover {
   background-color: #2affdf;
 }
-
 /* TABLES: MergedAssignments etc. */
 .merged-assignments-container {
   max-height: 240px; /* limit table's height so it can scroll */
@@ -455,7 +384,6 @@ tbody tr:nth-child(even) {
 tbody tr:hover {
   background-color: rgba(0, 255, 209, 0.15);
 }
-
 /* Buttons inside the middle container sections */
 .jbmc-section button {
   background-color: #32325A;
@@ -486,7 +414,6 @@ tbody tr:hover {
   background-color: #454575;
   transform: translateX(3px);
 }
-
 /* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
 .inactive {
   background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
@@ -512,7 +439,6 @@ tbody tr:hover {
 .one-line {
   content: url('../Images/oneLine.png');
 }
-
 /* Additional popup styling (if used) */
 .popup {
   position: absolute;
@@ -523,7 +449,6 @@ tbody tr:hover {
   box-shadow: 0 2px 10px rgba(0,0,0,0.5);
   z-index: 1000;
 }
-
 /* MONACO TOKEN COLORS OVERRIDES */
 .monaco-editor.token.keyword {
   color: #FFC1F3 !important; /* Pastel pink for keywords */
@@ -560,7 +485,6 @@ tbody tr:hover {
   background-color: #FF5370 !important;
   color: #FFF !important;
 }
-
 /* MONACO EDITOR HOVER */
 .monaco-editor .monaco-editor-hover {
   z-index: 1000;
@@ -574,7 +498,6 @@ tbody tr:hover {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   padding: 8px;
 }
-
 /* Modal styling (Help, etc.) */
 .modal-container {
   max-width: 600px;
@@ -601,7 +524,6 @@ tbody tr:hover {
 .modal {
   /* If you need to style the overall modal container from ReactModal, do it here */
 }
-
 /* Buttons used in the top left area (like "Upload") */
 .upload-button-container,
 .reset-button-container {
@@ -623,7 +545,6 @@ tbody tr:hover {
 .picker:hover {
   background-color: #454575;
 }
-
 /* TRACE TREE STYLES */
 .trace-tree-container {
   margin: 10px;
@@ -649,7 +570,6 @@ tbody tr:hover {
   background-color: rgba(0, 255, 209, 0.15);
   padding-left: 8px;
 }
-
 /* METHOD VIEW SECTION */
 .method-view-section {
   margin: 10px;
@@ -674,14 +594,12 @@ tbody tr:hover {
   border-radius: 4px;
   font-size: 0.9rem;
 }
-
 /* HIGHLIGHTED METHODS OR TRACE NODES */
 .trace-tree-clickable.highlight,
 .highlighted-method {
   background-color: rgba(0, 255, 209, 0.25);
   border-radius: 3px;
 }
-
 /* ---------- SCROLLBAR STYLING (optional) --------- */
 ::-webkit-scrollbar {
   width: 8px;
@@ -695,14 +613,11 @@ tbody tr:hover {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #2affdf;
-<<<<<<< HEAD
 }
-
 /* Form elements styling */
 .form-group {
   margin: 10px 0;
 }
-
 .input-field {
   background-color: #242447;
   color: #cde2ff;
@@ -713,31 +628,26 @@ tbody tr:hover {
   max-width: 300px;
   transition: border-color 0.2s;
 }
-
 .input-field:focus {
   border-color: #00ffd1;
   outline: none;
 }
-
 .action-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 /* Active tab styling */
 .active-tab {
   background-color: #00ffd1 !important;
   color: #1a1a2e !important;
 }
-
 /* Button group */
 .button-group {
   display: flex;
   gap: 8px;
   margin: 10px 0;
 }
-
 /* Collapsible sections styling */
 .collapsible-section {
   margin: 10px;
@@ -750,7 +660,6 @@ tbody tr:hover {
   flex-direction: column;
   max-height: unset;
 }
-
 .collapsible-header {
   display: flex;
   justify-content: space-between;
@@ -760,39 +669,32 @@ tbody tr:hover {
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .collapsible-header:hover {
   background: linear-gradient(140deg, #32325A 0%, #454575 100%);
 }
-
 .collapsible-header h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   color: #00ffd1;
 }
-
 .collapse-icon {
   color: #cde2ff;
   font-size: 0.8rem;
 }
-
 .collapsible-content {
   padding: 10px;
   flex: 1;
   overflow-y: auto;
 }
-
 .collapsible-section.collapsed {
   max-height: 38px; /* Header height */
   transition: max-height 0.3s ease;
 }
-
 .collapsible-section.expanded {
   max-height: 1000px; /* Arbitrary large value */
   transition: max-height 0.3s ease;
 }
-
 /* Tab navigation styling */
 .tab-navigation {
   display: flex;
@@ -802,7 +704,6 @@ tbody tr:hover {
   border-radius: 6px 6px 0 0;
   margin-bottom: 10px;
 }
-
 .tab-button {
   padding: 8px 16px;
   background-color: #32325A;
@@ -812,18 +713,15 @@ tbody tr:hover {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .tab-button.active {
   background-color: #00ffd1;
   color: #1a1a2e;
 }
-
 .tab-content {
   background-color: rgba(42, 42, 66, 0.3);
   border-radius: 0 0 6px 6px;
   padding: 10px;
 }
-
 /* Additional scrolling improvements for sections */
 .jbmc-section,
 .modular-actions-section,
@@ -835,12 +733,8 @@ tbody tr:hover {
   max-height: calc(100vh - 200px);
   scrollbar-width: thin; /* For Firefox */
 }
-
 /* Additional helper class for toggle button content */
 .toggle-icon {
   font-size: 12px;
   font-weight: bold;
 }
-=======
-}
->>>>>>> parent of edf9068 (Collapsible sections optimized)
