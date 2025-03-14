@@ -185,23 +185,6 @@ function WebsiteContainer() {
   };
   return (
     <div className="content">
-      {/* Project Control Bar */}
-      <div className="project-control-bar">
-        <div className="project-id-input-group">
-          <label htmlFor="project-id-input">Project ID:</label>
-          <input
-            id="project-id-input"
-            type="text"
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            placeholder="Enter project ID"
-            className="project-id-input"
-          />
-        </div>
-        <button onClick={handleCreateNewProject} className="new-project-button">
-          New Project
-        </button>
-      </div>
       {/* LEFT COLUMN: Directory */}
       <DirectoryBar
         setDisplayedFile={setDisplayedFile}

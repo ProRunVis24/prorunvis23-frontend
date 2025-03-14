@@ -51,32 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.body.appendChild(newProjectBtn);
 
-    // Optional: Display session/project info
-    var sessionInfoDiv = document.createElement('div');
-    sessionInfoDiv.style.position = 'fixed';
-    sessionInfoDiv.style.top = '10px';
-    sessionInfoDiv.style.right = '10px';
-    sessionInfoDiv.style.padding = '5px';
-    sessionInfoDiv.style.backgroundColor = 'rgba(200, 200, 200, 0.7)';
-    sessionInfoDiv.style.borderRadius = '3px';
-    sessionInfoDiv.style.fontSize = '12px';
-    sessionInfoDiv.style.zIndex = '999';
 
-    // Fetch session info
-    fetch('/debug/session')
-        .then(response => response.text())
-        .then(html => {
-            // Extract project ID from the HTML response
-            const projectIdMatch = html.match(/Project ID: ([a-zA-Z0-9-]+)/);
-            const projectId = projectIdMatch ? projectIdMatch[1] : 'Unknown';
-            sessionInfoDiv.textContent = 'Project: ' + projectId;
-        })
-        .catch(error => {
-            console.error('Error fetching session info:', error);
-            sessionInfoDiv.textContent = 'Project: Unknown';
-        });
-
-    document.body.appendChild(sessionInfoDiv);
 });
 
 // Create a button to open a new project session

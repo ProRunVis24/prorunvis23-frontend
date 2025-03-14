@@ -22,16 +22,7 @@ export default function Navbar({ projectId, onProjectIdChange }) {
       />
       <h3 className="nav--logo_text">Visualize your flow</h3>
       {/* Project ID field */}
-      <div className="nav--project-id">
-        <label htmlFor="project-id-input">Project ID: </label>
-        <input
-          type="text"
-          id="project-id-input"
-          value={projectId}
-          onChange={(e) => onProjectIdChange(e.target.value)}
-          placeholder="Enter project ID"
-        />
-      </div>
+
       <HelpButton />
     </nav>
   );
