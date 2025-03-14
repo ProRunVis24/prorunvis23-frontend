@@ -1,21 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import FolderTree from 'react-folder-tree';
 import 'react-folder-tree/dist/style.css';
-import "../Css/App.css"
+import "../Css/App.css";
 import PropTypes from "prop-types";
 
 /**
- * Represents the left component of the application, which is primarily responsible for
- * displaying a folder tree of Java files. This component allows users to select a directory,
- * filters out Java files, and displays these files in a structured folder tree view.
- * Users can collapse or expand the left container to show or hide the folder tree.
- * @param setDisplayedFile Function to change the active file to the one given.
- * @param setDisplayedToActive Function to reset the view to the currently active Node.
- * @param passOnUploadedFiles Pass the uploaded files to the parent component.
- * @param passOnJsonData Pass the uploaded JSON data to the parent component.
- * @returns {Element} The left component containing the upload button and dir bar.
- * @constructor
+ * Left-side component for uploading a Java folder and optionally a JSON file.
+ * There's no direct display of project ID here; we rely on the parent's single
+ * "Project ID" field.
  */
+<<<<<<< HEAD
+function DirectoryBar({
+  setDisplayedFile,
+  setDisplayedToActive,
+  passOnUploadedFiles,
+  passOnJsonData,
+  projectId
+}) {
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [folderTreeData, setFolderTreeData] = useState(null);
+  const [isLeftContainerCollapsed, setIsLeftContainerCollapsed] = useState(false);
+
+  // Called when user picks a local folder containing .java files
+  const handleFileUpload = (event) => {
+    const filteredFiles = Array.from(event.target.files).filter(file =>
+      file.webkitRelativePath.endsWith('.java')
+=======
 function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFiles, passOnJsonData}) {
     // State for the list of files uploaded by the user.
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -23,7 +33,8 @@ function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFil
     const [folderTreeData, setFolderTreeData] = useState(null);
     // State to manage the collapsed or expanded state of the left container.
     const [isLeftContainerCollapsed, setIsLeftContainerCollapsed] = useState(false);
-    // State for the uploaded JSON file
+
+    // Zustand für das hochgeladene JSON-File
     const [uploadedJsonFile, setUploadedJsonFile] = useState(null);
 
     /**
@@ -105,7 +116,7 @@ function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFil
     };
 
     /**
-     * Event-Handler for JSON file upload.
+     * Event-Handler für den JSON-File-Upload.
      */
     const handleJsonFileUpload = (event) => {
         const file = event.target.files[0];
@@ -116,8 +127,8 @@ function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFil
     };
 
     /**
-     * Function to upload the JSON file to the backend.
-     * @param {File} file - The uploaded JSON file.
+     * Funktion zum Hochladen der JSON-Datei an das Backend.
+     * @param {File} file - Die hochgeladene JSON-Datei.
      */
     const uploadJsonFileToBackend = async (file) => {
         const formData = new FormData();
@@ -131,17 +142,17 @@ function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFil
 
             if (response.ok) {
                 const jsonData = await response.json();
-                // Pass JSON data to parent component
+                // Übergibt die JSON-Daten an die übergeordnete Komponente
                 passOnJsonData(jsonData);
-                // Show success message
-                alert('JSON file successfully uploaded!');
+                // Zeigt eine Erfolgsmeldung an
+                alert('JSON-Datei erfolgreich hochgeladen!');
             } else {
-                // Error handling
-                alert('Error uploading JSON file.');
+                // Fehlerbehandlung
+                alert('Fehler beim Hochladen der JSON-Datei.');
             }
         } catch (error) {
-            console.error('Error uploading JSON file:', error);
-            alert('An unexpected error occurred.');
+            console.error('Fehler beim Hochladen der JSON-Datei:', error);
+            alert('Ein unerwarteter Fehler ist aufgetreten.');
         }
     };
 
@@ -155,69 +166,228 @@ function DirectoryBar({setDisplayedFile, setDisplayedToActive, passOnUploadedFil
     }, [uploadedFiles]);
 
     return (
-        <main className={`left-container ${isLeftContainerCollapsed ? 'collapsed' : ''}`}>
-            {/* Toggle button that appears on hover */}
-            <button
-                className="left-container-toggle"
-                onClick={toggleLeftContainer}
-                title={isLeftContainerCollapsed ? "Expand directory" : "Collapse directory"}
-            >
-                {isLeftContainerCollapsed ? '►' : '◄'}
-            </button>
-
-            {/* Content is always rendered but will be hidden by CSS when collapsed */}
-            <div className="left-container-content">
-                <button onClick={setDisplayedToActive} className="jump-button">
-                    Jump to active function
-                </button>
-
-                <div className="upload-button-container">
-                    <form id="upload-form" className="text-box" encType="multipart/form-data">
-                        <input
-                            type="file"
-                            name="file"
-                            multiple
-                            webkitdirectory=""
-                            onChange={handleFileUpload}
-                            className="picker"
-                        />
-                    </form>
-                </div>
-
-                {/* JSON Upload Section */}
-                <div className="upload-json-container">
-                    <form id="json-upload-form" encType="multipart/form-data">
-                        <input
-                            type="file"
-                            name="jsonFile"
-                            accept=".json"
-                            onChange={handleJsonFileUpload}
-                            className="picker"
-                        />
-                    </form>
-                </div>
-
-                {folderTreeData && (
-                    <div className="folder-tree-container">
-                        <FolderTree
-                            data={folderTreeData}
-                            onNameClick={onNameClick}
-                            showCheckbox={false}
-                            readOnly={true}
-                            indentPixels={15}
-                        />
+        <main className={`left-container ${isLeftContainerCollapsed ? 'collapsed' : ''}`}
+              style={{width: isLeftContainerCollapsed ? '50px' : '280px'}}>
+            <button onClick={toggleLeftContainer}>{isLeftContainerCollapsed ? 'Open' : 'Close directory'}</button>
+            {isLeftContainerCollapsed ? null : (
+                <div>
+                    <button onClick={setDisplayedToActive}>{'Jump to active function'} </button>
+                    <div className="upload-button-container">
+                        <form id="upload-form" className="text-box" encType="multipart/form-data">
+                            <input
+                                type="file"
+                                name="file"
+                                multiple
+                                webkitdirectory=""
+                                onChange={handleFileUpload}
+                                className="picker"
+                            />
+                        </form>
                     </div>
-                )}
-            </div>
+
+                    {/* Neuer JSON-Upload-Bereich */}
+                    <div className="upload-json-container" style={{ marginTop: '20px' }}>
+                        <form id="json-upload-form" encType="multipart/form-data">
+                            <input
+                                type="file"
+                                name="jsonFile"
+                                accept=".json"
+                                onChange={handleJsonFileUpload}
+                                className="picker"
+                            />
+                        </form>
+                    </div>
+
+                    {folderTreeData && (
+                        <div className="folder-tree-container">
+                            <FolderTree
+                                data={folderTreeData}
+                                onNameClick={onNameClick}
+                                showCheckbox={false}
+                                readOnly={true}
+                                indentPixels={15}
+                            />
+                        </div>
+                    )}
+                </div>
+            )}
         </main>
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
     );
+    setUploadedFiles(filteredFiles);
+
+    if (filteredFiles.length > 0) {
+      const folderName = filteredFiles[0].webkitRelativePath.split('/')[0];
+      const treeData = buildFolderTree(filteredFiles, folderName);
+      setFolderTreeData(treeData);
+    }
+  };
+
+  // Build a "folder tree" data structure for FolderTree
+  const buildFolderTree = (fileList, rootFolderName) => {
+    const root = { name: rootFolderName, isOpen: true, children: [] };
+    let i = 0;
+
+    fileList.forEach((file) => {
+      const pathParts = file.webkitRelativePath.split('/');
+      let currentLevel = root;
+
+      pathParts.forEach((part, idx) => {
+        if (idx > 0) {
+          const nodeName = part.replace('.java', '');
+          let existing = currentLevel.children.find(child => child.name === nodeName);
+          const isDirectory = idx < pathParts.length - 1;
+
+          if (!isDirectory && !existing) {
+            existing = {
+              name: nodeName,
+              realPath: file.webkitRelativePath,
+              index: i,
+              children: undefined,
+            };
+            currentLevel.children.push(existing);
+            i++;
+          } else if (!existing) {
+            existing = { name: nodeName, children: [] };
+            currentLevel.children.push(existing);
+          }
+          currentLevel = existing;
+        }
+      });
+    });
+
+    return root;
+  };
+
+  // Toggle the collapsed/expanded state of the left container
+  const toggleLeftContainer = () => {
+    setIsLeftContainerCollapsed(!isLeftContainerCollapsed);
+  };
+
+  // When user clicks on a node (file) in FolderTree
+  const onNameClick = ({ nodeData }) => {
+    const { realPath, index } = nodeData;
+    if (realPath != null) {
+      setDisplayedFile(uploadedFiles[index]);
+    }
+  };
+
+  // Handle JSON file upload
+  const handleJsonFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      uploadJsonFileToBackend(file);
+    }
+  };
+
+  // POST the JSON file to the server
+  const uploadJsonFileToBackend = async (file) => {
+    if (!projectId) {
+      alert("Please enter a Project ID before uploading JSON files");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('jsonFile', file);
+    formData.append('projectId', projectId);
+
+    try {
+      const res = await fetch('/api/upload-json', {
+        method: 'POST',
+        body: formData,
+      });
+      if (!res.ok) {
+        alert("Error uploading JSON file.");
+        return;
+      }
+      const jsonData = await res.json();
+      passOnJsonData(jsonData);
+      alert("JSON file successfully uploaded!");
+    } catch (error) {
+      console.error("Error uploading JSON file:", error);
+      alert("An unexpected error occurred.");
+    }
+  };
+
+  // If `uploadedFiles` changes, pass them upward
+  useEffect(() => {
+    if (uploadedFiles.length > 0) {
+      passOnUploadedFiles(uploadedFiles);
+    }
+  }, [uploadedFiles, passOnUploadedFiles]);
+
+  return (
+    <main className={`left-container ${isLeftContainerCollapsed ? 'collapsed' : ''}`}>
+      <button
+        className="left-container-toggle"
+        onClick={toggleLeftContainer}
+        title={isLeftContainerCollapsed ? "Expand directory" : "Collapse directory"}
+      >
+        {isLeftContainerCollapsed ? '►' : '◄'}
+      </button>
+
+      <div className="left-container-content">
+        <button onClick={setDisplayedToActive} className="jump-button">
+          Jump to active function
+        </button>
+
+        {/* Only a hidden input for projectId is used by the forms */}
+        <div className="upload-button-container">
+          <form id="upload-form" className="text-box" encType="multipart/form-data">
+            <input type="hidden" name="projectId" value={projectId || ''} />
+            <input
+              type="file"
+              name="file"
+              multiple
+              webkitdirectory=""
+              onChange={handleFileUpload}
+              className="picker"
+            />
+          </form>
+        </div>
+
+        <div className="upload-json-container">
+          <form id="json-upload-form" encType="multipart/form-data">
+            <input type="hidden" name="projectId" value={projectId || ''} />
+            <input
+              type="file"
+              name="jsonFile"
+              accept=".json"
+              onChange={handleJsonFileUpload}
+              className="picker"
+            />
+          </form>
+        </div>
+
+        {folderTreeData && (
+          <div className="folder-tree-container">
+            <FolderTree
+              data={folderTreeData}
+              onNameClick={onNameClick}
+              showCheckbox={false}
+              readOnly={true}
+              indentPixels={15}
+            />
+          </div>
+        )}
+      </div>
+    </main>
+  );
 }
 
 DirectoryBar.propTypes = {
+<<<<<<< HEAD
+  setDisplayedFile: PropTypes.func.isRequired,
+  setDisplayedToActive: PropTypes.func.isRequired,
+  passOnUploadedFiles: PropTypes.func.isRequired,
+  passOnJsonData: PropTypes.func.isRequired,
+  projectId: PropTypes.string,
+=======
     setDisplayedFile: PropTypes.instanceOf(Function).isRequired,
     setDisplayedToActive: PropTypes.instanceOf(Function).isRequired,
     passOnUploadedFiles: PropTypes.instanceOf(Function).isRequired,
-    passOnJsonData: PropTypes.instanceOf(Function).isRequired,
+    passOnJsonData: PropTypes.instanceOf(Function).isRequired, // Neue Prop
+>>>>>>> parent of edf9068 (Collapsible sections optimized)
 };
 
 export default DirectoryBar;
