@@ -528,36 +528,96 @@ function EditorManager({
   }, [jsonManager]);
 
   // Welcome component when no file is loaded
-// Welcome component when no file is loaded
 const EditorWelcome = () => {
   return (
     <div className="editor-welcome-container">
       <div className="editor-welcome-content">
-        <h2>Welcome to ProRunVis Code Visualizer</h2>
-        <div className="welcome-instructions">
-          <p>Upload a Java project from the left panel to get started.</p>
+        <h2>Welcome to ProRunVis</h2>
+        <div className="welcome-description">
+          <p>
+            <strong>ProRunVis</strong> is an advanced visualization tool that helps you understand and analyze the execution flow of Java programs.
+            By instrumenting, tracing, and visualizing your code, it reveals how your program actually runs - showing control flow, method calls,
+            loops, and execution paths that might otherwise be difficult to understand.
+          </p>
+        </div>
+
+        <div className="welcome-workflow">
+          <h3>How It Works:</h3>
           <div className="welcome-steps">
             <div className="welcome-step">
               <span className="step-number">1</span>
-              <p>Use the directory browser on the left to select and upload a Java project</p>
+              <div className="step-content">
+                <h4>Upload Your Java Project</h4>
+                <p>Use the file browser on the left panel to upload a Java project directory. ProRunVis works best with
+                self-contained Java projects without external dependencies.</p>
+              </div>
             </div>
+
             <div className="welcome-step">
               <span className="step-number">2</span>
-              <p>Run instrumentation and tracing using the modular actions panel</p>
+              <div className="step-content">
+                <h4>Instrument & Trace</h4>
+                <p>Use the {'"Instrument"'} button in the middle panel to prepare your code for analysis.
+                Then {'"Trace"'} to run your program and collect execution data. ProRunVis automatically
+                inserts trace points throughout your code to track execution.</p>
+              </div>
             </div>
+
             <div className="welcome-step">
               <span className="step-number">3</span>
-              <p>Visualize the execution flow with color-coded highlights and interactive elements</p>
+              <div className="step-content">
+                <h4>Process & Visualize</h4>
+                <p>Click {'"Process"'} to analyze the trace data, then {'"Visualize"'} to see the execution flow in the editor.
+                Your code will be displayed with color-coded highlights showing the actual execution path.</p>
+              </div>
+            </div>
+
+            <div className="welcome-step">
+              <span className="step-number">4</span>
+              <div className="step-content">
+                <h4>Explore & Analyze</h4>
+                <p>Use the interactive visualizations to explore method calls, loops, and execution paths.
+                You can also run JBMC analysis to see variable assignments and potential issues in your code.</p>
+              </div>
             </div>
           </div>
-          <div className="welcome-features">
-            <h3>Features:</h3>
-            <ul>
-              <p><span className="feature-highlight active"></span> Active code is highlighted in <strong>green</strong></p>
-              <p><span className="feature-highlight link"></span> Function calls and jumps are highlighted in <strong>blue</strong></p>
-              <p><span className="feature-highlight loop"></span> Loops are highlighted in <strong>purple</strong></p>
-            </ul>
+        </div>
+
+        <div className="welcome-visualization">
+          <h3>Visualization Guide:</h3>
+          <div className="visualization-features">
+            <div className="feature">
+              <span className="feature-highlight active"></span>
+              <p><strong>Green highlights</strong> show executed code segments in the current context</p>
+            </div>
+            <div className="feature">
+              <span className="feature-highlight link"></span>
+              <p><strong>Blue highlights</strong> indicate function calls and jumps - click to navigate to target locations</p>
+            </div>
+            <div className="feature">
+              <span className="feature-highlight loop"></span>
+              <p><strong>Purple highlights</strong> show loops - click to select specific iterations</p>
+            </div>
+            <div className="feature">
+              <span className="feature-highlight inactive"></span>
+              <p><strong>Red highlights</strong> indicate inactive or unreachable code in the current execution path</p>
+            </div>
           </div>
+        </div>
+
+        <div className="welcome-advanced">
+          <h3>Advanced Features:</h3>
+          <ul>
+            <li><strong>Method Tree View:</strong> Explore the hierarchy of function calls in your code</li>
+            <li><strong>Trace Tree:</strong> See a sequential list of all execution points</li>
+            <li><strong>JBMC Integration:</strong> Run the Java Bounded Model Checker to identify potential bugs and analyze variable states</li>
+
+          </ul>
+        </div>
+
+        <div className="welcome-tip">
+          <h4>Getting Started:</h4>
+          <p>Try uploading a simple Java project first to get familiar with the workflow. Check the Help button in the navigation bar for a detailed tutorial.</p>
         </div>
       </div>
     </div>

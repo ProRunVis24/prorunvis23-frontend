@@ -3,16 +3,8 @@ import PropTypes from "prop-types";
 import HelpButton from "./HelpButton";
 import logoImage from "../Images/CDProRunVis1.0.png";
 import "../Css/App.css";
-/**
- * Represents the navigation bar at the top of the application.
- * It displays a logo, the title "Visualize your flow", a field for
- * displaying/editing the current project ID, and a HelpButton.
- *
- * Props:
- * - projectId (string): The current project ID.
- * - onProjectIdChange (function): Callback function called when the project ID changes.
- */
-export default function Navbar({ projectId, onProjectIdChange }) {
+
+export default function Navbar() {
   return (
     <nav className="nav">
       <img
@@ -21,13 +13,16 @@ export default function Navbar({ projectId, onProjectIdChange }) {
         alt="A debugger logo"
       />
       <h3 className="nav--logo_text">Visualize your flow</h3>
-      {/* Project ID field */}
+
+      {/* Add New Project Button here */}
+      <button
+        className="nav--new-project-button"
+        onClick={() => window.open('/new-project', '_blank')}
+      >
+        New Project
+      </button>
 
       <HelpButton />
     </nav>
   );
 }
-Navbar.propTypes = {
-  projectId: PropTypes.string.isRequired,
-  onProjectIdChange: PropTypes.func.isRequired,
-};

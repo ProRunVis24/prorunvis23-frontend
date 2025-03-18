@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'; // Add this import
 import Navbar from "./WebsiteElements/Navbar";
 import WebsiteContainer from "./WebsiteContainer";
 import "./Css/App.css";
+import logo from './Images/CDProRunVis.png';
 
 /**
  * Observes Left/RightContainer for correct resizing. Prohibits sending too many requests to DOM, which causes a Runtime Error.
@@ -26,7 +27,7 @@ function WelcomeScreen({ onEnterApp }) {
         <div className="welcome-container">
             <div className="welcome-content">
                 <img
-                    src="./Images/CDProRunVis.png"
+                    src={logo}
                     alt="ProRunVis Logo"
                     className="welcome-logo"
                 />

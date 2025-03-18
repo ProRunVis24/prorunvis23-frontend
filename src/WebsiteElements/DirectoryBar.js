@@ -67,13 +67,28 @@ function DirectoryBar({ setDisplayedFile, setDisplayedToActive, passOnUploadedFi
     }
   };
   // Handle JSON file upload (for uploading processed JSON, etc.)
-  const handleJsonFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setUploadedJsonFile(file);
-      uploadJsonFileToBackend(file);
-    }
-  };
+ const handleJsonFileUpload = (event) => {
+     const file = event.target.files[0];
+     if (file) {
+         setUploadedJsonFile(file);
+
+         // Read and parse the file directly instead of uploading to backend
+         const reader = new FileReader();
+         reader.onload = (e) => {
+             try {
+                 const jsonData = JSON.parse(e.target.result);
+                 // Pass JSON data to parent component
+                 passOnJsonData(jsonData);
+                 // Show success message
+                 alert('JSON file successfully loaded!');
+             } catch (error) {
+                 console.error('Error parsing JSON file:', error);
+                 alert('Invalid JSON format. Please upload a valid JSON file.');
+             }
+         };
+         reader.readAsText(file);
+     }
+ };
   const uploadJsonFileToBackend = async (file) => {
     if (!projectId) {
       alert('Please enter a Project ID before uploading JSON files');

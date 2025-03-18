@@ -963,6 +963,8 @@ p {
   width: 100%;
   background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
   padding: 2rem;
+  overflow-y: scroll;
+  padding-top: 20px;
 }
 
 .editor-welcome-content {
@@ -1009,7 +1011,1055 @@ p {
   margin-right: 1rem;
   flex-shrink: 0;
 }
+.nav--new-project-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #25ffe0;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
 
+.nav--new-project-button:hover {
+  background-color: #25ffe0;
+}
+/* GLOBAL RESETS + SIZING */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  /* Dark gradient background for a futuristic vibe */
+  background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
+  color: #E8F5FF; /* Softer white-cyan text for a neon aesthetic */
+}
+
+/* App container: top-level */
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden; /* Hide overflow beyond container */
+}
+
+/* NAVBAR */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(90deg, #15152b, #242447);
+  height: 60px;
+  padding: 0 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+}
+
+.nav--icon {
+  height: 42px;
+  margin-right: 15px;
+}
+
+/* Logo text */
+.nav--logo_text {
+  margin-right: auto;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #00ffd1; /* Neon teal accent */
+}
+
+/* Title or additional text (currently empty) */
+.nav--title {
+  color: #a7f3d0;
+  font-weight: 400;
+  margin-right: 20px;
+  font-size: 1rem;
+}
+
+/* Help button */
+.nav--help-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #25ffe0;
+  border-radius: 20px;
+  padding: 8px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+
+.nav--help-button:hover {
+  background-color: #25ffe0;
+}
+
+/* CONTENT: columns container */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  height: calc(100% - 60px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Left container base styles */
+.left-container {
+  flex: 0 0 18%;
+  min-width: 240px;
+  max-width: 400px;
+  background: #1f1f3b;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+/* Left container content wrapper */
+.left-container-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 100%;
+  opacity: 1;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: visible;
+}
+
+/* Collapsed left container */
+.left-container.collapsed {
+  flex: 0 0 10px !important;
+  min-width: 10px !important;
+  max-width: 10px !important;
+  background: linear-gradient(90deg, #1f1f3b, #1a1a2e);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide content when collapsed */
+.left-container.collapsed .left-container-content {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Show content on hover when collapsed */
+.left-container.collapsed:hover {
+  flex: 0 0 18% !important;
+  min-width: 240px !important;
+  max-width: 400px !important;
+  background: #1f1f3b;
+  z-index: 15;
+}
+
+.left-container.collapsed:hover .left-container-content {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Toggle button styles */
+.left-container-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: #32325A;
+  border: none !important;
+  border-radius: 50% !important;
+  color: #cde2ff;
+  cursor: pointer;
+  z-index: 20;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease;
+  opacity: 0;
+  padding: 0 !important;
+  text-align: center !important;
+  min-width: 30px !important;
+  width: 30px !important;
+}
+
+/* Show toggle button on hover */
+.left-container:hover .left-container-toggle {
+  opacity: 1;
+}
+
+/* Position toggle button when collapsed */
+.left-container.collapsed .left-container-toggle {
+  right: -15px;
+  opacity: 0;
+}
+
+/* Show toggle button when hovering on collapsed container */
+.left-container.collapsed:hover .left-container-toggle {
+  opacity: 1;
+  right: 10px;
+}
+
+.left-container-toggle:hover {
+  background-color: #454575 !important;
+  transform: none !important;
+  padding-left: 0 !important;
+}
+
+/* Jump button styles */
+.jump-button {
+  background-color: #304060 !important;
+  margin-bottom: 15px !important;
+  border: 1px solid #445580 !important;
+  color: #00ffd1 !important;
+  font-weight: 600 !important;
+}
+
+.jump-button:hover {
+  background-color: #445580 !important;
+}
+
+/* Improved upload container */
+.upload-json-container {
+  margin-top: 20px;
+  padding: 8px;
+  background-color: rgba(42, 42, 80, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.upload-button-container {
+  margin-top: 20px;
+  padding: 8px;
+  background-color: rgba(42, 42, 80, 0.3);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Regular buttons in the left container */
+.left-container button:not(.left-container-toggle) {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  width: 100%;
+  padding: 12px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, padding-left 0.2s;
+  margin-bottom: 4px;
+  border-radius: 4px;
+}
+
+.left-container button:not(.left-container-toggle):hover {
+  background-color: rgba(0, 255, 209, 0.2);
+  padding-left: 20px;
+}
+
+/* Folder tree container */
+.folder-tree-container {
+  margin: 10px 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 300px);
+}
+
+/* MIDDLE CONTAINER - improved scrolling */
+.middle-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(140deg, #1a1a2e 40%, #28284a 100%);
+  transition: flex 0.3s ease, min-width 0.3s ease;
+  border-right: 2px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  padding-right: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Middle container collapsed state */
+.middle-container.collapsed {
+  flex: 0 0 10px !important;
+  min-width: 10px !important;
+  overflow: hidden;
+  background: linear-gradient(90deg, #1a1a2e, #242447);
+}
+
+/* Improved middle container toggle button positioning */
+.middle-container-toggle {
+  position: absolute;
+  top: 50%;
+  right: -14px; /* Position outside the container */
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: #242447;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #cde2ff;
+  cursor: pointer;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  padding: 0;
+  font-size: 16px;
+}
+
+.middle-container-toggle:hover {
+  background-color: #454575;
+  color: #00ffd1;
+}
+
+/* Fix toggle icon when collapsed */
+.middle-container.collapsed .middle-container-toggle {
+  right: -30px; /* Keep it at the same position */
+}
+
+/* Let toggle button overlap with right container */
+.right-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #18182f;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px #000;
+  transition: flex 0.3s ease;
+  margin-left: -14px; /* Negative margin to allow overlap */
+  padding-left: 14px; /* Padding to prevent content being hidden */
+  z-index: 10; /* Lower than toggle button */
+}
+
+/* Right container expands when middle is collapsed */
+.middle-container.collapsed + .right-container {
+  flex: 4;
+}
+
+/* Editor container for Monaco */
+.editor-container {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* JBMC / Modular actions section at top */
+.jbmc-section {
+  background-color: rgba(34, 255, 173, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  /* Let it scroll if content is big */
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* The modular actions section */
+.modular-actions-section {
+  background: rgba(42, 42, 66, 0.5);
+  margin: 10px;
+  flex: 1;
+  border-radius: 8px;
+  overflow-y: auto; /* Let it scroll if large */
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Modular Actions Container */
+.modular-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 5px;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+/* JSON viewer section at bottom */
+.json-viewer-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  margin: 10px;
+  max-height: 300px;
+}
+
+/* JSON VIEWER STYLES */
+.json-viewer {
+  background-color: rgba(24, 24, 47, 0.8);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.json-display {
+  max-height: 250px;
+  overflow: auto;
+  margin-top: 6px;
+  padding: 6px;
+  background-color: #1a1a2f;
+  border-radius: 4px;
+}
+
+/* Download button inside the JSON viewer */
+.download-button {
+  margin-top: 10px;
+  padding: 8px 14px;
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #2affdf;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: #2affdf;
+}
+
+/* TABLES: MergedAssignments etc. */
+.merged-assignments-container {
+  max-height: 240px; /* limit table's height so it can scroll */
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #24244f;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+th {
+  background-color: #303060;
+  color: #00ffd1;
+  font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+tbody tr:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+}
+
+/* Buttons inside the middle container sections */
+.jbmc-section button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  margin: 6px 6px 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  min-width: 80px;
+  display: inline-block;
+}
+
+.middle-container button {
+  background-color: #32325A;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px 12px;
+  margin: 6px 6px 6px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  min-width: 30px;
+  display: inline-block;
+}
+
+.middle-container button:hover,
+.jbmc-section button:hover {
+  background-color: #454575;
+  transform: translateX(3px);
+}
+
+/* ---------- DECORATIONS FOR THE EDITOR (line highlights etc.) ---------- */
+.inactive {
+  background-color: rgba(255, 60, 60, 0.45) !important; /* translucent red */
+}
+
+.active {
+  background-color: rgba(60, 255, 60, 0.35) !important; /* translucent green */
+}
+
+.link {
+  background-color: rgba(30, 144, 255, 0.6) !important; /* dodgerblue */
+}
+
+.loop {
+  background-color: rgba(128, 0, 128, 0.5) !important;  /* purple */
+}
+
+.start {
+  content: url('../Images/start.png');
+}
+
+.line {
+  content: url('../Images/line.png');
+}
+
+.end {
+  content: url('../Images/end.png');
+}
+
+.one-line {
+  content: url('../Images/oneLine.png');
+}
+
+/* Additional popup styling (if used) */
+.popup {
+  position: absolute;
+  background-color: #FFF;
+  color: #000;
+  border: 1px solid #CCC;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+/* MONACO TOKEN COLORS OVERRIDES */
+.monaco-editor.token.keyword {
+  color: #FFC1F3 !important; /* Pastel pink for keywords */
+  font-weight: bold;
+}
+
+.monaco-editor.token.function {
+  color: #AFFFD1 !important; /* Light teal for function names */
+}
+
+.monaco-editor.token.type {
+  color: #FFCB6B !important;
+}
+
+.monaco-editor.token.identifier {
+  color: #D6DEEB !important;
+}
+
+.monaco-editor.token.string {
+  color: #C3E88D !important;
+}
+
+.monaco-editor.token.number {
+  color: #F78C6C !important;
+}
+
+.monaco-editor.token.operator {
+  color: #89DDFF !important;
+}
+
+.monaco-editor.token.annotation {
+  color: #82AAFF !important;
+}
+
+.monaco-editor.token.regex {
+  color: #ECC48D !important;
+}
+
+.monaco-editor.token.delimiter {
+  color: #89DDFF !important;
+}
+
+.monaco-editor.token.invalid {
+  background-color: #FF5370 !important;
+  color: #FFF !important;
+}
+
+/* MONACO EDITOR HOVER */
+.monaco-editor .monaco-editor-hover {
+  z-index: 1000;
+  position: fixed;
+  visibility: visible;
+}
+
+.monaco-editor-hover .monaco-editor-hover-content {
+  background-color: #FFF;
+  color: #000;
+  border: 1px solid #444;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  padding: 8px;
+}
+
+/* Modal styling (Help, etc.) */
+.modal-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #26264a;
+  color: #E8F5FF;
+  border-radius: 10px;
+  border: 2px solid #444;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+
+.modal-close-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #2affdf;
+  padding: 8px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.modal-content {
+  margin-top: 20px;
+}
+
+.modal {
+  /* If you need to style the overall modal container from ReactModal, do it here */
+}
+
+/* Buttons used in the top left area (like "Upload") */
+.upload-button-container,
+.reset-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.picker {
+  margin-right: 0;
+  margin-bottom: 1rem;
+  color: #cde2ff;
+  background-color: #32325A;
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.picker:hover {
+  background-color: #454575;
+}
+
+/* TRACE TREE STYLES */
+.trace-tree-container {
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.trace-tree-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trace-tree-container li {
+  margin: 4px 0;
+  cursor: pointer;
+  transition: background-color 0.2s, padding-left 0.2s;
+}
+
+.trace-tree-container li:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+  padding-left: 8px;
+}
+
+/* METHOD VIEW SECTION */
+.method-view-section {
+  margin: 10px;
+  padding: 10px;
+  background: rgba(42, 42, 80, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #cde2ff;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.method-view-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+}
+
+.method-view-section select.method-view-dropdown {
+  width: 100%;
+  padding: 8px;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+/* HIGHLIGHTED METHODS OR TRACE NODES */
+.trace-tree-clickable.highlight,
+.highlighted-method {
+  background-color: rgba(0, 255, 209, 0.25);
+  border-radius: 3px;
+}
+
+/* ---------- SCROLLBAR STYLING (optional) --------- */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2affdf66;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2affdf;
+}
+
+/* Improved scrollbars for middle container */
+.middle-container *::-webkit-scrollbar {
+  width: 8px;
+}
+
+.middle-container *::-webkit-scrollbar-track {
+  background: rgba(26, 26, 46, 0.5);
+}
+
+.middle-container *::-webkit-scrollbar-thumb {
+  background: rgba(42, 255, 223, 0.4);
+  border-radius: 4px;
+}
+
+.middle-container *::-webkit-scrollbar-thumb:hover {
+  background: rgba(42, 255, 223, 0.7);
+}
+
+/* Form elements styling */
+.form-group {
+  margin: 10px 0;
+}
+
+.input-field {
+  background-color: #242447;
+  color: #cde2ff;
+  border: 1px solid #444;
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: #00ffd1;
+  outline: none;
+}
+
+.action-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Active tab styling */
+.active-tab {
+  background-color: #00ffd1 !important;
+  color: #1a1a2e !important;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+/* Collapsible sections styling */
+.collapsible-section {
+  margin: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  background: rgba(42, 42, 66, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  max-height: unset;
+}
+
+.collapsible-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 15px;
+  background: linear-gradient(140deg, #24244b 0%, #32325A 100%);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.collapsible-header:hover {
+  background: linear-gradient(140deg, #32325A 0%, #454575 100%);
+}
+
+.collapsible-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #00ffd1;
+}
+
+.collapse-icon {
+  color: #cde2ff;
+  font-size: 0.8rem;
+}
+
+.collapsible-content {
+  padding: 10px;
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+.collapsible-section.collapsed {
+  max-height: 38px; /* Header height */
+  transition: max-height 0.3s ease;
+}
+
+.collapsible-section.expanded {
+  max-height: 1000px; /* Arbitrary large value */
+  transition: max-height 0.3s ease;
+}
+
+/* Tab navigation styling */
+.tab-navigation {
+  display: flex;
+  gap: 2px;
+  background-color: #1a1a2e;
+  padding: 5px 5px 0;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 10px;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  background-color: #32325A;
+  color: #cde2ff;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-button.active {
+  background-color: #00ffd1;
+  color: #1a1a2e;
+}
+
+.tab-content {
+  background-color: rgba(42, 42, 66, 0.3);
+  border-radius: 0 0 6px 6px;
+  padding: 10px;
+}
+
+/* Additional scrolling improvements for sections */
+.jbmc-section,
+.modular-actions-section,
+.json-viewer-section,
+.trace-tree-container,
+.method-view-section,
+.collapsible-content {
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+  scrollbar-width: thin; /* For Firefox */
+}
+
+/* Add bottom padding to middle container for better scrolling */
+.middle-container > :last-child {
+  margin-bottom: 20px;
+}
+
+/* Additional helper class for toggle button content */
+.toggle-icon {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Welcome container styles */
+.welcome-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top left, #1a1a2e 0%, #0f0f1f 100%);
+  color: #E8F5FF;
+}
+
+.welcome-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 600px;
+  background: rgba(42, 42, 80, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.welcome-logo {
+  width: 150px;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  color: #00ffd1;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  color: #cde2ff;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.open-button, .new-button {
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 500;
+}
+
+.open-button {
+  background-color: #00ffd1;
+  color: #1a1a2e;
+  border: 1px solid #25ffe0;
+}
+
+.new-button {
+  background-color: transparent;
+  color: #00ffd1;
+  border: 1px solid #00ffd1;
+}
+
+.open-button:hover {
+  background-color: #25ffe0;
+  transform: translateY(-3px);
+}
+
+.new-button:hover {
+  background-color: rgba(0, 255, 209, 0.15);
+  transform: translateY(-3px);
+}
+
+.editor-welcome-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 20px;
+  padding-top: 20px; /* Was 70px, which is too much */
+  background: linear-gradient(150deg, #18182f 0%, #242447 100%);
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.editor-welcome-content {
+  max-width: 900px;
+
+  margin-top: 0;
+  margin-bottom: 20px;
+  background: rgba(30, 30, 60, 0.4);
+  border: 1px solid rgba(60, 60, 120, 0.5);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.editor-welcome-content h2 {
+  color: #00ffd1;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-instructions {
+  text-align: left;
+  margin-top: 1.5rem;
+}
+
+.welcome-steps {
+  margin: 2rem 0;
+}
+
+.welcome-step {
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: #00ffd1;
+  color: #1a1a2e;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+.nav--new-project-button {
+  background-color: #00ffd1;
+  color: #000;
+  border: 1px solid #25ffe0;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-right: 15px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.25s ease;
+}
+
+.nav--new-project-button:hover {
+  background-color: #25ffe0;
+}
 .welcome-features {
   margin-top: 2rem;
   background: rgba(0, 0, 0, 0.2);
@@ -1020,6 +2070,212 @@ p {
 .welcome-features h3 {
   color: #00ffd1;
   margin-bottom: 1rem;
+}
+/* Update these styles in your App.css */
+
+.editor-welcome-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px;
+  background: linear-gradient(150deg, #18182f 0%, #242447 100%);
+  /* Add initial scroll padding to show content from the top */
+  padding-top: 70px; /* Increase this value to push content down further */
+  scroll-behavior: smooth;
+  /* Set a fixed starting position */
+  scroll-padding-top: 60px;
+  /* Make sure content doesn't start flush with the top */
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-welcome-content {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(30, 30, 60, 0.4);
+  border: 1px solid rgba(60, 60, 120, 0.5);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  /* Add some padding at the bottom and top */
+  padding-bottom: 40px;
+  padding-top: 30px;
+  /* Add margins to ensure spacing */
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Fix the welcome-description to ensure it's visible */
+.welcome-description {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  color: #e8f5ff;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* Make the main title clearly visible */
+.editor-welcome-content h2 {
+  color: #00ffd1;
+  text-align: center;
+  margin-bottom: 25px;
+  margin-top: 10px;
+  font-size: 1.8rem;
+  /* Add some emphasis to make it stand out */
+  text-shadow: 0 0 10px rgba(0, 255, 209, 0.5);
+}
+
+/* Optional: Add a custom scrollbar for WebKit browsers */
+.editor-welcome-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.editor-welcome-container::-webkit-scrollbar-track {
+  background: rgba(30, 30, 60, 0.2);
+  border-radius: 4px;
+}
+
+.editor-welcome-container::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 209, 0.4);
+  border-radius: 4px;
+}
+
+.editor-welcome-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 255, 209, 0.6);
+}
+
+
+
+.welcome-workflow h3,
+.welcome-visualization h3,
+.welcome-advanced h3 {
+  color: #00ffd1;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.welcome-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.welcome-step {
+  display: flex;
+  background: rgba(40, 40, 80, 0.6);
+  padding: 16px;
+  border-radius: 10px;
+  border-left: 4px solid #00ffd1;
+}
+
+.step-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
+  height: 30px;
+  background: #00ffd1;
+  color: #1a1a2e;
+  border-radius: 50%;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h4 {
+  color: #00ffd1;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  color: #e8f5ff;
+  margin: 0;
+}
+
+.visualization-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  background: rgba(40, 40, 80, 0.6);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.feature-highlight {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.feature-highlight.active {
+  background-color: rgba(60, 255, 60, 0.35);
+}
+
+.feature-highlight.link {
+  background-color: rgba(30, 144, 255, 0.6);
+}
+
+.feature-highlight.loop {
+  background-color: rgba(128, 0, 128, 0.5);
+}
+
+.feature-highlight.inactive {
+  background-color: rgba(255, 60, 60, 0.45);
+}
+
+.feature p {
+  color: #e8f5ff;
+  margin: 0;
+}
+
+.welcome-advanced {
+  background: rgba(40, 40, 80, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.welcome-advanced ul {
+  color: #e8f5ff;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.welcome-advanced li {
+  margin-bottom: 8px;
+}
+
+.welcome-tip {
+  background: rgba(0, 255, 209, 0.1);
+  border-left: 4px solid #00ffd1;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.welcome-tip h4 {
+  color: #00ffd1;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.welcome-tip p {
+  color: #e8f5ff;
+  margin: 0;
 }
 
 .feature-highlight {

@@ -236,7 +236,7 @@ function WebsiteContainer() {
                 </div>
               )}
             </CollapsibleSection>
-            <CollapsibleSection title="Modular Actions" defaultOpen={true}>
+            <CollapsibleSection title="Modular Actions" defaultOpen={false}>
               <ModularActions
                 projectName="MyProject"
                 projectId={projectId}
@@ -252,7 +252,7 @@ function WebsiteContainer() {
                 uploadedFiles={uploadedFiles}
               />
             </CollapsibleSection>
-            <CollapsibleSection title="Visualization Output" defaultOpen={true}>
+            <CollapsibleSection title="Visualization Output" defaultOpen={false}>
               <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
                 <button className={viewerMode === "JSON" ? "active-tab" : ""} onClick={() => setViewerMode("JSON")}>
                   JSON
