@@ -220,7 +220,7 @@ function ModularActions({ setJsonManager, projectName, projectId, setProjectId, 
         </div>
       )}
       {/* Instrument Section */}
-      <CollapsibleSection title="Instrument & Trace" defaultOpen={true}>
+      <CollapsibleSection title="Instrument & Trace" defaultOpen={false}>
         <div className="action-group">
           <button onClick={handleInstrument} disabled={isLoading}>Instrument</button>
           <div className="form-group">
@@ -306,7 +306,7 @@ function ModularActions({ setJsonManager, projectName, projectId, setProjectId, 
         </div>
       </CollapsibleSection>
       {/* Process & Visualize Section */}
-      <CollapsibleSection title="Process & Visualize" defaultOpen={true}>
+      <CollapsibleSection title="Process & Visualize" defaultOpen={false}>
         <div className="action-group">
           <button onClick={handleProcess} disabled={isLoading}>Process</button>
           <div className="form-group">

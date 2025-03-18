@@ -597,10 +597,35 @@ tbody tr:hover {
   cursor: pointer;
   border-radius: 4px;
 }
-
-.modal-content {
-  margin-top: 20px;
+/* Full-screen overlay for React Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 30px;
+  padding-down: 40px; /* Adds space at the top */
+  background: ;
+  z-index: 9999;
+  overflow-y: auto;   /* Allow vertical scrolling if content is long */
+  display: flex;
+  align-items: flex-start; /* Start aligning at the top (because of padding-top) */
+  justify-content: center;
 }
+
+/* Modal content box */
+.modal-content {
+  background-color: #26264a;
+  color: #E8F5FF;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 600px;
+  width: 90%;
+  outline: none;
+}
+
+
 
 .modal {
   /* If you need to style the overall modal container from ReactModal, do it here */
