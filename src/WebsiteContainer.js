@@ -185,6 +185,7 @@ function WebsiteContainer() {
   };
   return (
     <div className="content">
+
       {/* LEFT COLUMN: Directory */}
       <DirectoryBar
         setDisplayedFile={setDisplayedFile}
