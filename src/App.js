@@ -26,7 +26,7 @@ function WelcomeScreen({ onEnterApp }) {
         <div className="welcome-container">
             <div className="welcome-content">
                 <img
-                    src="/CDProRunVis.png"
+                    src="./Images/CDProRunVis.png"
                     alt="ProRunVis Logo"
                     className="welcome-logo"
                 />
