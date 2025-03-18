@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import HelpButton from "./HelpButton";
-import logoImage from "../Images/CDProRunVis.png";
+import logoImage from "../Images/CDProRunVis1.0.png";
 import "../Css/App.css";
 /**
  * Represents the navigation bar at the top of the application.
