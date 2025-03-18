@@ -26,9 +26,7 @@ function WelcomeScreen() {
           <button className="open-button" onClick={openProject}>
             Open Project
           </button>
-          <button className="new-button" onClick={createNewProject}>
-            Create New Project
-          </button>
+
         </div>
       </div>
     </div>
