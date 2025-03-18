@@ -190,10 +190,12 @@ function WebsiteContainer() {
         setDisplayedFile={setDisplayedFile}
         setDisplayedToActive={setDisplayedToActive}
         passOnUploadedFiles={passOnUploadedFiles}
-        passOnJsonData={(jsonData) => {
-          console.log("[WebsiteContainer] JSON from DirectoryBar:", jsonData);
-          setJsonManager(new JsonManager(jsonData));
-        }}
+      passOnJsonData={(jsonData) => {
+        console.log("[WebsiteContainer] JSON from DirectoryBar:", jsonData);
+        setJsonManager(new JsonManager(jsonData));
+        setVisualizationJson(jsonData); // Add this line
+        setViewerMode("JSON"); // Add this line to switch to JSON view
+      }}
         projectId={projectId}
       />
       {/* MIDDLE COLUMN with collapsible sections */}
